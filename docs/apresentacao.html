@@ -7,7 +7,7 @@
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/quarto-contrib/reveal-header-1.0.0/add_header.js" defer="true"></script>
 <link href="site_libs/quarto-contrib/reveal-header-1.0.0/add_header.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/grid-htext-1.0.0/grid_htext.css" rel="stylesheet"><meta charset="utf-8">
@@ -60,44 +60,44 @@
         -khtml-user-select: none; -moz-user-select: none;
         -ms-user-select: none; user-select: none;
         padding: 0 4px; width: 4em;
-        color: #aaaaaa;
       }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
     div.sourceCode
-      { color: #003b4f; background-color: #f1f3f5; }
+      { color: #f8f8f2;  }
     @media screen {
     pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
     }
-    code span { color: #003b4f; } /* Normal */
-    code span.al { color: #ad0000; } /* Alert */
-    code span.an { color: #5e5e5e; } /* Annotation */
-    code span.at { color: #657422; } /* Attribute */
-    code span.bn { color: #ad0000; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #003b4f; } /* ControlFlow */
-    code span.ch { color: #20794d; } /* Char */
-    code span.cn { color: #8f5902; } /* Constant */
-    code span.co { color: #5e5e5e; } /* Comment */
-    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
-    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
-    code span.dt { color: #ad0000; } /* DataType */
-    code span.dv { color: #ad0000; } /* DecVal */
-    code span.er { color: #ad0000; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #ad0000; } /* Float */
-    code span.fu { color: #4758ab; } /* Function */
-    code span.im { color: #00769e; } /* Import */
-    code span.in { color: #5e5e5e; } /* Information */
-    code span.kw { color: #003b4f; } /* Keyword */
-    code span.op { color: #5e5e5e; } /* Operator */
-    code span.ot { color: #003b4f; } /* Other */
-    code span.pp { color: #ad0000; } /* Preprocessor */
-    code span.sc { color: #5e5e5e; } /* SpecialChar */
-    code span.ss { color: #20794d; } /* SpecialString */
-    code span.st { color: #20794d; } /* String */
-    code span.va { color: #111111; } /* Variable */
-    code span.vs { color: #20794d; } /* VerbatimString */
-    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; background-color: #2a0f15; font-weight: bold; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
   </style>
   <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="styles.css">
@@ -400,12 +400,13 @@
   <link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
   <script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 </head>
-<body class="quarto-light">
+<body class="quarto-dark">
   <div class="reveal">
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Finanças com R</h1>
+  <p class="subtitle">Introdução ao R e aplicação em finanças</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -436,7 +437,7 @@ Marcus Ramalho
 <section id="nossa-jornada-hoje" class="title-slide slide level1 center">
 <h1>Nossa jornada hoje:</h1>
 <div class="columns">
-<div class="column" style="width:50%;">
+<div class="column">
 <ul>
 <li>Introdução ao R</li>
 <li>Ferramentas</li>
@@ -447,7 +448,7 @@ Marcus Ramalho
 <li>Objetos</li>
 <li>Operadores e operações</li>
 </ul>
-</div><div class="column" style="width:50%;">
+</div><div class="column">
 <ul>
 <li>Pacotes</li>
 <li>Importando e exportando dados</li>
@@ -465,11 +466,10 @@ Marcus Ramalho
 <h1>A linguagem de programação R</h1>
 <div class="columns">
 <div class="column" style="font-size: 25px">
-<p><img data-src="https://uploads.cosx.org/2012/05/Ihaka-Gentleman.jpg"></p>
 <ul>
 <li>Criada por Ross Ihaka e Robert Gentleman na Universidade de Auckland, Nova Zelândia, em 1993</li>
 <li>Desenvolvida como uma implementação da linguagem S, voltada para análise estatística</li>
-<li>Projetada para ser uma linguagem de programação livre, de código aberto e multiplataforma</li>
+<li>Projetada para ser uma linguagem de programação livre, de código aberto e multiplataforma <img data-src="https://uploads.cosx.org/2012/05/Ihaka-Gentleman.jpg"></li>
 </ul>
 </div><div class="column" style="font-size: 25px">
 <ul>
@@ -865,8 +865,8 @@ Marcus Ramalho
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a>plotly<span class="sc">::</span><span class="fu">ggplotly</span>(g1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="plotly html-widget html-fill-item" id="htmlwidget-8a79bc402804f5360083" style="width:960px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-8a79bc402804f5360083">{"x":{"data":[{"x":[19480,19481,19482,19485,19486,19487,19488,19489,19492,19493,19494,19495,19496,19499,19500,19501,19502,19503,19506,19507,19508,19509],"y":[-0.0012754226063751428,0.0037034490210909876,0.029107209270460288,0.0085023015178604666,0.010109202014296326,0.0031181731613048047,0.0075199166108257387,0.0019213715637007578,0.0052091016374096188,-0.007658512872721901,0.011701203393903459,0.0059199707655763767,0.0057852290478439539,-0.0048038286152873866,-0.0025768285048043404,-0.010270265353091501,0.011525735294117601,0.0077416540970796088,-0.0051665374280922549,-0.012380702056501658,-0.0057999210770233178,0.020584298703096859],"text":["Date: 2023-05-03<br />BVSP.Close: -0.001275423","Date: 2023-05-04<br />BVSP.Close:  0.003703449","Date: 2023-05-05<br />BVSP.Close:  0.029107209","Date: 2023-05-08<br />BVSP.Close:  0.008502302","Date: 2023-05-09<br />BVSP.Close:  0.010109202","Date: 2023-05-10<br />BVSP.Close:  0.003118173","Date: 2023-05-11<br />BVSP.Close:  0.007519917","Date: 2023-05-12<br />BVSP.Close:  0.001921372","Date: 2023-05-15<br />BVSP.Close:  0.005209102","Date: 2023-05-16<br />BVSP.Close: -0.007658513","Date: 2023-05-17<br />BVSP.Close:  0.011701203","Date: 2023-05-18<br />BVSP.Close:  0.005919971","Date: 2023-05-19<br />BVSP.Close:  0.005785229","Date: 2023-05-22<br />BVSP.Close: -0.004803829","Date: 2023-05-23<br />BVSP.Close: -0.002576829","Date: 2023-05-24<br />BVSP.Close: -0.010270265","Date: 2023-05-25<br />BVSP.Close:  0.011525735","Date: 2023-05-26<br />BVSP.Close:  0.007741654","Date: 2023-05-29<br />BVSP.Close: -0.005166537","Date: 2023-05-30<br />BVSP.Close: -0.012380702","Date: 2023-05-31<br />BVSP.Close: -0.005799921","Date: 2023-06-01<br />BVSP.Close:  0.020584299"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(0,0,255,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":48.146118721461193,"r":7.3059360730593621,"b":44.56621004566211,"l":54.794520547945211},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Gráfico de Retornos","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[19478.549999999999,19510.450000000001],"tickmode":"array","ticktext":["May 08","May 15","May 22","May 29"],"tickvals":[19485,19492,19499,19506],"categoryorder":"array","categoryarray":["May 08","May 15","May 22","May 29"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Data","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.014455097622849754,0.031181604836808385],"tickmode":"array","ticktext":["-0.01","0.00","0.01","0.02","0.03"],"tickvals":[-0.01,0,0.0099999999999999985,0.019999999999999993,0.030000000000000002],"categoryorder":"array","categoryarray":["-0.01","0.00","0.01","0.02","0.03"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Retornos","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"429e53d8a9fbe":{"x":{},"y":{},"type":"scatter"}},"cur_data":"429e53d8a9fbe","visdat":{"429e53d8a9fbe":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-97fe3b2344e2894368ca" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-97fe3b2344e2894368ca">{"x":{"data":[{"x":[19480,19481,19482,19485,19486,19487,19488,19489,19492,19493,19494,19495,19496,19499,19500,19501,19502,19503,19506,19507,19508,19509],"y":[-0.0012754226063751428,0.0037034490210909876,0.029107209270460288,0.0085023015178604666,0.010109202014296326,0.0031181731613048047,0.0075199166108257387,0.0019213715637007578,0.0052091016374096188,-0.007658512872721901,0.011701203393903459,0.0059199707655763767,0.0057852290478439539,-0.0048038286152873866,-0.0025768285048043404,-0.010270265353091501,0.011525735294117601,0.0077416540970796088,-0.0051665374280922549,-0.012380702056501658,-0.0057999210770233178,0.020584298703096859],"text":["Date: 2023-05-03<br />BVSP.Close: -0.001275423","Date: 2023-05-04<br />BVSP.Close:  0.003703449","Date: 2023-05-05<br />BVSP.Close:  0.029107209","Date: 2023-05-08<br />BVSP.Close:  0.008502302","Date: 2023-05-09<br />BVSP.Close:  0.010109202","Date: 2023-05-10<br />BVSP.Close:  0.003118173","Date: 2023-05-11<br />BVSP.Close:  0.007519917","Date: 2023-05-12<br />BVSP.Close:  0.001921372","Date: 2023-05-15<br />BVSP.Close:  0.005209102","Date: 2023-05-16<br />BVSP.Close: -0.007658513","Date: 2023-05-17<br />BVSP.Close:  0.011701203","Date: 2023-05-18<br />BVSP.Close:  0.005919971","Date: 2023-05-19<br />BVSP.Close:  0.005785229","Date: 2023-05-22<br />BVSP.Close: -0.004803829","Date: 2023-05-23<br />BVSP.Close: -0.002576829","Date: 2023-05-24<br />BVSP.Close: -0.010270265","Date: 2023-05-25<br />BVSP.Close:  0.011525735","Date: 2023-05-26<br />BVSP.Close:  0.007741654","Date: 2023-05-29<br />BVSP.Close: -0.005166537","Date: 2023-05-30<br />BVSP.Close: -0.012380702","Date: 2023-05-31<br />BVSP.Close: -0.005799921","Date: 2023-06-01<br />BVSP.Close:  0.020584299"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(0,0,255,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":48.146118721461193,"r":7.3059360730593621,"b":44.56621004566211,"l":54.794520547945211},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"Gráfico de Retornos","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[19478.549999999999,19510.450000000001],"tickmode":"array","ticktext":["May 08","May 15","May 22","May 29"],"tickvals":[19485,19492,19499,19506],"categoryorder":"array","categoryarray":["May 08","May 15","May 22","May 29"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Data","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.014455097622849754,0.031181604836808385],"tickmode":"array","ticktext":["-0.01","0.00","0.01","0.02","0.03"],"tickvals":[-0.01,0,0.0099999999999999985,0.019999999999999993,0.030000000000000002],"categoryorder":"array","categoryarray":["-0.01","0.00","0.01","0.02","0.03"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Retornos","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"46a3c7f018c2f":{"x":{},"y":{},"type":"scatter"}},"cur_data":"46a3c7f018c2f","visdat":{"46a3c7f018c2f":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div>

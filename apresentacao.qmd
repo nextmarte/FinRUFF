@@ -1,5 +1,6 @@
 ---
 title: Finanças com R
+subtitle: Introdução ao R e aplicação em finanças
 author:
   - name: Marcus Ramalho
 format:
@@ -39,7 +40,7 @@ footer:  Finanças corporativas e mercado de capitais
 # Nossa jornada hoje:
 
 ::: columns
-::: {.column width="50%"}
+::: {.column}
 -   Introdução ao R
 -   Ferramentas
 -   RStudio
@@ -50,7 +51,7 @@ footer:  Finanças corporativas e mercado de capitais
 -   Operadores e operações
 :::
 
-::: {.column width="50%"}
+::: {.column}
 -   Pacotes
 -   Importando e exportando dados
 -   tidyverse
@@ -64,15 +65,15 @@ footer:  Finanças corporativas e mercado de capitais
 # A linguagem de programação R 
 
 ::: columns
-::: {.column width="50%" style="font-size: 25px"}
-![](https://uploads.cosx.org/2012/05/Ihaka-Gentleman.jpg)
+::: {.column style="font-size: 25px"}
 
 -   Criada por Ross Ihaka e Robert Gentleman na Universidade de Auckland, Nova Zelândia, em 1993
 -   Desenvolvida como uma implementação da linguagem S, voltada para análise estatística
 -   Projetada para ser uma linguagem de programação livre, de código aberto e multiplataforma
+![](https://uploads.cosx.org/2012/05/Ihaka-Gentleman.jpg)
 :::
 
-::: {.column width="50%" style="font-size: 25px"}
+::: {.column style="font-size: 25px"}
 -   **Por que usar R?**
 
 -   Ampla adoção em comunidades acadêmicas e industriais
@@ -84,6 +85,8 @@ footer:  Finanças corporativas e mercado de capitais
 -   Visualização de dados simples e flexível
 
 -   Reprodutibilidade
+
+
 :::
 :::
 
@@ -268,11 +271,11 @@ print(class(data_hora))  # Imprime "POSIXct" ou "POSIXt"
 # Pacotes
 
 ::: columns
-::: {.column width="50%" style="font-size: 25px"}
+::: {.column style="font-size: 25px"}
 ![](https://media.tenor.com/fZ61hTnPKMYAAAAC/love-love-pack.gif)
 :::
 
-::: {.column width="50%" style="font-size: 25px"}
+::: {.column style="font-size: 25px"}
 -   Os pacotes são bibliotecas de código escritas por desenvolvedores e comunidade do R.
 -   Fornecem recursos adicionais que expandem as capacidades do R.
 -   Permitem realizar análises estatísticas, visualizações de dados, aprendizado de máquina e muito mais.
@@ -282,13 +285,13 @@ print(class(data_hora))  # Imprime "POSIXct" ou "POSIXt"
 # Por que usar pacotes? {style="font-size:25px"}
 
 ::: columns
-::: {.column width="50%" style="font-size: 25px"}
+::: {.column style="font-size: 25px"}
 -   Os pacotes oferecem funcionalidades especializadas, otimizadas e testadas para tarefas específicas.
 -   Permitem economizar tempo e esforço, aproveitando códigos e algoritmos já implementados.
 -   A comunidade do R contribui com uma ampla variedade de pacotes, garantindo opções para diferentes áreas de aplicação.
 :::
 
-::: {.column width="50%" style="font-size: 25px"}
+::: {.column style="font-size: 25px"}
 ![](https://media.tenor.com/8rDz-phclxUAAAAC/eu-quero.gif){width="80%"}
 :::
 :::
@@ -384,7 +387,7 @@ ggplot(dados_filtrados, aes(x = manufacturer, y = hwy)) +
 # Dados de preço de ativos usando o pacote quantmode {style="font-size:20px"}
 
 ::: columns
-::: {.column width="50%" style="font-size: 20px"}
+::: {.column style="font-size: 20px"}
 **Yahoo Finance:**
 
 -   Uma das principais fontes de dados financeiros online.
@@ -398,7 +401,7 @@ ggplot(dados_filtrados, aes(x = manufacturer, y = hwy)) +
 -   Amplamente utilizado por traders, analistas e pesquisadores financeiros.
 :::
 
-::: {.column width="50%" style="font-size: 20px"}
+::: {.column style="font-size: 20px"}
 ```{r}
 #| echo: true
 #| message: false
@@ -416,12 +419,12 @@ getSymbols(ticker, src = "yahoo")
 # Performance analytics {style="font-size:20px"}
 
 ::: columns
-::: {.column width="50%" style="font-size: 20px"}
+::: {.column style="font-size: 20px"}
 -   O pacote PerformanceAnalytics no R é uma ferramenta para análise de desempenho de investimentos e medidas de risco.
 -   Vamos usar em conjunto com o quantmode para obter um grafico de retornos de um ativo por exemplo
 :::
 
-::: {.column width="50%" style="font-size: 20px"}
+::: {.column style="font-size: 20px"}
 ```{r}
 #| echo: true
 #| message: false
