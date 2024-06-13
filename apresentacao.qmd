@@ -1,0 +1,484 @@
+---
+title: Finanças com R
+author:
+  - name: Marcus Ramalho
+format:
+  revealjs:
+      incremental: false
+      transition: slide
+      background-transition: fade
+      theme: mba.scss
+      header: Universidade Federal Fluminense - Programa de formação de executivos
+      header-logo: images/uff.png
+filters:
+  - reveal-header
+css: styles.css
+date: today
+footer:  Finanças corporativas e mercado de capitais
+---
+
+# Marcus Ramalho
+
+::: columns
+::: column
+-   Matlab/Fortran/Pascal/VBA/AutoLISP(LISP)/
+    HTML/Python(Django)/R❤️e SQL
+
+-   Administração UFF
+
+-   Mestrando PPGAd-UFF
+
+-   Pesquiso FII's
+:::
+
+::: column
+![](images/paste-1.png)
+:::
+:::
+
+# Nossa jornada hoje:
+
+::: columns
+::: {.column width="50%"}
+-   Introdução ao R
+-   Ferramentas
+-   RStudio
+-   Configurando o RStudio Cloud
+-   Interface
+-   Tipos de documento
+-   Objetos
+-   Operadores e operações
+:::
+
+::: {.column width="50%"}
+-   Pacotes
+-   Importando e exportando dados
+-   tidyverse
+-   quantmode e yahoo finance
+-   PerformanceAnalytics
+-   Visualização de dados
+-   Trabalhando com uma carteira de investimento
+:::
+:::
+
+# A linguagem de programação R 
+
+::: columns
+::: {.column width="50%" style="font-size: 25px"}
+![](https://uploads.cosx.org/2012/05/Ihaka-Gentleman.jpg)
+
+-   Criada por Ross Ihaka e Robert Gentleman na Universidade de Auckland, Nova Zelândia, em 1993
+-   Desenvolvida como uma implementação da linguagem S, voltada para análise estatística
+-   Projetada para ser uma linguagem de programação livre, de código aberto e multiplataforma
+:::
+
+::: {.column width="50%" style="font-size: 25px"}
+-   **Por que usar R?**
+
+-   Ampla adoção em comunidades acadêmicas e industriais
+
+-   Funcionalidades estatísticas e de análise de dados
+
+-   Grande variedade de pacotes e bibliotecas disponíveis no CRAN e no Github
+
+-   Visualização de dados simples e flexível
+
+-   Reprodutibilidade
+:::
+:::
+
+# Mas quem usa R? {style="font-size:25px"}
+
+-   Universidades usam para pesquisa científica
+
+    ![](https://media.tenor.com/9ItR8nSuxE0AAAAC/thumbs-up-computer.gif){width="20%"}
+
+-   Google: utiliza R para análise de dados e personalização de anúncios
+
+    ![](https://media.tenor.com/DJUPce9V1WMAAAAC/google-logo.gif){width="20%"}
+
+-   Facebook: utiliza R para análise de dados de usuários e análise de experimentos
+
+    ![](https://media.tenor.com/O_Xz04m4F4AAAAAd/mark-zuckerberg-facebook.gif){width="15%"}
+
+# Ferramentas {style="font-size: 25px"}
+
+::: panel-tabset
+## Rstudio
+
+É o ambiente mais usado pela comunidade
+
+![](https://www.rstudio.com/assets/img/og/rstudio-og-fb-1.jpg){width="80%"}
+
+## RStudio Cloud
+
+![](https://www.softcrylic.com/wp-content/uploads/2019/05/rstudio-cloud-the-perfect-environment-to-teach-r-programming-language-featured-img.jpg){width="80%"}
+
+## VSCode
+
+![](https://i.pinimg.com/originals/69/b1/38/69b1383bea713ea5648cb007e15a35b7.png){width="80%"}
+:::
+
+# RStudio, seu melhor amigo {style="font-size:20px"}
+
+-   Interface amigável
+
+    ![](https://media.tenor.com/yiVNLvmXTb0AAAAj/1979-joe-leads-efforts.gif){width="10%"}
+
+-   Você não precisa ser programador pra usar
+
+    ![](https://media.tenor.com/lNtmoshuUI8AAAAi/bahroo-hacker.gif){width="10%"}
+
+-   Ele te da dicas e te ajuda a encontrar erros
+
+    ![](https://media.tenor.com/zjMfbvji8FAAAAAi/%25E5%258A%25A9%25E3%2581%2591%25E3%2581%25A6-%25E3%2583%2598%25E3%2583%25AB%25E3%2583%2597.gif){width="10%"}
+
+-   Ele te faz passar raiva, mas geralmente o problema está entre a cadeira e o PC
+
+    ![](https://media.tenor.com/iHgOa-519TkAAAAM/angry-angry-panda.gif)
+
+# Baixando o Rstudio - posit.co/download {style="font-size:15px"}
+
+<div>
+
+<iframe src="https://posit.co/" width="1800" height="550">
+
+</iframe>
+
+</div>
+
+# Configurando o RStudio Cloud {style="font-size:15px"}
+
+-   Crie uma conta na posit cloud : [posit.cloud](https://posit.cloud/login?code=pRbFSqzFHAiBuJeAOFPm9qEFiIbKzT) ☁️
+
+-   Crie um projeto
+
+![](https://i.pinimg.com/originals/64/b5/85/64b5854a0264f215c7e425fd954ab98a.png){width="60%"}
+
+# Vamos explorar o RStudio {style="font-size:25px"}
+
+-   Elementos da interface
+
+-   Tipos de documentos: r script; MD; RMD; QMD
+
+![](https://media.tenor.com/7F2M-UN_d0sAAAAC/swinging-by-im-here.gif)
+
+# Objetos {style="font-size:25px"}
+
+-   Os objetos são elementos fundamentais para armazenar e manipular dados.
+
+-   Eles podem conter diferentes tipos de informações, como números, textos, vetores, matrizes, data frames, entre outros.
+
+![](https://media.tenor.com/Jm6tMdRfgooAAAAi/%25E6%2583%258A%25E5%2596%259C%25E5%259C%25A8%25E9%2587%258C%25E9%259D%25A2-%25E7%25A4%25BC%25E7%2589%25A9.gif)
+
+::: callout-note
+## Atenção!!
+
+Não confunda Objeto com variável, ela representa através de um nome um valor armazenado em uma unidade de memória do computador. Usamos ela para acessar o conteúdo dos nossos objetos.
+:::
+
+# Operadores {style="font-size:25px"}
+
+**São eles que permitem realizar operações lógicas, aritiméticas e de atribuição**
+
+\huge
+
+```{r}
+#| echo: true
+#| message: false
+#| eval: false
+
+
+# Operadores Aritméticos
+x <- 10 + 5 - 2
+y <- 3 * x
+
+# Operadores de Comparação
+z <- x > y
+z <- x < y
+
+# Operadores Lógicos
+resultado <- (x > 5) & (y < 10)
+resultado <- (x > 5) | (y < 10)
+
+# Operadores de Atribuição
+nome <- "João"
+nome="João"
+nome=="João"
+
+# Operadores de Indexação
+vetor <- c(1, 2, 3)
+elemento <- vetor[2]
+
+
+
+```
+
+\normalsize
+
+# Variáveis
+
+```{r}
+
+#| echo: true
+#| message: false
+#| eval: false
+# Variável numérica
+num <- 10
+print(class(num))  # Imprime "numeric"
+
+# Variável de caractere (string)
+char <- "Hello, world!"
+print(class(char))  # Imprime "character"
+
+# Vetor numérico
+vetor_num <- c(1, 2, 3, 4, 5)
+print(class(vetor_num))  # Imprime "numeric"
+
+# Vetor de caracteres
+vetor_char <- c("maçã", "banana", "laranja")
+print(class(vetor_char))  # Imprime "character"
+
+# Fator (variável categórica)
+fator <- factor(c("sim", "não", "sim", "sim"))
+print(class(fator))  # Imprime "factor"
+
+# Lista
+lista <- list(nome = "João", idade = 30, cidade = "São Paulo")
+print(class(lista))  # Imprime "list"
+
+# Matriz
+matriz <- matrix(c(1, 2, 3, 4, 5, 6), nrow = 2, ncol = 3)
+print(class(matriz))  # Imprime "matrix"
+
+# Data frame
+data_frame <- data.frame(nome = c("João", "Maria"), idade = c(30, 25))
+print(class(data_frame))  # Imprime "data.frame"
+
+# Vetor lógico (booleano)
+vetor_logico <- c(TRUE, FALSE, TRUE)
+print(class(vetor_logico))  # Imprime "logical"
+
+# Data (tipo de data/hora)
+data_hora <- Sys.time()
+print(class(data_hora))  # Imprime "POSIXct" ou "POSIXt"
+
+```
+
+# Pacotes
+
+::: columns
+::: {.column width="50%" style="font-size: 25px"}
+![](https://media.tenor.com/fZ61hTnPKMYAAAAC/love-love-pack.gif)
+:::
+
+::: {.column width="50%" style="font-size: 25px"}
+-   Os pacotes são bibliotecas de código escritas por desenvolvedores e comunidade do R.
+-   Fornecem recursos adicionais que expandem as capacidades do R.
+-   Permitem realizar análises estatísticas, visualizações de dados, aprendizado de máquina e muito mais.
+:::
+:::
+
+# Por que usar pacotes? {style="font-size:25px"}
+
+::: columns
+::: {.column width="50%" style="font-size: 25px"}
+-   Os pacotes oferecem funcionalidades especializadas, otimizadas e testadas para tarefas específicas.
+-   Permitem economizar tempo e esforço, aproveitando códigos e algoritmos já implementados.
+-   A comunidade do R contribui com uma ampla variedade de pacotes, garantindo opções para diferentes áreas de aplicação.
+:::
+
+::: {.column width="50%" style="font-size: 25px"}
+![](https://media.tenor.com/8rDz-phclxUAAAAC/eu-quero.gif){width="80%"}
+:::
+:::
+
+# Como usar? {style="font-size:25px"}
+
+Você pode instalar e carregar pela interface ou...
+
+```{r}
+#| eval: false
+#| echo: true
+# Instalação de um pacote
+install.packages("ggplot2")
+
+# Carregamento de um pacote
+library(ggplot2)
+
+# Utilização de uma função do pacote
+ggplot2::qplot(x, y, data = df)
+
+```
+
+# Importando dados {style="font-size:25px"}
+
+É possível importar arquivos usando a interface ou comandos usando alguns pacotes
+
+```{r}
+#| eval: false
+#| echo: true
+
+
+library(readr)
+dados_csv <- read_csv("dados.csv")
+
+library(readxl)
+dados_excel <- read_excel("dados.xlsx")
+
+library(rio)
+import("dados.xlsx")
+
+library(httr)
+resposta <- GET("https://api.exemplo.com/dados")
+dados_api <- content(resposta, "parsed")
+```
+
+# Tidyverse {style="font-size:25px"}
+
+É um conjunto de pacotes do R projetados para facilitar a manipulação, visualização e análise de dados.
+
+![](https://rviews.rstudio.com/post/2017-06-09-What-is-the-tidyverse_files/tidyverse1.png)
+
+# Filosofia {style="font-size:25px"}
+
+-   "Dados desarrumados" (messy data) são difíceis de trabalhar.
+
+-   O tidyverse segue o princípio de "dados arrumados" (tidy data), que são estruturados de maneira consistente e organizada, isso permite trabalhar de forma programática com os pacotes do tidyverse.
+
+    ![](https://d33wubrfki0l68.cloudfront.net/6f1ddb544fc5c69a2478e444ab8112fb0eea23f8/91adc/images/tidy-1.png)
+
+-   Cada variável deve ter sua própria coluna
+
+-   Cada observação deve ter sua prórpia linha
+
+-   Cada valor deve ter sua própria célula
+
+# Exemplo de aplicação do tidyverse {style="font-size:20px"}
+
+\huge
+
+```{r}
+#| echo: true
+
+
+library(tidyverse)
+
+# Carregar o conjunto de dados "mpg"
+data(mpg)
+
+# Manipulação de dados usando dplyr
+dados_filtrados <- mpg %>%
+  filter(cyl == 4 & drv == "f") %>%
+  select(manufacturer, model, hwy)
+
+# Visualização usando ggplot2
+ggplot(dados_filtrados, aes(x = manufacturer, y = hwy)) +
+  geom_point() +
+  labs(x = "Fabricante", y = "Consumo de combustível (mpg)")
+
+```
+
+\normalsize
+
+# Dados de preço de ativos usando o pacote quantmode {style="font-size:20px"}
+
+::: columns
+::: {.column width="50%" style="font-size: 20px"}
+**Yahoo Finance:**
+
+-   Uma das principais fontes de dados financeiros online.
+-   Oferece uma ampla cobertura de ações, índices, moedas e dados financeiros de empresas.
+-   O pacote quantmod utiliza a API(Interface de Programação de Aplicação)do Yahoo Finance para acessar esses dados.
+
+**quantmod:**
+
+-   Pacote do R para análise financeira.
+-   Funcionalidades para obter series históricas de preço de ativos financeiros.
+-   Amplamente utilizado por traders, analistas e pesquisadores financeiros.
+:::
+
+::: {.column width="50%" style="font-size: 20px"}
+```{r}
+#| echo: true
+#| message: false
+
+library(quantmod)
+
+ticker <- "^BVSP"
+getSymbols(ticker, src = "yahoo")
+(dados_precos <- BVSP$BVSP.Close)
+
+```
+:::
+:::
+
+# Performance analytics {style="font-size:20px"}
+
+::: columns
+::: {.column width="50%" style="font-size: 20px"}
+-   O pacote PerformanceAnalytics no R é uma ferramenta para análise de desempenho de investimentos e medidas de risco.
+-   Vamos usar em conjunto com o quantmode para obter um grafico de retornos de um ativo por exemplo
+:::
+
+::: {.column width="50%" style="font-size: 20px"}
+```{r}
+#| echo: true
+#| message: false
+
+library(PerformanceAnalytics)
+
+# Baixando dados de preços históricos
+getSymbols("^BVSP",
+           from = "2023-04-30",
+             to = "2023-06-02")
+
+# Calculando retornos diários
+retornos <- Return.calculate(Cl(BVSP))
+
+# Calculando retorno anualizado
+retorno_anualizado <- Return.annualized(retornos, scale = 252)
+
+# Criando gráfico de retornos
+plot(retornos, main = "Gráfico de Retornos")
+
+```
+:::
+:::
+
+# Podemos melhorar aquele gráfico {style="font-size:20px"}
+
+::: panel-tabset
+## Estático ou...
+
+```{r}
+#| echo: true
+#| message: false
+
+retornos <- timetk::tk_tbl(retornos, rename_index ="Date") %>%
+  drop_na()
+
+g1 <- ggplot(data = retornos, aes(x = Date, y = BVSP.Close)) +
+  geom_line(color = "blue") +
+  labs(title = "Gráfico de Retornos", x = "Data", y = "Retornos") +
+  theme_minimal()
+g1
+```
+
+## Interativo
+
+```{r}
+#| echo: true
+#| message: false
+plotly::ggplotly(g1)
+```
+:::
+
+# Trabalhando com um portifólio ou carteira {style="font-size:20px"}
+
+-   Criar um novo projeto no RStudio cloud (ou posit cloud)
+-   Criar um portifólio com 5 ativos ou mais (consultar no yahoo finance)
+-   Baixar os dados de preço
+-   Visualizar o gráfico de preços mensais dos ativos
+-   Calcular e visualizar os retornos mensais
+-   Explorar outras funções (se der tempo)

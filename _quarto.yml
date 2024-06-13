@@ -1,0 +1,25 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Finanças com R - análise e otimização de carteiras"
+  navbar:
+    left:
+      - href: instrucoes.qmd
+        text: Início
+        icon: house
+      - href: apresentacao.qmd
+        text: Apresentação
+        icon: easel
+      - href: aula_1.qmd
+        text: Aula 1
+        icon: book
+      - href: aula_2.qmd
+        text: Aula 2
+        icon: book
+
+theme:
+  light: cosmos
+
+

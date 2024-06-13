@@ -1,0 +1,202 @@
+---
+title: "Pratica"
+---
+
+## Trabalhando com um portifólio ou carteira
+
+-   Criar um novo projeto no RStudio cloud (ou posit cloud)
+-   Criar um documento QUARTO
+-   Criar um portifólio com 5 ativos ou mais (consultar no yahoo finance)
+-   Baixar os dados de preço
+-   Visualizar o gráfico de preços mensais dos ativos
+-   Calcular e visualizar os retornos mensais
+-   Explorar outras funções (se der tempo)
+
+## Antes de mais nada, vamos carregar os pacotes que serão usados
+
+```{r}
+#| echo: true
+#| message: false
+
+library(tidyverse)
+library(quantmod)
+library(PerformanceAnalytics)
+library(timetk)#preguiça
+
+```
+
+## Vamos criar nossa carteira
+
+vá ate o site yahoo finance( <https://finance.yahoo.com/>) e selecione 5 ativos de sua preferencia.
+
+-   Pesquise cada uma dessas empresas no site
+
+-   copie o simbolo(ticker) de cada uma e crie um vetor num chunk do seu documento.
+
+::: callout-tip
+Lembre-se, você pode adicionar um novo trecho de código com o atalho!
+:::
+
+Eu vou escolher as seguintes empresas:
+
+Vale, Petrobras, Azul e Magazine Luiza
+
+```{r}
+#| echo: true
+#| message: false
+
+tickers <- c("VALE3.SA","PETR4.SA","AZUL4.SA","MGLU3.SA","^BVSP")
+
+```
+
+## Vamos baixar os preços dentro de um periodo usando o pacote quantmod
+
+```{r}
+#| echo: true
+#| message: false
+prices <- 
+  getSymbols(tickers, 
+             src = 'yahoo', 
+             from = "2020-01-01",
+             to = "2023-05-30",
+             auto.assign = TRUE, #obs auto asign carrega os resultados para o ambiente
+             warnings = FALSE,) %>% 
+  map(~Ad(get(.))) %>% 
+  reduce(merge) %>%
+  `colnames<-`(tickers)
+
+head(prices)
+class(prices)
+```
+
+## Agora vamos converter os preços diários em mensais
+
+```{r}
+#| echo: true
+#| message: false
+prices_monthly <- to.monthly(prices, indexAt = "lastof", OHLC = FALSE)
+head(prices_monthly)
+```
+
+## Podemos agora calcular os retornos
+
+Podemos calcular o retorno linear: $$ Retorno\,linear = \frac{Preço_{final}-Preço_{inicial}}{Preço_{inicial}}$$
+
+Ou Logarítmico: $$ Log\,Retorno = \ln(\frac{Preço_{final}}{Preço_{inicial}})$$
+
+Normalmente o retorno logarítmico é usado em series temporais mais longas, enquanto o retorno linear é mais usado para calcular a variação dos preços em períodos menores. Vamos usar o retorno linear no nosso estudo.
+
+```{r}
+asset_returns_xts <-
+ PerformanceAnalytics::Return.calculate(prices_monthly, 
+                   method = "discrete") %>% 
+  na.omit()
+head(asset_returns_xts)
+
+summary(asset_returns_xts)
+```
+
+# Visualizando os retornos com ggplot e plotly
+
+```{r}
+asset_returns_tbl <- asset_returns_xts %>% 
+  tk_tbl(rename_index = "Data") %>% #converte em um data frame para plotar com ggplot
+  pivot_longer(!"Data" ,names_to = "assets")#seleciona todas as colunas menos data
+
+#plotando com o ggplot e com o plotly
+g1 <- ggplot(asset_returns_tbl) +
+  aes(x = Data, y = value, colour = assets) +
+  geom_line() +
+  scale_color_hue(direction = 1) +
+  labs(title = "Retornos de 2020 a 2023")+ #Aqui nos podemos mudar as legendas
+  theme_minimal()
+g1
+
+plotly::ggplotly(g1)
+
+
+```
+
+## Ahhh mas eu nao sei usar o ggplot, é muito dificil 🥲
+
+![](https://blog.99hunters.com/hs-fs/hubfs/seu-creysson.jpg?width=360&name=seu-creysson.jpg)
+
+## SEUS PROBLEMAS ACABARAM!
+
+## Com esquisse você plota gráficos com o ggplot2 sem saber nada de ggplot2 😁
+
+Tente rodar o codigo a seguir
+
+```{r}
+#| eval: false
+esquisse::esquisser(asset_returns_tbl)
+```
+
+Vamos testar ao vivo! Voltamos em Breve...
+
+## Voltando... vamos dar peso às nossas escolhas
+
+Vamos criar um vetor de pesos para os nossos ativos, ele vai ser importante quando formos calcular os retornos da nossa carteira. Vamos chamar esse vetor de w.
+
+```{r}
+
+w <- c(0.25,0.25,0.20,0.20,0.10)
+
+sum(w)
+
+```
+
+::: callout-warning
+## Atenção!!
+
+A soma dos pesos da carteira deverá ser sempre igual a 100%, ou seja 1.
+:::
+
+O cálculo do retorno de uma carteira depende do retorno de cada ativo e de seu peso na carteira e pode ser obtido pela média ponderada:
+
+$$ \bar{k}=\sum_{i=i}^n{w_i*k_i}$$
+
+## Vamos usar o PerformanceAnlytics para obter o retorno do portifólio e visualizar rapidamente com a função plot, nativa do R
+
+```{r}
+portfolio_returns_xts<-Return.portfolio(asset_returns_xts,
+                 weights = w,
+                 rebalance_on = "months",
+                 type= "discrete") %>% 
+  `colnames<-`("CARTEIRA")
+head(portfolio_returns_xts,3)
+plot(portfolio_returns_xts)
+```
+
+## Agora vamos visualizar nossa carteira VS Ativos
+
+Para isso vamos precisar criar m novo data frame com as duas variáveis.
+
+```{r}
+comparação <- cbind(asset_returns_xts,portfolio_returns_xts) %>% 
+  tk_tbl(rename_index = "Data") %>% 
+  pivot_longer(!"Data" ,names_to = "assets")
+
+plotly::ggplotly(ggplot(comparação) +
+  aes(x = Data, y = value, colour = assets) +
+  geom_line() +
+  scale_color_hue(direction = 1) +
+  labs(title = "Retornos de 2020 a 2023 + Retorno da carteira")+ 
+  theme_minimal())
+  
+```
+
+## Agora vamos visualizar nossa carteira VS Índice do mercado
+
+```{r}
+plotly::ggplotly(comparação %>%
+ filter(assets %in% c("X.BVSP", "CARTEIRA")) %>%
+ ggplot() +
+  aes(x = Data, y = value, colour = assets) +
+  geom_line() +
+  scale_color_hue(direction = 1) +
+  labs(title = "Carteira VS Índice do mercado - 2020 - 2023")+
+  theme_minimal())
+```
+
+## Espero que vocês tenham gostado!

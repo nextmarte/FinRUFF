@@ -1,0 +1,44 @@
+---
+title: <h2> Universidade Federal Fluminense <br> Programa de formação de executivos <br> Finanças corporativas e mercado de capitais </h2>
+lang: pt-br
+subtitle: "Disciplina: Finanças com R - análise e otimização de carteiras"
+author: "Marcus Ramalho"
+language: 
+  title-block-author-single: "Professor: "
+---
+
+## Bem vindos!
+
+Sejam bem vindos à disciplina de **Finanças com R - análise e otimização de carteiras**. Neste curso, vamos aprender a utilizar a linguagem de programação R para análise de dados financeiros e otimização de carteiras de investimento. Se este é o seu primeiro contato com a linguagem R, não se preocupe! Vamos começar do zero e aprender juntos, na prática.
+
+::: callout-important
+## Você não precisará instalar nada no seu computador, mas caso queira, um guia do passo a passo para tal será disponibilizado oportunamente.
+:::
+
+O curso é dividido em duas aulas:
+
+-   **Aula 1:**
+
+    -   Apresentação do curso
+
+    -   Introdução ao RStudio
+
+    -   Introdução à programação no R
+
+        -   Objetos, tipos de variáveis e operações
+
+    -   Finanças com R
+
+        -   Obtenção de dados financeiros
+
+        -   Manipulação e visualização de dados
+
+-   **Aula 2:**
+
+    -   Introdução à séries temporais
+
+    -   Pacotes para analise de dados financeiros
+
+    -   Otimização de carteiras
+
+    -   Dashboards com Quarto
