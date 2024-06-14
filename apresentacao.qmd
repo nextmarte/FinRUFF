@@ -37,7 +37,7 @@ footer:  Finanças corporativas e mercado de capitais
 :::
 :::
 
-# Nossa jornada hoje:
+# Nossa jornada:
 
 ::: columns
 ::: {.column}
