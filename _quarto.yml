@@ -6,7 +6,7 @@ website:
   title: "Finanças com R - análise e otimização de carteiras"
   navbar:
     left:
-      - href: instrucoes.qmd
+      - href: index.qmd
         text: Início
         icon: house
       - href: apresentacao.qmd

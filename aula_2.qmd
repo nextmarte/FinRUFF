@@ -1,0 +1,7 @@
+---
+title: Aula 2 -  Análise e otimização de carteiras
+---
+
+## Objetivos
+
+O objetivo desta aula é apresentar os conceitos de análise e otimização de carteiras de investimento. Para isso, vamos apresentar os conceitos de fronteira eficiente, risco e retorno de um ativo, risco e retorno de uma carteira, e a teoria de Markowitz.
