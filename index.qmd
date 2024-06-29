@@ -34,10 +34,10 @@ O curso é dividido em duas aulas:
         -   Manipulação e visualização de dados
 
 -   **Aula 2:**
-
-    -   Pacotes para análise de dados financeiros
   
-    -   Risco e retorno de ativos
+    -   Revisão da aula anterior
+  
+    -   Risco 
 
     -   Otimização de carteiras
 
