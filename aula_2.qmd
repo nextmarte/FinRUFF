@@ -1,5 +1,8 @@
 ---
 title: Aula 2 -  Análise e otimização de carteiras
+author: Marcus Ramalho
+language: 
+  title-block-author-single: "Professor: "
 ---
 
 ## Relembrando alguns conceitos sobre risco
@@ -585,6 +588,24 @@ plotly::ggplotly(ggplot(opt_returns_long_df) +
   )
 )
 ```
+
+## Bonus: Plotando a fronteira eficiente 
+
+A fronteira eficiente é uma curva que mostra a combinação ótima de ativos em uma carteira que maximiza o retorno esperado para um determinado nível de risco. Note que o indice de Sharpe é a inclinação da linha tangente a fronteira eficiente, o intercepto com o eixo y é o retorno livre de risco e o ponto de tangência é o ponto com o maior indice de Sharpe.
+
+```{r}
+
+# Calculando a fronteira eficiente
+frontier <- create.EfficientFrontier(R = asset_returns_xts, portfolio = port_spec, type = "mean-StdDev")
+
+# Plotando a fronteira eficiente
+chart.EfficientFrontier(frontier, match.col = "StdDev",n.portfolios = 30, main = "Fronteira eficiente")
+
+
+
+```
+
+
 
 ## Dashboards interativos com QUARTO
 

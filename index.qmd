@@ -34,11 +34,37 @@ O curso é dividido em duas aulas:
         -   Manipulação e visualização de dados
 
 -   **Aula 2:**
-  
+
     -   Revisão da aula anterior
-  
-    -   Risco 
+
+    -   Risco
 
     -   Otimização de carteiras
 
     -   Dashboards com Quarto
+
+## Referências
+
+-   [**https://posit.cloud/**](https://posit.cloud/): Plataforma em nuvem para desenvolvimento colaborativo de projetos em R e Python.
+
+-   [**https://uff-adm.notion.site/Instala-o-b5969aeda52045289c52db8fd833c6b3**](https://uff-adm.notion.site/Instala-o-b5969aeda52045289c52db8fd833c6b3): Guia de instalação do R e RStudio.
+
+-   [**https://ser.uff.br/**](https://ser.uff.br/): Seminário internacional de estatística com R.
+
+-   [**https://latin-r.com/pt/**](https://latin-r.com/pt/): Site da conferência LatinR, um evento sobre o uso da linguagem R na América Latina.
+
+-   [**https://r4ds.had.co.nz/index.html**](https://r4ds.had.co.nz/index.html): Livro online "R for Data Science", um guia completo para aprender a usar o R para análise de dados.
+
+-   [**https://cienciadedatos.github.io/pt-r4ds/**](https://cienciadedatos.github.io/pt-r4ds/): Tradução para o português do livro "R for Data Science" feita pela comunidade Brasileira de R.
+
+-   [**https://cran.r-project.org/**](https://cran.r-project.org/): Repositório oficial de pacotes da linguagem R.
+
+-   [**https://marcusramalho.tech/RinVSCode/**](https://marcusramalho.tech/RinVSCode/): Tutorial do professor Marcus Ramalho sobre como usar o R no Visual Studio Code.
+
+-   [**https://github.com/nextmarte**](https://github.com/nextmarte): Perfil do GitHub do professor Marcus Ramalho.
+
+-   [**https://posit.co/download/rstudio-desktop/**](https://posit.co/download/rstudio-desktop/): Página para download do RStudio Desktop, um ambiente de desenvolvimento integrado para a linguagem R.
+
+-   [**https://quarto.org/**](https://quarto.org/): Site do Quarto, uma ferramenta de código aberto para criação de documentos científicos e técnicos.
+
+-   <https://rpubs.com/Sergio_Garcia/intermediate_portfolio_analysis_r> - **Intermediate to Portfolio Analysis in R**

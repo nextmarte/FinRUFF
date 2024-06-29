@@ -1,5 +1,8 @@
 ---
 title: "Aula 1"
+author: "Marcus Ramalho"
+language: 
+  title-block-author-single: "Professor: "
 ---
 
 ## Trabalhando com um portifólio ou carteira
