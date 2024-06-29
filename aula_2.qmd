@@ -609,7 +609,7 @@ chart.EfficientFrontier(frontier, match.col = "StdDev",n.portfolios = 30, main =
 
 ## Dashboards interativos com QUARTO
 
-![Clique aqui!!](https://quarto.org/docs/dashboards/)
+[Clique aqui!!](https://quarto.org/docs/dashboards/)
 
 ## Exercício
 
