@@ -18,6 +18,9 @@ website:
       - href: aula_2.qmd
         text: Aula 2
         icon: book
+      - href: dashboard.qmd
+        text: Dashboard
+        icon: speedometer
 
 theme:
   light: cosmos

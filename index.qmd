@@ -35,9 +35,9 @@ O curso é dividido em duas aulas:
 
 -   **Aula 2:**
 
-    -   Introdução à séries temporais
-
-    -   Pacotes para analise de dados financeiros
+    -   Pacotes para análise de dados financeiros
+  
+    -   Risco e retorno de ativos
 
     -   Otimização de carteiras
 

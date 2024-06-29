@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -66,7 +100,45 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -107,6 +179,11 @@ ul.task-list li input[type="checkbox"] {
 </i> 
 <span class="menu-text">Aula 2</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./dashboard.html"> <i class="bi bi-speedometer" role="img">
+</i> 
+<span class="menu-text">Dashboard</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
@@ -141,9 +218,1445 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="objetivos" class="level2">
-<h2 class="anchored" data-anchor-id="objetivos">Objetivos</h2>
-<p>O objetivo desta aula é apresentar os conceitos de análise e otimização de carteiras de investimento. Para isso, vamos apresentar os conceitos de fronteira eficiente, risco e retorno de um ativo, risco e retorno de uma carteira, e a teoria de Markowitz.</p>
+<section id="relembrando-alguns-conceitos-sobre-risco" class="level2">
+<h2 class="anchored" data-anchor-id="relembrando-alguns-conceitos-sobre-risco">Relembrando alguns conceitos sobre risco</h2>
+<p><strong>Risco</strong>: Probabilidade de um resultado adverso em relação ao esperado.</p>
+<p><img src="images/paste-2.png" class="img-fluid" width="718"></p>
+</section>
+<section id="tipos-de-risco" class="level2">
+<h2 class="anchored" data-anchor-id="tipos-de-risco">Tipos de risco</h2>
+<ul>
+<li><strong>Risco conhecido</strong>: Distribuição de probabilidade do evento é conhecida (ex: falha de motor).</li>
+<li><strong>Incerteza</strong>: Distribuição de probabilidade desconhecida ou imprevisível (ex: crise econômica).</li>
+</ul>
+</section>
+<section id="atitudes-frente-ao-risco" class="level2">
+<h2 class="anchored" data-anchor-id="atitudes-frente-ao-risco">Atitudes frente ao risco</h2>
+<ul>
+<li><strong>Aversão</strong>: Prefere menor risco para mesmo retorno.</li>
+<li><strong>Indiferença</strong>: Não se importa com o risco.</li>
+<li><strong>Propensão</strong>: Aceita maior risco por potencial de maior retorno.</li>
+</ul>
+<p><img src="images/paste-3.png" class="img-fluid" width="723"></p>
+<p>O participante de uma apólice de seguros têm que predisposição frente ao risco?</p>
+<p>E a companhia de seguros?</p>
+</section>
+<section id="mensuração-do-risco" class="level2">
+<h2 class="anchored" data-anchor-id="mensuração-do-risco">Mensuração do Risco</h2>
+<ul>
+<li><strong>Desvio padrão (σ)</strong>: Mede a dispersão dos resultados em torno da média.</li>
+<li><strong>Coeficiente de variação (CV)</strong>: Mede o risco por unidade de retorno (σ / retorno médio).</li>
+</ul>
+</section>
+<section id="risco-de-carteira" class="level2">
+<h2 class="anchored" data-anchor-id="risco-de-carteira">Risco de Carteira</h2>
+<ul>
+<li><strong>Covariância</strong>: Mede a relação entre os retornos de dois ativos.</li>
+<li><strong>Diversificação</strong>: Reduz o risco total da carteira ao combinar ativos com diferentes riscos (Markowitz, 1952) - “Não colocar todos os ovos na mesma cesta”.</li>
+</ul>
+</section>
+<section id="risco-individual-vs.-sistêmico" class="level2">
+<h2 class="anchored" data-anchor-id="risco-individual-vs.-sistêmico">Risco individual vs.&nbsp;sistêmico</h2>
+<ul>
+<li><strong>Individual</strong>: Específico de cada ativo.</li>
+<li><strong>Sistêmico</strong>: Afeta todo o mercado.</li>
+</ul>
+</section>
+<section id="índice-sharpe-is" class="level2">
+<h2 class="anchored" data-anchor-id="índice-sharpe-is">Índice Sharpe (IS)</h2>
+<ul>
+<li><strong>Definição</strong>: Mede o retorno adicional por unidade de risco em relação à taxa livre de risco.</li>
+<li><strong>Fórmula</strong>: IS = (Retorno médio do portfólio - Taxa livre de risco) / Desvio padrão do excesso de retorno.</li>
+<li><strong>interpretação</strong>: IS &gt; 1: Retorno adicional por unidade de risco; IS &lt; 1: Retorno insuficiente por unidade de risco. Quantos mais alto o índice, melhor.</li>
+</ul>
+</section>
+<section id="beta-β" class="level2">
+<h2 class="anchored" data-anchor-id="beta-β">Beta (β)</h2>
+<ul>
+<li><strong>Definição</strong>: Mede a sensibilidade do retorno de um ativo em relação ao retorno do mercado.</li>
+<li><strong>Fórmula</strong>: β = Cov(Ri, Rm) / Var(Rm).</li>
+<li><strong>Interpretação</strong>: β &gt; 1: Ativo mais volátil que o mercado; β &lt; 1: Ativo menos volátil que o mercado.</li>
+<li><strong>Exemplo</strong>: Se β = 1, o ativo se move na mesma direção que o mercado.</li>
+</ul>
+</section>
+<section id="alfa-α" class="level2">
+<h2 class="anchored" data-anchor-id="alfa-α">Alfa (α)</h2>
+<ul>
+<li><strong>Definição</strong>: Mede o retorno adicional de um ativo em relação ao retorno esperado com base no risco.</li>
+<li><strong>Fórmula</strong>: α = Retorno do ativo - (Taxa livre de risco + β * (Retorno do mercado - Taxa livre de risco)).</li>
+<li><strong>Interpretação</strong>: α &gt; 0: Ativo superou o retorno esperado; α &lt; 0: Ativo ficou aquém do retorno esperado.</li>
+<li><strong>Exemplo</strong>: Se α = 0, o ativo teve o retorno esperado com base no risco.</li>
+<li><strong>Observação</strong>: O alfa é uma medida de desempenho ajustada ao risco.</li>
+</ul>
+</section>
+<section id="função-de-utilidade-quadrática" class="level2">
+<h2 class="anchored" data-anchor-id="função-de-utilidade-quadrática">Função de utilidade quadrática</h2>
+<p>A função de utilidade quadrática é usada na otimização de portfólios para encontrar a alocação de ativos que maximiza o retorno esperado e minimiza o risco. A função de utilidade quadrática é dada por:</p>
+<p><span class="math inline">\(U = \mu^T w - \lambda \sigma^2\)</span></p>
+<p>onde:</p>
+<ul>
+<li><span class="math inline">\(U\)</span> é a função de utilidade</li>
+<li><span class="math inline">\(\mu^T\)</span> é o vetor de retornos esperados</li>
+<li><span class="math inline">\(w\)</span> é o vetor de pesos dos ativos</li>
+<li><span class="math inline">\(\lambda\)</span> é o fator de aversão ao risco</li>
+</ul>
+<p>generalizando para o caso de <span class="math inline">\(n\)</span> ativos, a função de utilidade quadrática é dada por:</p>
+<p><span class="math inline">\(U = \mu^T w - \lambda w^T \Sigma w\)</span></p>
+<p>onde:</p>
+<ul>
+<li><span class="math inline">\(\Sigma w\)</span> é a matriz de covariância dos retornos dos ativos</li>
+<li><span class="math inline">\(w^T\)</span> é o vetor transposto de pesos dos ativos</li>
+<li><span class="math inline">\(w\)</span> é o vetor de pesos dos ativos</li>
+<li><span class="math inline">\(\lambda\)</span> é o fator de aversão ao risco</li>
+<li><span class="math inline">\(\mu\)</span> é o vetor de retornos esperados</li>
+<li><span class="math inline">\(U\)</span> é a função de utilidade</li>
+</ul>
+</section>
+<section id="otimização-de-portfólios" class="level2">
+<h2 class="anchored" data-anchor-id="otimização-de-portfólios">Otimização de portfólios</h2>
+<p>A otimização de portfólios é um problema de maximização da função de utilidade quadrática sujeita a restrições, como a soma dos pesos dos ativos deve ser igual a 1 e os pesos dos ativos devem ser maiores ou iguais a zero.</p>
+</section>
+<section id="primeiro-vamos-carregar-os-pacotes-necessários" class="level2">
+<h2 class="anchored" data-anchor-id="primeiro-vamos-carregar-os-pacotes-necessários">Primeiro vamos carregar os pacotes necessários</h2>
+</section>
+<section id="ativos-selecionados" class="level2">
+<h2 class="anchored" data-anchor-id="ativos-selecionados">Ativos selecionados</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ativos selecionados</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>tickers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"VALE3.SA"</span>,<span class="st">"PETR4.SA"</span>,<span class="st">"AZUL4.SA"</span>,<span class="st">"MGLU3.SA"</span>, <span class="st">"CMIG4.SA"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>prices <span class="ot">&lt;-</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">getSymbols</span>(tickers, </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">src =</span> <span class="st">'yahoo'</span>, </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">from =</span> <span class="st">"2019-05-30"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">to =</span> <span class="st">"2024-05-30"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">auto.assign =</span> <span class="cn">TRUE</span>, <span class="co">#obs auto asign carrega os resultados para o ambiente</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">warnings =</span> <span class="cn">FALSE</span>,) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="sc">~</span><span class="fu">Ad</span>(<span class="fu">get</span>(.))) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reduce</span>(merge) <span class="sc">%&gt;%</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">colnames&lt;-</span><span class="st">`</span>(tickers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="baixando-os-preços-do-benchmark" class="level2">
+<h2 class="anchored" data-anchor-id="baixando-os-preços-do-benchmark">Baixando os preços do benchmark</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Baixando os preços do IBOV</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ibov <span class="ot">&lt;-</span> <span class="fu">getSymbols</span>(<span class="st">"^BVSP"</span>, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">src =</span> <span class="st">'yahoo'</span>, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">from =</span> <span class="st">"2019-05-30"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">to =</span> <span class="st">"2024-05-30"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">auto.assign =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">warnings =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="sc">~</span><span class="fu">Ad</span>(<span class="fu">get</span>(.))) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reduce</span>(merge) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">colnames&lt;-</span><span class="st">`</span>(<span class="st">"IBOV"</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ibov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            IBOV
+2019-05-30 97457
+2019-05-31 97030
+2019-06-03 97020
+2019-06-04 97380
+2019-06-05 95999
+2019-06-06 97205</code></pre>
+</div>
+</div>
+</section>
+<section id="agora-vamos-converter-os-preços-diários-em-mensais" class="level2">
+<h2 class="anchored" data-anchor-id="agora-vamos-converter-os-preços-diários-em-mensais">Agora vamos converter os preços diários em mensais</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>prices_monthly <span class="ot">&lt;-</span> <span class="fu">to.monthly</span>(prices, <span class="at">indexAt =</span> <span class="st">"lastof"</span>, <span class="at">OHLC =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(prices_monthly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           VALE3.SA  PETR4.SA AZUL4.SA  MGLU3.SA CMIG4.SA
+2019-05-31 31.99328  8.838512    39.20  56.97055 4.504750
+2019-06-30 33.83453  9.481941    43.29  61.36542 4.532218
+2019-07-31 32.52215  9.021854    51.78  76.65446 4.315526
+2019-08-31 29.75375  8.890536    47.10  84.38618 4.504750
+2019-09-30 31.17713  9.605265    49.71  86.13017 4.373514
+2019-10-31 30.81802 10.595429    52.52 104.00204 4.165977</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ibov_monthly <span class="ot">&lt;-</span> <span class="fu">to.monthly</span>(ibov, <span class="at">indexAt =</span> <span class="st">"lastof"</span>, <span class="at">OHLC =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ibov_monthly)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             IBOV
+2019-05-31  97030
+2019-06-30 100967
+2019-07-31 101812
+2019-08-31 101135
+2019-09-30 104745
+2019-10-31 107220</code></pre>
+</div>
+</div>
+</section>
+<section id="vamos-calcular-os-retornos-mensais" class="level2">
+<h2 class="anchored" data-anchor-id="vamos-calcular-os-retornos-mensais">Vamos calcular os retornos mensais</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>asset_returns_xts <span class="ot">&lt;-</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a> PerformanceAnalytics<span class="sc">::</span><span class="fu">Return.calculate</span>(prices_monthly, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">method =</span> <span class="st">"discrete"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>ibov_returns_xts <span class="ot">&lt;-</span> </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  PerformanceAnalytics<span class="sc">::</span><span class="fu">Return.calculate</span>(ibov_monthly, </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">method =</span> <span class="st">"discrete"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(asset_returns_xts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              VALE3.SA    PETR4.SA    AZUL4.SA    MGLU3.SA     CMIG4.SA
+2019-06-30  0.05755113  0.07279831  0.10433674 0.077142924  0.006097503
+2019-07-31 -0.03878812 -0.04852243  0.19611914 0.249147410 -0.047811357
+2019-08-31 -0.08512347 -0.01455555 -0.09038240 0.100864585  0.043847203
+2019-09-30  0.04783860  0.08039204  0.05541403 0.020666841 -0.029132925
+2019-10-31 -0.01151856  0.10308563  0.05652789 0.207498299 -0.047452971
+2019-11-30  0.05889853 -0.03443178  0.01104337 0.008736366 -0.043955902</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ibov_returns_xts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   IBOV
+2019-06-30  0.040575080
+2019-07-31  0.008369071
+2019-08-31 -0.006649511
+2019-09-30  0.035694863
+2019-10-31  0.023628813
+2019-11-30  0.009447864</code></pre>
+</div>
+</div>
+</section>
+<section id="otimização-da-carteira" class="level2">
+<h2 class="anchored" data-anchor-id="otimização-da-carteira">Otimização da carteira</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Criando o objeto de otimização</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>portf <span class="ot">&lt;-</span> <span class="fu">portfolio.spec</span>(<span class="at">assets =</span> <span class="fu">colnames</span>(asset_returns_xts))</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Adicionando restrições, como por exemplo, a soma dos pesos dos ativos deve ser igual a 1</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>portf <span class="ot">&lt;-</span> <span class="fu">add.constraint</span>(portf, <span class="at">type =</span> <span class="st">"full_investment"</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Adicionando restrição de peso mínimo e máximo para cada ativo</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Neste caso, o peso mínimo é 0 e o peso máximo é 1</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>portf <span class="ot">&lt;-</span> <span class="fu">add.constraint</span>(portf, <span class="at">type =</span> <span class="st">"long_only"</span>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Adiciona a função objetivo, que é minimizar o desvio padrão da carteira</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>portf <span class="ot">&lt;-</span> <span class="fu">add.objective</span>(portf, <span class="at">type =</span> <span class="st">"risk"</span>, <span class="at">name =</span> <span class="st">"StdDev"</span>)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolve o problema de otimização</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>opt_portf <span class="ot">&lt;-</span> <span class="fu">optimize.portfolio</span>(asset_returns_xts, portf, <span class="at">optimize_method =</span> <span class="st">"ROI"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="resultados-da-otimização" class="level2">
+<h2 class="anchored" data-anchor-id="resultados-da-otimização">Resultados da otimização</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>opt_portf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>***********************************
+PortfolioAnalytics Optimization
+***********************************
+
+Call:
+optimize.portfolio(R = asset_returns_xts, portfolio = portf, 
+    optimize_method = "ROI")
+
+Optimal Weights:
+VALE3.SA PETR4.SA AZUL4.SA MGLU3.SA CMIG4.SA 
+  0.4881   0.0953   0.0000   0.0428   0.3738 
+
+Objective Measure:
+ StdDev 
+0.07238 </code></pre>
+</div>
+</div>
+</section>
+<section id="extraindo-os-pesos-dos-ativos" class="level2">
+<h2 class="anchored" data-anchor-id="extraindo-os-pesos-dos-ativos">Extraindo os pesos dos ativos</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extraindo os pesos para um data frame</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>weights <span class="ot">&lt;-</span> <span class="fu">extractWeights</span>(opt_portf)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Adicionando os nomes dos ativos sem colocá-los no índice</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>weights <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">tickers =</span> <span class="fu">colnames</span>(asset_returns_xts), weights, <span class="at">row.names =</span> <span class="cn">NULL</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>weights</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   tickers       weights
+1 VALE3.SA  4.881340e-01
+2 PETR4.SA  9.528906e-02
+3 AZUL4.SA -6.938894e-18
+4 MGLU3.SA  4.276918e-02
+5 CMIG4.SA  3.738078e-01</code></pre>
+</div>
+</div>
+</section>
+<section id="plotando-com-o-portfolioanalytics" class="level2">
+<h2 class="anchored" data-anchor-id="plotando-com-o-portfolioanalytics">plotando com o portfolioAnalytics</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chart.Weights</span>(opt_portf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="aula_2_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="plotando-com-ggplo2" class="level2">
+<h2 class="anchored" data-anchor-id="plotando-com-ggplo2">Plotando com ggplo2</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(weights, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(tickers, weights), <span class="at">y =</span> weights, <span class="at">fill =</span> tickers)) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">14</span>) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">20</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">16</span>),</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>() <span class="sc">+</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribuição dos Pesos dos Ativos"</span>,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>   <span class="at">x =</span> <span class="st">"Ativos"</span>,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>   <span class="at">y =</span> <span class="st">"Pesos"</span>) <span class="sc">+</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="aula_2_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="realizando-otimização-da-função-de-utilidade-com-o-portfolioanalytics" class="level2">
+<h2 class="anchored" data-anchor-id="realizando-otimização-da-função-de-utilidade-com-o-portfolioanalytics">Realizando otimização da função de utilidade com o PortfolioAnalytics</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#criar o objeto de otimização</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>portf <span class="ot">&lt;-</span> <span class="fu">portfolio.spec</span>(<span class="at">assets =</span> <span class="fu">colnames</span>(asset_returns_xts))</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Adicionando restrições, como por exemplo, a soma dos pesos dos ativos deve ser igual a 1</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>portf <span class="ot">&lt;-</span> <span class="fu">add.constraint</span>(portf, <span class="at">type =</span> <span class="st">"full_investment"</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Adicionando restrição de peso mínimo e máximo para cada ativo (0-1)</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>portf <span class="ot">&lt;-</span> <span class="fu">add.constraint</span>(portf, <span class="at">type =</span> <span class="st">"long_only"</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Adiciona a função objetivo, que é maximizar o retorno esperado</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>portf <span class="ot">&lt;-</span> <span class="fu">add.objective</span>(portf, <span class="at">type =</span> <span class="st">"return"</span>, <span class="at">name =</span> <span class="st">"mean"</span>)</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Adiciona a função objetivo, que é minimizar a variância da carteira</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>portf <span class="ot">&lt;-</span> <span class="fu">add.objective</span>(portf, <span class="at">type =</span> <span class="st">"risk"</span>, <span class="at">name =</span> <span class="st">"var"</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>portf <span class="ot">&lt;-</span> <span class="fu">add.objective</span>(portf, <span class="at">type =</span> <span class="st">"quadratic_utility"</span>, <span class="at">risk_aversion =</span> <span class="dv">10</span>)</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolve o problema de otimização</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>opt_portf <span class="ot">&lt;-</span> <span class="fu">optimize.portfolio</span>(asset_returns_xts, portf, <span class="at">optimize_method =</span> <span class="st">"ROI"</span>)</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraindo os pesos dos ativos</span></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a><span class="fu">extractWeights</span>(opt_portf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   VALE3.SA    PETR4.SA    AZUL4.SA    MGLU3.SA    CMIG4.SA 
+0.478117339 0.193940682 0.000000000 0.007504498 0.320437481 </code></pre>
+</div>
+</div>
+</section>
+<section id="pesos" class="level2">
+<h2 class="anchored" data-anchor-id="pesos">Pesos</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">extractWeights</span>(opt_portf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   VALE3.SA    PETR4.SA    AZUL4.SA    MGLU3.SA    CMIG4.SA 
+0.478117339 0.193940682 0.000000000 0.007504498 0.320437481 </code></pre>
+</div>
+</div>
+</section>
+<section id="entendendo-a-especificação-do-portfólio" class="level2">
+<h2 class="anchored" data-anchor-id="entendendo-a-especificação-do-portfólio">Entendendo a especificação do portfólio</h2>
+<p>O objeto de portfólio é uma lista que contém as seguintes informações:</p>
+<ul>
+<li><strong>assets</strong>: vetor de nomes dos ativos</li>
+<li><strong>constraints</strong>: lista de restrições
+<ul>
+<li><strong>weight_sum</strong>: restrição de que a soma dos pesos dos ativos deve ser igual a um valor específico</li>
+<li><strong>full_investment</strong>: restrição de que a soma dos pesos dos ativos deve ser igual a 1</li>
+<li><strong>dollar_neutral</strong>: restrição de que a soma dos pesos dos ativos deve ser igual a zero</li>
+<li><strong>box</strong>: restrição de que os pesos dos ativos devem estar dentro de um intervalo específico</li>
+<li><strong>long_only</strong>: restrição de que os pesos dos ativos devem ser maiores ou iguais a zero e menores ou iguais a um (caso especial da restrição box)</li>
+<li><strong>group</strong>: restrição de que os pesos dos ativos de um grupo específico devem ser iguais</li>
+<li><strong>turnover</strong>: restrição de que o turnover da carteira deve ser menor ou igual a um valor específico a partir de uma carteira inicial</li>
+<li><strong>diversification</strong>: Especifica um valor de diversificação para a carteira</li>
+<li><strong>position_limit</strong>: Permite ao usuário definir o número máximo de posições (ativos com pesos não nulos) e o número máximo de posições compradas e vendidas.</li>
+<li><strong>return</strong>: Especifica o retorno médio esperado da carteira</li>
+<li><strong>factor_exposure</strong>: Especifica a exposição da carteira a fatores de risco</li>
+<li><strong>leverage_exposure</strong>: Especifica a alavancagem maxima da carteira onde a alavancagem é definida como a soma dos pesos absolutos dos ativos</li>
+</ul></li>
+<li><strong>objectives</strong>:
+<ul>
+<li><strong>type</strong>: ‘return’,‘risk’, ‘risk_budget’, ‘quadratic_utility’, or ’weight_concentration</li>
+</ul></li>
+</ul>
+</section>
+<section id="passo-a-passo-da-otimização-de-portfólios" class="level2">
+<h2 class="anchored" data-anchor-id="passo-a-passo-da-otimização-de-portfólios">Passo a passo da otimização de portfólios</h2>
+<ol type="1">
+<li>Carregar os preços dos ativos e do benchmark</li>
+<li>Converter os preços diários em preços mensais</li>
+<li>Calcular os retornos mensais dos ativos e do benchmark</li>
+<li><strong>Criar o objeto de portfólio</strong></li>
+<li><strong>Adicionar restrições ao objeto de portfólio</strong></li>
+<li><strong>Adicionar a função objetivo ao objeto de portfólio</strong></li>
+<li><strong>Resolver o problema de otimização</strong></li>
+<li><strong>Exibir os resultados da otimização</strong></li>
+<li><strong>Exibir os pesos dos ativos na carteira otimizada</strong></li>
+<li><strong>Plotar a distribuição dos pesos dos ativos na carteira otimizada</strong></li>
+</ol>
+</section>
+<section id="criando-um-objeto-para-as-especificações-do-portfólio" class="level2">
+<h2 class="anchored" data-anchor-id="criando-um-objeto-para-as-especificações-do-portfólio">Criando um objeto para as especificações do portfólio</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Criando o objeto de portfólio, aqui estamos apenas especificando os ativos que serão utilizados na otimização</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>port_spec <span class="ot">&lt;-</span> <span class="fu">portfolio.spec</span>(<span class="at">assets =</span> <span class="fu">colnames</span>(asset_returns_xts))</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(port_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "portfolio.spec" "portfolio"     </code></pre>
+</div>
+</div>
+</section>
+<section id="adicionando-restrições-ao-objeto-de-portfólio" class="level2">
+<h2 class="anchored" data-anchor-id="adicionando-restrições-ao-objeto-de-portfólio">Adicionando restrições ao objeto de portfólio</h2>
+<p>As restrições são condições que devem ser satisfeitas durante a otimização da carteira. Algumas restrições comuns são relacionadas ao peso dos ativos e ao retorno esperado da carteira.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adicionando restrições, como por exemplo, a soma dos pesos dos ativos deve ser igual a 1</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>port_spec  <span class="ot">&lt;-</span> <span class="fu">add.constraint</span>(port_spec, <span class="at">type =</span> <span class="st">"weight_sum"</span>, <span class="at">min_sum =</span> <span class="dv">1</span>, <span class="at">max_sum =</span> <span class="dv">1</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># adicionnando uma restrição de caixas para os pesos dos ativos</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>port_spec <span class="ot">&lt;-</span> <span class="fu">add.constraint</span>(port_spec, <span class="at">type =</span> <span class="st">"box"</span>, <span class="at">min =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>), <span class="at">max =</span> <span class="fl">0.4</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(port_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>**************************************************
+PortfolioAnalytics Portfolio Specification 
+**************************************************
+
+Call:
+portfolio.spec(assets = colnames(asset_returns_xts))
+
+Number of assets: 5 
+Asset Names
+[1] "VALE3.SA" "PETR4.SA" "AZUL4.SA" "MGLU3.SA" "CMIG4.SA"
+
+Constraints
+Enabled constraint types
+        - weight_sum 
+        - box </code></pre>
+</div>
+</div>
+</section>
+<section id="adicionando-a-função-objetivo-ao-objeto-de-portfólio" class="level2">
+<h2 class="anchored" data-anchor-id="adicionando-a-função-objetivo-ao-objeto-de-portfólio">Adicionando a função objetivo ao objeto de portfólio</h2>
+<p>A função objetivo é a função que será otimizada durante o processo de otimização da carteira. Um objetivo comum é maximizar o retorno esperado da carteira e minimizar a volatilidade e o risco.</p>
+<p>Lembre-se que o desvio padrão é a raiz quadrada da variância. E que a variância é a média dos quadrados dos desvios em relação à média. A variancia é geralmente usada para denotar o risco, quanto maior a variancia, maior o risco. Já geralmente denota a volatilidade, quanto maior o desvio padrão, maior a volatilidade. Ambas são medidas que servem como indicadores de risco.</p>
+<p>No portfolioAnalytics, a função objetivo é adicionada ao objeto de portfólio usando a função <code>add.objective()</code>. Os objetivos mais usado são:</p>
+<ul>
+<li><strong>return</strong>: Maximizar o retorno esperado da carteira</li>
+<li><strong>risk</strong>: Minimizar o risco da carteira</li>
+<li><strong>risk_budget</strong>: Minimizar a contribuição marginal do risco de cada ativo para o risco total da carteira</li>
+<li><strong>quadratic_utility</strong>: Maximizar a função de utilidade quadrática da carteira</li>
+<li><strong>weight_concentration</strong>: Minimizar a concentração dos pesos dos ativos na carteira</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adiciona a função objetivo, que é maximizar o retorno médio esperado da carteira</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>port_spec <span class="ot">&lt;-</span> <span class="fu">add.objective</span>(port_spec, <span class="at">type =</span> <span class="st">"return"</span>, <span class="at">name =</span> <span class="st">"mean"</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Adiciona a função objetivo, que é minimizar o desvio padrão da carteira</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>port_spec <span class="ot">&lt;-</span> <span class="fu">add.objective</span>(port_spec, <span class="at">type =</span> <span class="st">"risk"</span>, <span class="at">name =</span> <span class="st">"StdDev"</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Adiciona um objetivo para minimizar a contribuição marginal do risco de cada ativo para o risco total da carteira</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>port_spec <span class="ot">&lt;-</span> <span class="fu">add.objective</span>(port_spec, <span class="at">type =</span> <span class="st">"risk_budget"</span>, <span class="at">name =</span> <span class="st">"var"</span>, <span class="at">min_prisk =</span> <span class="fl">0.05</span>, <span class="at">max_prisk =</span> <span class="fl">0.1</span>)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(port_spec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>**************************************************
+PortfolioAnalytics Portfolio Specification 
+**************************************************
+
+Call:
+portfolio.spec(assets = colnames(asset_returns_xts))
+
+Number of assets: 5 
+Asset Names
+[1] "VALE3.SA" "PETR4.SA" "AZUL4.SA" "MGLU3.SA" "CMIG4.SA"
+
+Constraints
+Enabled constraint types
+        - weight_sum 
+        - box 
+
+Objectives:
+Enabled objective names
+        - mean 
+        - StdDev 
+        - var </code></pre>
+</div>
+</div>
+</section>
+<section id="resolvendo-o-problema-de-otimização" class="level2">
+<h2 class="anchored" data-anchor-id="resolvendo-o-problema-de-otimização">Resolvendo o problema de otimização</h2>
+<p>Existem duas funções principais para resolver o problema de otimização da carteira: <code>optimize.portfolio()</code> e <code>optimize.portfolio.rebalancing()</code>. A função <code>optimize.portfolio()</code> é usada para otimizar a carteira sem rebalanceamento, enquanto a função <code>optimize.portfolio.rebalancing()</code> é usada para otimizar a carteira com rebalanceamento.</p>
+<p>Lembre-se que o rebalanceamento é o processo de ajustar os pesos dos ativos na carteira para manter a alocação desejada ao longo do tempo.</p>
+<p>O pacote suporta diversos métodos de otimização, como:</p>
+<ul>
+<li><strong>DEoptim</strong>: Differential Evolution</li>
+<li><strong>random</strong>: Random Portfolios</li>
+<li><strong>GenSA</strong>: Generalized Simulated Annealing</li>
+<li><strong>pso</strong>: Particle Swarm Optimization</li>
+<li><strong>ROI</strong>: R Optimization Infrastructure</li>
+</ul>
+<p>O método a ser usado irá depender do problema.</p>
+<p>Vamos fazer fazer uma otimização usando o método de portifolios aleatórios. Nosso objetivo é maximizar o retorno esperado da carteira e minimizar o risco onde o risco minimo é 5% e o risco maximo é 10% sujeito a restrições de peso e de grupo.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># .storage &lt;&lt;- new.env()</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>rp <span class="ot">&lt;-</span> <span class="fu">random_portfolios</span>(port_spec, <span class="at">permutations =</span> <span class="dv">1000</span>, <span class="at">rp_method =</span> <span class="st">'simplex'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: executing %dopar% sequentially: no parallel backend registered</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rp &lt;- random_portfolios(port_spec, permutations = 1000, rp_method = 'sample')</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># rp &lt;- random_portfolios(port_spec, permutations = 1000, rp_method = 'grid') </span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(rp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        VALE3.SA  PETR4.SA  AZUL4.SA  MGLU3.SA  CMIG4.SA
+  [1,] 0.3846185 0.2507123 0.1558231 0.1030146 0.1058314
+  [2,] 0.3269178 0.1169764 0.1190868 0.2697482 0.1672708
+  [3,] 0.2094872 0.1875404 0.1250607 0.1521620 0.3257498
+  [4,] 0.2149223 0.1998569 0.1074425 0.1504229 0.3273553
+  [5,] 0.2743916 0.1259616 0.3489492 0.1460984 0.1045993
+  [6,] 0.2016447 0.2551902 0.3054287 0.1256220 0.1121143
+  [7,] 0.2080108 0.1041186 0.1848470 0.3068999 0.1961236
+  [8,] 0.2877689 0.1292359 0.1016338 0.1485775 0.3327838
+  [9,] 0.2294659 0.2516971 0.1677011 0.1930399 0.1580960
+ [10,] 0.2020515 0.1159075 0.3547865 0.2255743 0.1016802
+ [11,] 0.2250065 0.1222568 0.2812286 0.2131440 0.1583640
+ [12,] 0.2817194 0.1303683 0.2470205 0.1345319 0.2063599
+ [13,] 0.2419713 0.1824916 0.1963966 0.1801061 0.1990345
+ [14,] 0.3801225 0.1488392 0.1955290 0.1673484 0.1081608
+ [15,] 0.2088736 0.1353090 0.1650027 0.1350835 0.3557311
+ [16,] 0.3094877 0.1310550 0.1012512 0.1087652 0.3494410
+ [17,] 0.2246033 0.2359637 0.2490494 0.1701568 0.1202267
+ [18,] 0.3147436 0.1123005 0.2129664 0.1881718 0.1718177
+ [19,] 0.2720518 0.1188063 0.1427312 0.1321501 0.3342606
+ [20,] 0.2301497 0.2329580 0.1488347 0.1646955 0.2233621
+ [21,] 0.2711963 0.1227679 0.1636317 0.2822394 0.1601648
+ [22,] 0.2378213 0.2820612 0.1185523 0.1453499 0.2162154
+ [23,] 0.2733048 0.1089383 0.2740202 0.1658301 0.1779067
+ [24,] 0.2196462 0.1284189 0.1327029 0.3186012 0.2006307
+ [25,] 0.3195166 0.2055753 0.1482034 0.1834716 0.1432332
+ [26,] 0.2757089 0.1741481 0.1335076 0.1215366 0.2950988
+ [27,] 0.2080998 0.1310659 0.1219812 0.2030486 0.3358045
+ [28,] 0.3854765 0.2171811 0.1273284 0.1600322 0.1099818
+ [29,] 0.2590248 0.2001356 0.1835748 0.1832404 0.1740244
+ [30,] 0.2432478 0.1635268 0.1729462 0.1693905 0.2508887
+ [31,] 0.3780885 0.1076375 0.1512917 0.1826279 0.1803545
+ [32,] 0.2400092 0.1585870 0.1102162 0.1623469 0.3288408
+ [33,] 0.2646615 0.1049275 0.1808314 0.1475386 0.3020410
+ [34,] 0.2679252 0.1473606 0.2009121 0.2458717 0.1379304
+ [35,] 0.2818904 0.2232495 0.1345300 0.2376911 0.1226389
+ [36,] 0.2842879 0.1535886 0.2237189 0.1167336 0.2216709
+ [37,] 0.2532511 0.1245687 0.3061785 0.1313472 0.1846545
+ [38,] 0.2625299 0.2760018 0.1053816 0.1949428 0.1611439
+ [39,] 0.3263532 0.1663759 0.2099076 0.1572948 0.1400685
+ [40,] 0.3709690 0.1531976 0.1128052 0.2093629 0.1536654
+ [41,] 0.2065240 0.1277727 0.1416718 0.2912273 0.2328042
+ [42,] 0.2829658 0.1194918 0.1409179 0.1316976 0.3249268
+ [43,] 0.2242222 0.1763502 0.2695846 0.1447442 0.1850989
+ [44,] 0.2701598 0.1271459 0.3047351 0.1140259 0.1839333
+ [45,] 0.2517098 0.1322611 0.1727234 0.1155789 0.3277268
+ [46,] 0.3298375 0.1951531 0.1485718 0.1531919 0.1732456
+ [47,] 0.3557398 0.1592908 0.1966592 0.1175063 0.1708038
+ [48,] 0.2128458 0.1371024 0.2544715 0.1680863 0.2274939
+ [49,] 0.2729959 0.1432243 0.2702339 0.1218397 0.1917063
+ [50,] 0.2919204 0.1459600 0.1622092 0.2941613 0.1057491
+ [51,] 0.2265651 0.1469074 0.2021560 0.1545088 0.2698628
+ [52,] 0.2487766 0.1268217 0.3875601 0.1043311 0.1325105
+ [53,] 0.3736245 0.1307992 0.2328153 0.1212932 0.1414678
+ [54,] 0.2405627 0.2082191 0.1996744 0.1740103 0.1775335
+ [55,] 0.3354063 0.1531911 0.1478111 0.2280736 0.1355180
+ [56,] 0.2231221 0.1469699 0.1530865 0.3412915 0.1355300
+ [57,] 0.2875633 0.1138811 0.2306601 0.1512930 0.2166027
+ [58,] 0.2195930 0.1751794 0.1727905 0.3078984 0.1245387
+ [59,] 0.2409209 0.2538069 0.1593737 0.1412550 0.2046435
+ [60,] 0.2161212 0.2706078 0.1513716 0.1275619 0.2343374
+ [61,] 0.3358499 0.2241784 0.1564145 0.1500965 0.1334606
+ [62,] 0.2069963 0.1460627 0.1531342 0.1241602 0.3696466
+ [63,] 0.2304544 0.2586308 0.1063845 0.1804872 0.2240432
+ [64,] 0.3952960 0.1486492 0.1344989 0.2007982 0.1207577
+ [65,] 0.3289981 0.1048728 0.1437875 0.3058128 0.1165289
+ [66,] 0.2687930 0.1324074 0.3948870 0.1037028 0.1002098
+ [67,] 0.2006349 0.1869235 0.1365591 0.1787572 0.2971254
+ [68,] 0.3399132 0.1497655 0.2124285 0.1403842 0.1575086
+ [69,] 0.3972733 0.1253314 0.1425239 0.1579574 0.1769140
+ [70,] 0.3041238 0.2111638 0.1866381 0.1807603 0.1173141
+ [71,] 0.2520263 0.2040800 0.1732200 0.1753635 0.1953103
+ [72,] 0.2777125 0.1174155 0.1603981 0.2808626 0.1636114
+ [73,] 0.3584706 0.1057481 0.1195085 0.1840865 0.2321863
+ [74,] 0.3694581 0.1157954 0.2171963 0.1889913 0.1085589
+ [75,] 0.3089854 0.2719524 0.1241965 0.1831034 0.1117623
+ [76,] 0.2146162 0.1678584 0.1275806 0.1800319 0.3099129
+ [77,] 0.2028188 0.1596401 0.2221016 0.1711031 0.2443365
+ [78,] 0.2278450 0.3500239 0.1036069 0.1360501 0.1824742
+ [79,] 0.2294951 0.3188477 0.2037446 0.1383863 0.1095262
+ [80,] 0.2748635 0.1245224 0.1172168 0.2166655 0.2667318
+ [81,] 0.2276361 0.2185309 0.1890893 0.1738436 0.1909002
+ [82,] 0.2172679 0.1137528 0.1032262 0.2597981 0.3059550
+ [83,] 0.3784594 0.2345812 0.1169284 0.1644351 0.1055959
+ [84,] 0.3101434 0.1597934 0.1937457 0.2215079 0.1148096
+ [85,] 0.2035951 0.1297467 0.1162162 0.1963713 0.3540708
+ [86,] 0.2383758 0.2523094 0.1350551 0.1883260 0.1859336
+ [87,] 0.2807941 0.1078303 0.1458452 0.2550920 0.2104383
+ [88,] 0.2665163 0.1367031 0.1523897 0.2041742 0.2402166
+ [89,] 0.3296353 0.1760168 0.2147953 0.1326687 0.1468840
+ [90,] 0.2192937 0.1376599 0.1271110 0.2804009 0.2355345
+ [91,] 0.3870459 0.1168908 0.1122093 0.1043007 0.2795533
+ [92,] 0.2950380 0.1202029 0.1303101 0.1312889 0.3231601
+ [93,] 0.3211533 0.1435049 0.1025617 0.1786861 0.2540939
+ [94,] 0.2034894 0.2095582 0.2397307 0.2156165 0.1316052
+ [95,] 0.2621461 0.1002423 0.2138251 0.1318226 0.2919639
+ [96,] 0.2518571 0.1660495 0.2873408 0.1417016 0.1530510
+ [97,] 0.2858111 0.1393308 0.2337341 0.1336442 0.2074798
+ [98,] 0.3767329 0.1554134 0.1607994 0.1576750 0.1493794
+ [99,] 0.2632504 0.1005996 0.1009081 0.2583916 0.2768504
+[100,] 0.3286067 0.1023010 0.1029086 0.3300535 0.1361303
+[101,] 0.2289310 0.3988074 0.1537010 0.1021653 0.1163953
+[102,] 0.2000161 0.2435902 0.3516047 0.1039140 0.1008750
+[103,] 0.2004327 0.1001144 0.1485375 0.3886189 0.1622965
+[104,] 0.2009146 0.3818220 0.1004044 0.1664557 0.1504034
+[105,] 0.2085762 0.3273059 0.1452738 0.1855055 0.1333386
+[106,] 0.2237564 0.1768798 0.1954137 0.3021438 0.1018063
+[107,] 0.2049854 0.1039493 0.3618475 0.2020606 0.1271572
+[108,] 0.2640272 0.1088421 0.3072379 0.1114329 0.2084600
+[109,] 0.2206738 0.1798609 0.2090532 0.1753088 0.2151033
+[110,] 0.2051916 0.2585490 0.2905364 0.1422141 0.1035089
+[111,] 0.3349993 0.1015514 0.2308498 0.1797140 0.1528856
+[112,] 0.2090055 0.2751347 0.1236266 0.1414660 0.2507671
+[113,] 0.2436342 0.1044623 0.1348546 0.3858889 0.1311600
+[114,] 0.2465855 0.1006926 0.3625342 0.1375695 0.1526182
+[115,] 0.3561520 0.2218473 0.1254007 0.1761673 0.1204327
+[116,] 0.2450617 0.1432229 0.1088268 0.1036464 0.3992422
+[117,] 0.2000050 0.2904988 0.2692122 0.1345236 0.1057604
+[118,] 0.2626071 0.1861132 0.1123061 0.1000117 0.3389618
+[119,] 0.2321467 0.2322759 0.1081695 0.3274066 0.1000013
+[120,] 0.2423521 0.2218942 0.1849097 0.1842315 0.1666126
+[121,] 0.2972411 0.2659128 0.1003148 0.1163038 0.2202276
+[122,] 0.2192774 0.1415944 0.1548436 0.1496273 0.3346572
+[123,] 0.2464199 0.1225672 0.2024539 0.3140841 0.1144749
+[124,] 0.2328100 0.3599349 0.1002430 0.1756405 0.1313716
+[125,] 0.3710302 0.1471977 0.2294064 0.1351666 0.1171991
+[126,] 0.2003000 0.1054361 0.1122388 0.3577233 0.2243018
+[127,] 0.2052835 0.1524944 0.3589795 0.1180288 0.1652139
+[128,] 0.2740677 0.1074575 0.1046840 0.1309255 0.3828653
+[129,] 0.2014258 0.1118945 0.3061754 0.1400552 0.2404491
+[130,] 0.2647916 0.1161978 0.1296759 0.3890813 0.1002535
+[131,] 0.2062498 0.1194862 0.1924213 0.1263134 0.3555293
+[132,] 0.3783789 0.1275260 0.1222394 0.2595823 0.1122733
+[133,] 0.2061126 0.1005533 0.1659150 0.2295799 0.2978392
+[134,] 0.2136194 0.1961555 0.1575879 0.1693533 0.2632839
+[135,] 0.2745138 0.1018726 0.2659123 0.1255687 0.2321326
+[136,] 0.2020459 0.3291343 0.1207749 0.1059801 0.2420648
+[137,] 0.3412101 0.1371658 0.2433039 0.1403457 0.1379745
+[138,] 0.2004591 0.2609452 0.1230466 0.1251717 0.2903775
+[139,] 0.3087372 0.1001552 0.1125288 0.3767935 0.1017852
+[140,] 0.3975817 0.1249969 0.2275799 0.1164608 0.1333807
+[141,] 0.2321615 0.2287140 0.1637016 0.1674858 0.2079371
+[142,] 0.2101150 0.1453055 0.1824381 0.3510353 0.1111061
+[143,] 0.2968127 0.3409974 0.1047720 0.1562902 0.1011277
+[144,] 0.2008924 0.1026927 0.2132868 0.2402058 0.2429222
+[145,] 0.2007115 0.1067473 0.1688965 0.2941793 0.2294654
+[146,] 0.2000716 0.1320717 0.2344275 0.1455850 0.2878441
+[147,] 0.2467896 0.1050204 0.1024747 0.2136305 0.3320849
+[148,] 0.2017425 0.1011053 0.1000608 0.2492196 0.3478719
+[149,] 0.3229180 0.1362247 0.1890433 0.2495918 0.1022222
+[150,] 0.2143379 0.3258510 0.1119638 0.1759530 0.1718943
+[151,] 0.2581002 0.1005457 0.1187070 0.3140902 0.2085568
+[152,] 0.2453448 0.1138063 0.1281295 0.2112221 0.3014973
+[153,] 0.2461720 0.3180689 0.1000604 0.1955290 0.1401697
+[154,] 0.3722421 0.1592260 0.2350644 0.1109385 0.1225290
+[155,] 0.2011774 0.3221368 0.1112289 0.1132845 0.2521724
+[156,] 0.3917212 0.2979401 0.1102132 0.1001167 0.1000088
+[157,] 0.3262260 0.1162763 0.1000564 0.1532444 0.3041969
+[158,] 0.2001061 0.2045879 0.2701277 0.2164746 0.1087038
+[159,] 0.2282521 0.1000004 0.1947760 0.1074079 0.3695636
+[160,] 0.2796229 0.1231955 0.1043809 0.3717819 0.1210188
+[161,] 0.2934663 0.1000299 0.1000478 0.3990791 0.1073768
+[162,] 0.3935875 0.1190022 0.1071009 0.2463462 0.1339633
+[163,] 0.3036425 0.3627027 0.1284826 0.1022527 0.1029194
+[164,] 0.3756348 0.1954718 0.1799422 0.1385731 0.1103781
+[165,] 0.2000323 0.3130520 0.1000051 0.2841155 0.1027951
+[166,] 0.2045447 0.1678161 0.2264566 0.1603054 0.2408771
+[167,] 0.3638181 0.1000216 0.2539023 0.1571174 0.1251405
+[168,] 0.2000000 0.3194474 0.2731446 0.1072074 0.1002007
+[169,] 0.2058791 0.1995403 0.1003797 0.3942009 0.1000000
+[170,] 0.2202714 0.2679190 0.1814794 0.1801830 0.1501472
+[171,] 0.2731543 0.3129610 0.1000008 0.1020564 0.2118275
+[172,] 0.2282462 0.2449337 0.1008929 0.3257621 0.1001650
+[173,] 0.2618019 0.3445678 0.1823739 0.1105680 0.1006884
+[174,] 0.2000127 0.1008845 0.3657509 0.1100304 0.2233215
+[175,] 0.2223574 0.3355570 0.2395259 0.1004697 0.1020899
+[176,] 0.2035537 0.2800492 0.2295721 0.1393862 0.1474388
+[177,] 0.2016779 0.1836366 0.1299993 0.1435094 0.3411767
+[178,] 0.2433813 0.1000274 0.3150728 0.1051079 0.2364106
+[179,] 0.2000229 0.3870698 0.1023598 0.1001955 0.2103519
+[180,] 0.2003770 0.3774838 0.1000007 0.1183905 0.2037479
+[181,] 0.3273425 0.2654353 0.1610393 0.1460855 0.1000974
+[182,] 0.2000000 0.2827396 0.2119524 0.1669461 0.1383619
+[183,] 0.2000060 0.1000548 0.1969943 0.2485662 0.2543787
+[184,] 0.2000034 0.1003073 0.1320402 0.3545111 0.2131380
+[185,] 0.2000000 0.1072869 0.2280190 0.1147212 0.3499729
+[186,] 0.2006500 0.3199480 0.1701934 0.1331317 0.1760769
+[187,] 0.3293221 0.1112319 0.1678647 0.2915390 0.1000423
+[188,] 0.2038281 0.1996736 0.2512885 0.2452094 0.1000005
+[189,] 0.2060586 0.1620454 0.1001467 0.1506415 0.3811078
+[190,] 0.2000076 0.3711059 0.1006927 0.1009696 0.2272242
+[191,] 0.3933521 0.3060992 0.1005487 0.1000001 0.1000000
+[192,] 0.3049445 0.1017449 0.1000000 0.1186728 0.3746378
+[193,] 0.2881266 0.1036832 0.2078209 0.3003681 0.1000012
+[194,] 0.2424263 0.1018724 0.3502823 0.1010025 0.2044165
+[195,] 0.2039431 0.1000000 0.1000000 0.2550636 0.3409933
+[196,] 0.2000001 0.2294181 0.3699314 0.1006504 0.1000000
+[197,] 0.2000018 0.3576175 0.1000853 0.1008096 0.2414858
+[198,] 0.2000000 0.3463653 0.2533687 0.1002658 0.1000002
+[199,] 0.2037196 0.3552284 0.1600932 0.1581961 0.1227627
+[200,] 0.2338633 0.3869789 0.1000000 0.1000268 0.1791310
+[201,] 0.2096560 0.1002578 0.3080471 0.1000000 0.2820392
+[202,] 0.2112738 0.1000000 0.3770993 0.1001563 0.2114706
+[203,] 0.3925544 0.1009240 0.3042314 0.1012832 0.1010071
+[204,] 0.2000000 0.3574666 0.1966324 0.1345546 0.1113464
+[205,] 0.2000000 0.1000000 0.1680344 0.2596158 0.2723498
+[206,] 0.3872476 0.3127509 0.1000015 0.1000000 0.1000000
+[207,] 0.2000000 0.1419312 0.3935702 0.1644965 0.1000020
+[208,] 0.2521643 0.1000911 0.1780846 0.3696599 0.1000000
+[209,] 0.2000757 0.1000000 0.1000000 0.2170942 0.3828300
+[210,] 0.2004874 0.1000003 0.3262746 0.1000000 0.2732376
+[211,] 0.3882302 0.1000043 0.3117520 0.1000084 0.1000051
+[212,] 0.3745999 0.3254001 0.1000000 0.1000000 0.1000000
+[213,] 0.2000000 0.1008091 0.2182754 0.1003164 0.3805990
+[214,] 0.2081273 0.1000000 0.2385665 0.1000004 0.3533058
+[215,] 0.2000000 0.1080869 0.3278175 0.2640956 0.1000000</code></pre>
+</div>
+</div>
+<p>Simplex: Distribui pesos aleatoriamente em um espaço triangular, garantindo que a soma seja sempre 1. Sample: Seleciona pesos aleatórios de uma distribuição de probabilidade específica. Grid: Gera pesos em pontos pré-definidos de uma grade regular.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>opt  <span class="ot">&lt;-</span>  <span class="fu">optimize.portfolio</span>(<span class="at">R =</span> asset_returns_xts, port_spec, <span class="at">rp =</span> rp, <span class="at">optimize_method =</span> <span class="st">"random"</span>, <span class="at">trace =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Leverage constraint min_sum and max_sum are restrictive, 
+              consider relaxing. e.g. 'full_investment' constraint should be min_sum=0.99 and max_sum=1.01</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(opt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>***********************************
+PortfolioAnalytics Optimization
+***********************************
+
+Call:
+optimize.portfolio(R = asset_returns_xts, portfolio = port_spec, 
+    optimize_method = "random", trace = TRUE, rp = rp)
+
+Optimal Weights:
+VALE3.SA PETR4.SA AZUL4.SA MGLU3.SA CMIG4.SA 
+  0.3870   0.1169   0.1122   0.1043   0.2796 
+
+Objective Measures:
+  mean 
+0.0143 
+
+
+ StdDev 
+0.08189 
+
+contribution :
+VALE3.SA PETR4.SA AZUL4.SA MGLU3.SA CMIG4.SA 
+0.022683 0.009117 0.018499 0.012482 0.019106 
+
+pct_contrib_StdDev :
+VALE3.SA PETR4.SA AZUL4.SA MGLU3.SA CMIG4.SA 
+  0.2770   0.1113   0.2259   0.1524   0.2333 </code></pre>
+</div>
+</div>
+</section>
+<section id="otimizando-a-carteira-com-rebalanceamento" class="level2">
+<h2 class="anchored" data-anchor-id="otimizando-a-carteira-com-rebalanceamento">Otimizando a carteira com rebalanceamento</h2>
+<p>A função <code>optimize.portfolio.rebalancing()</code> é usada para otimizar a carteira com rebalanceamento. O rebalanceamento é o processo de ajustar os pesos dos ativos na carteira para manter a alocação desejada ao longo do tempo. O rebalanceamento é importante para garantir que a carteira permaneça alinhada com os objetivos de investimento (restrições e objetivos) ao longo do tempo.</p>
+<p><code>optimize.portfolio.rebalancing()</code> suporta otimização de carteiras com rebalanceamento em diferentes janelas de tempo. O backtest é o processo de testar uma estratégia de investimento em dados históricos para avaliar seu desempenho.</p>
+<p>OBS: Dependendo do método de otimização, o processo pode ser demorado.</p>
+<p>Exemplo de otimização com rebalanceamento:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Criar o objeto de portfólio</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>port_specr <span class="ot">&lt;-</span> <span class="fu">portfolio.spec</span>(<span class="at">assets =</span> <span class="fu">colnames</span>(asset_returns_xts))</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Adicionar restrições - full investment com soma de pesos igual a 1</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>port_specr <span class="ot">&lt;-</span> <span class="fu">add.constraint</span>(port_specr, <span class="at">type =</span> <span class="st">"long_only"</span>)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="co"># restrição para a soma dos pesos</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>port_specr <span class="ot">&lt;-</span> <span class="fu">add.constraint</span>(port_specr, <span class="at">type =</span> <span class="st">"weight_sum"</span>, <span class="at">min_sum =</span> <span class="fl">0.99</span>, <span class="at">max_sum =</span> <span class="fl">1.01</span>)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Adicionar a função objetivo - maximizar o retorno esperado</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>port_specr <span class="ot">&lt;-</span> <span class="fu">add.objective</span>(port_specr, <span class="at">type =</span> <span class="st">"return"</span>, <span class="at">name =</span> <span class="st">"mean"</span>)</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Adicionar a função objetivo - minimizar o risco</span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>port_specr <span class="ot">&lt;-</span> <span class="fu">add.objective</span>(port_specr, <span class="at">type =</span> <span class="st">"risk"</span>, <span class="at">name =</span> <span class="st">"StdDev"</span>)</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Adicionar a função objetivo - minimizar a contribuição marginal do risco de cada ativo para o risco total da carteira</span></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>port_specr <span class="ot">&lt;-</span> <span class="fu">add.objective</span>(port_specr, <span class="at">type =</span> <span class="st">"risk_budget"</span>, <span class="at">name =</span> <span class="st">"StdDev"</span>, <span class="at">min_prisk =</span> <span class="fl">0.05</span>, <span class="at">max_prisk =</span> <span class="fl">0.1</span>)</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>rp <span class="ot">&lt;-</span> <span class="fu">random_portfolios</span>(port_specr, <span class="at">permutations =</span> <span class="dv">50</span>, <span class="at">rp_method =</span> <span class="st">'simplex'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="otimização" class="level2">
+<h2 class="anchored" data-anchor-id="otimização">Otimização</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Otimização com rebalanceamento mensal</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>opt_rebal <span class="ot">&lt;-</span> <span class="fu">optimize.portfolio.rebalancing</span>(<span class="at">R =</span> asset_returns_xts, </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">portfolio =</span> port_specr, </span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">optimize_method =</span> <span class="st">"random"</span>,</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">rp =</span> rp,</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">trace =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">search_size =</span> <span class="dv">1000</span>,</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">rebalance_on =</span> <span class="st">"months"</span>,</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">training_period =</span> <span class="dv">12</span>,</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>                      <span class="at">rolling_window =</span> <span class="dv">12</span>)</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(opt_rebal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>**************************************************
+PortfolioAnalytics Optimization with Rebalancing
+**************************************************
+
+Call:
+optimize.portfolio.rebalancing(R = asset_returns_xts, portfolio = port_specr, 
+    optimize_method = "random", search_size = 1000, trace = TRUE, 
+    rp = rp, rebalance_on = "months", training_period = 12, rolling_window = 12)
+
+Number of rebalancing dates:  49 
+First rebalance date:
+[1] "2020-05-31"
+Last rebalance date:
+[1] "2024-05-31"
+
+Annualized Portfolio Rebalancing Return:
+[1] 0.1808504
+
+Annualized Portfolio Standard Deviation:
+[1] 0.3081192</code></pre>
+</div>
+</div>
+</section>
+<section id="analise-dos-resultados" class="level2">
+<h2 class="anchored" data-anchor-id="analise-dos-resultados">Analise dos resultados</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">extractObjectiveMeasures</span>(opt_rebal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                    mean     StdDev StdDev.contribution.VALE3.SA
+2020-05-31  1.844891e-02 0.09409765                 0.0302801332
+2020-06-30  2.303661e-02 0.09159757                 0.0295879353
+2020-07-31  2.543004e-02 0.09290089                 0.0305190866
+2020-08-31  2.442196e-02 0.09297552                 0.0307017673
+2020-09-30  2.591120e-02 0.09234521                 0.0285791350
+2020-10-31  2.569573e-02 0.09233573                 0.0285314154
+2020-11-30  4.118703e-02 0.10934234                 0.0433391725
+2020-12-31  4.836901e-02 0.11092984                 0.0445743681
+2021-01-31  4.167289e-02 0.11137515                 0.0446373210
+2021-02-28  3.985698e-02 0.11201117                 0.0430079841
+2021-03-31  5.066714e-02 0.10271201                 0.0352877569
+2021-04-30  7.035289e-02 0.07346565                 0.0350785905
+2021-05-31  6.777420e-02 0.07274724                 0.0363209640
+2021-06-30  4.650497e-02 0.06082663                 0.0189677208
+2021-07-31  3.700662e-02 0.06428114                 0.0219715359
+2021-08-31  2.720531e-02 0.06543577                 0.0253659572
+2021-09-30  1.562326e-02 0.07611391                 0.0315947628
+2021-10-31  7.595937e-03 0.08525210                 0.0324722931
+2021-11-30 -1.794153e-03 0.08844438                 0.0328693374
+2021-12-31 -9.114397e-04 0.06921265                 0.0026394355
+2022-01-31 -1.948884e-02 0.06087159                 0.0204733769
+2022-02-28 -1.892870e-02 0.06102033                 0.0215315002
+2022-03-31  9.143257e-03 0.06234543                 0.0025818597
+2022-04-30  1.630832e-03 0.06721660                 0.0032698540
+2022-05-31  1.847253e-04 0.06688085                 0.0030973095
+2022-06-30 -2.222561e-02 0.07621605                 0.0034254953
+2022-07-31 -1.623146e-02 0.08355600                 0.0024957457
+2022-08-31  1.016984e-04 0.07621366                 0.0467826237
+2022-09-30  4.544793e-03 0.07616577                 0.0476344817
+2022-10-31  9.377070e-03 0.07158099                 0.0428163044
+2022-11-30  1.438159e-03 0.11308612                 0.0111224504
+2022-12-31  1.264459e-02 0.08868141                 0.0338853321
+2023-01-31  2.483995e-02 0.07369355                 0.0530547412
+2023-02-28  1.255652e-02 0.08077645                 0.0566787483
+2023-03-31  7.756699e-03 0.07857351                 0.0530140350
+2023-04-30  5.371424e-05 0.07596781                 0.0526985525
+2023-05-31  5.778703e-03 0.07073038                 0.0504004053
+2023-06-30  8.155468e-03 0.07246446                 0.0489099218
+2023-07-31  2.473049e-02 0.07659047                 0.0257165891
+2023-08-31  1.991574e-02 0.07985399                 0.0253070228
+2023-09-30  2.004799e-02 0.08880035                -0.0005727147
+2023-10-31 -2.038480e-03 0.07116098                 0.0285042288
+2023-11-30  2.066365e-02 0.06212217                 0.0489724830
+2023-12-31  1.417770e-02 0.05346963                 0.0305427152
+2024-01-31  9.788660e-03 0.05730674                 0.0362076148
+2024-02-29  3.130218e-03 0.05326759                 0.0335816726
+2024-03-31  8.405700e-03 0.04466178                 0.0322157366
+2024-04-30  1.019972e-02 0.04531289                 0.0333444296
+2024-05-31  1.077387e-02 0.04491595                 0.0302913434
+           StdDev.contribution.PETR4.SA StdDev.contribution.AZUL4.SA
+2020-05-31                  0.011471311                  0.007273158
+2020-06-30                  0.011020316                  0.008034905
+2020-07-31                  0.010832958                  0.007827672
+2020-08-31                  0.010839938                  0.007748055
+2020-09-30                  0.011052585                  0.007506697
+2020-10-31                  0.011019350                  0.007483285
+2020-11-30                  0.012942796                  0.011808294
+2020-12-31                  0.013181646                  0.011652495
+2021-01-31                  0.013260709                  0.011490940
+2021-02-28                  0.013557932                  0.011446943
+2021-03-31                  0.013606034                  0.010742265
+2021-04-30                  0.008897393                  0.005345822
+2021-05-31                  0.008263171                  0.005600476
+2021-06-30                  0.015865719                  0.005481409
+2021-07-31                  0.016723508                  0.005344883
+2021-08-31                  0.015831854                  0.005701471
+2021-09-30                  0.014380095                  0.005379921
+2021-10-31                  0.012938040                  0.006598387
+2021-11-30                  0.012335334                  0.006717882
+2021-12-31                  0.030152488                  0.013029649
+2022-01-31                  0.005420781                  0.003345059
+2022-02-28                  0.005688791                  0.003205660
+2022-03-31                  0.017803121                  0.018809740
+2022-04-30                  0.018838333                  0.018431900
+2022-05-31                  0.019493173                  0.018199620
+2022-06-30                  0.020848441                  0.022558765
+2022-07-31                  0.027534801                  0.020331656
+2022-08-31                  0.009635944                  0.006455509
+2022-09-30                  0.008751768                  0.006394846
+2022-10-31                  0.008604955                  0.006581867
+2022-11-30                  0.007581772                  0.005354072
+2022-12-31                  0.003002327                  0.006002655
+2023-01-31                  0.005732944                  0.003710122
+2023-02-28                  0.005834100                  0.005060953
+2023-03-31                  0.005497639                  0.005610165
+2023-04-30                  0.005564821                  0.006062137
+2023-05-31                  0.004701539                  0.005162059
+2023-06-30                  0.006459648                  0.006265328
+2023-07-31                  0.002275910                  0.005446277
+2023-08-31                  0.002290744                  0.006182817
+2023-09-30                  0.048631274                  0.022200944
+2023-10-31                  0.001039772                  0.004768823
+2023-11-30                  0.002515752                  0.003460872
+2023-12-31                  0.005900120                  0.006468296
+2024-01-31                  0.004093317                  0.007068539
+2024-02-29                  0.004590976                  0.007590083
+2024-03-31                  0.003848542                  0.004147419
+2024-04-30                  0.004843574                  0.003117493
+2024-05-31                  0.006889196                  0.002948959
+           StdDev.contribution.MGLU3.SA StdDev.contribution.CMIG4.SA
+2020-05-31                  0.024676518                 0.0203965330
+2020-06-30                  0.023410908                 0.0195435070
+2020-07-31                  0.023499613                 0.0202215610
+2020-08-31                  0.023348733                 0.0203370282
+2020-09-30                  0.024200488                 0.0210063021
+2020-10-31                  0.024267181                 0.0210344940
+2020-11-30                  0.016701537                 0.0245505417
+2020-12-31                  0.016223740                 0.0252975947
+2021-01-31                  0.016637000                 0.0253491816
+2021-02-28                  0.017616024                 0.0263822832
+2021-03-31                  0.016251414                 0.0268245391
+2021-04-30                  0.007506030                 0.0166378110
+2021-05-31                  0.005869641                 0.0166929904
+2021-06-30                  0.007308018                 0.0132037612
+2021-07-31                  0.006880741                 0.0133604706
+2021-08-31                  0.007398019                 0.0111384657
+2021-09-30                  0.014940130                 0.0098189978
+2021-10-31                  0.022352258                 0.0108911223
+2021-11-30                  0.025682283                 0.0108395463
+2021-12-31                  0.010657948                 0.0127331322
+2022-01-31                  0.027611264                 0.0040211095
+2022-02-28                  0.026604709                 0.0039896730
+2022-03-31                  0.013780188                 0.0093705264
+2022-04-30                  0.016656058                 0.0100204563
+2022-05-31                  0.016109792                 0.0099809558
+2022-06-30                  0.019250074                 0.0101332724
+2022-07-31                  0.021339544                 0.0118542556
+2022-08-31                  0.006372534                 0.0069670487
+2022-09-30                  0.006482686                 0.0069019908
+2022-10-31                  0.006157522                 0.0074203373
+2022-11-30                  0.081514098                 0.0075137257
+2022-12-31                  0.036459609                 0.0093314867
+2023-01-31                  0.005876479                 0.0053192650
+2023-02-28                  0.006311470                 0.0068911828
+2023-03-31                  0.006842883                 0.0076087838
+2023-04-30                  0.006610851                 0.0050314497
+2023-05-31                  0.005649307                 0.0048170720
+2023-06-30                  0.005506269                 0.0053232920
+2023-07-31                  0.039172822                 0.0039788708
+2023-08-31                  0.041278911                 0.0047944983
+2023-09-30                  0.013802030                 0.0047388138
+2023-10-31                  0.031506564                 0.0053415884
+2023-11-30                  0.004244531                 0.0029285278
+2023-12-31                  0.006605971                 0.0039525245
+2024-01-31                  0.006117248                 0.0038200223
+2024-02-29                  0.003706733                 0.0037981278
+2024-03-31                  0.003521304                 0.0009287823
+2024-04-30                  0.003079425                 0.0009279691
+2024-05-31                  0.003351885                 0.0014345638
+           StdDev.pct_contrib_StdDev.VALE3.SA
+2020-05-31                        0.321794778
+2020-06-30                        0.323020959
+2020-07-31                        0.328512316
+2020-08-31                        0.330213444
+2020-09-30                        0.309481519
+2020-10-31                        0.308996495
+2020-11-30                        0.396362219
+2020-12-31                        0.401824853
+2021-01-31                        0.400783481
+2021-02-28                        0.383961578
+2021-03-31                        0.343560185
+2021-04-30                        0.477482906
+2021-05-31                        0.499276167
+2021-06-30                        0.311832521
+2021-07-31                        0.341803773
+2021-08-31                        0.387646673
+2021-09-30                        0.415098424
+2021-10-31                        0.380897276
+2021-11-30                        0.371638495
+2021-12-31                        0.038135158
+2022-01-31                        0.336337144
+2022-02-28                        0.352857794
+2022-03-31                        0.041412170
+2022-04-30                        0.048646524
+2022-05-31                        0.046310858
+2022-06-30                        0.044944541
+2022-07-31                        0.029869137
+2022-08-31                        0.613835161
+2022-09-30                        0.625405356
+2022-10-31                        0.598151921
+2022-11-30                        0.098353808
+2022-12-31                        0.382101867
+2023-01-31                        0.719937360
+2023-02-28                        0.701674130
+2023-03-31                        0.674706242
+2023-04-30                        0.693695812
+2023-05-31                        0.712570795
+2023-06-30                        0.674950490
+2023-07-31                        0.335767488
+2023-08-31                        0.316916182
+2023-09-30                       -0.006449464
+2023-10-31                        0.400559836
+2023-11-30                        0.788325426
+2023-12-31                        0.571216166
+2024-01-31                        0.631821212
+2024-02-29                        0.630433455
+2024-03-31                        0.721326678
+2024-04-30                        0.735870722
+2024-05-31                        0.674400642
+           StdDev.pct_contrib_StdDev.PETR4.SA
+2020-05-31                         0.12190858
+2020-06-30                         0.12031232
+2020-07-31                         0.11660769
+2020-08-31                         0.11658916
+2020-09-30                         0.11968769
+2020-10-31                         0.11934005
+2020-11-30                         0.11836948
+2020-12-31                         0.11882867
+2021-01-31                         0.11906344
+2021-02-28                         0.12104089
+2021-03-31                         0.13246780
+2021-04-30                         0.12110957
+2021-05-31                         0.11358741
+2021-06-30                         0.26083508
+2021-07-31                         0.26016197
+2021-08-31                         0.24194496
+2021-09-30                         0.18892862
+2021-10-31                         0.15176213
+2021-11-30                         0.13946996
+2021-12-31                         0.43564994
+2022-01-31                         0.08905272
+2022-02-28                         0.09322780
+2022-03-31                         0.28555613
+2022-04-30                         0.28026310
+2022-05-31                         0.29146120
+2022-06-30                         0.27354398
+2022-07-31                         0.32953708
+2022-08-31                         0.12643329
+2022-09-30                         0.11490421
+2022-10-31                         0.12021287
+2022-11-30                         0.06704423
+2022-12-31                         0.03385520
+2023-01-31                         0.07779438
+2023-02-28                         0.07222526
+2023-03-31                         0.06996810
+2023-04-30                         0.07325236
+2023-05-31                         0.06647128
+2023-06-30                         0.08914229
+2023-07-31                         0.02971531
+2023-08-31                         0.02868666
+2023-09-30                         0.54764734
+2023-10-31                         0.01461154
+2023-11-30                         0.04049685
+2023-12-31                         0.11034527
+2024-01-31                         0.07142820
+2024-02-29                         0.08618704
+2024-03-31                         0.08617081
+2024-04-30                         0.10689174
+2024-05-31                         0.15337973
+           StdDev.pct_contrib_StdDev.AZUL4.SA
+2020-05-31                         0.07729372
+2020-06-30                         0.08771963
+2020-07-31                         0.08425831
+2020-08-31                         0.08333435
+2020-09-30                         0.08128951
+2020-10-31                         0.08104430
+2020-11-30                         0.10799379
+2020-12-31                         0.10504382
+2021-01-31                         0.10317328
+2021-02-28                         0.10219466
+2021-03-31                         0.10458626
+2021-04-30                         0.07276628
+2021-05-31                         0.07698541
+2021-06-30                         0.09011529
+2021-07-31                         0.08314855
+2021-08-31                         0.08713081
+2021-09-30                         0.07068250
+2021-10-31                         0.07739853
+2021-11-30                         0.07595601
+2021-12-31                         0.18825530
+2022-01-31                         0.05495272
+2022-02-28                         0.05253429
+2022-03-31                         0.30170196
+2022-04-30                         0.27421649
+2022-05-31                         0.27212004
+2022-06-30                         0.29598445
+2022-07-31                         0.24332969
+2022-08-31                         0.08470278
+2022-09-30                         0.08395957
+2022-10-31                         0.09194994
+2022-11-30                         0.04734508
+2022-12-31                         0.06768786
+2023-01-31                         0.05034527
+2023-02-28                         0.06265382
+2023-03-31                         0.07140022
+2023-04-30                         0.07979876
+2023-05-31                         0.07298221
+2023-06-30                         0.08646071
+2023-07-31                         0.07110907
+2023-08-31                         0.07742653
+2023-09-30                         0.25000965
+2023-10-31                         0.06701458
+2023-11-30                         0.05571074
+2023-12-31                         0.12097140
+2024-01-31                         0.12334568
+2024-02-29                         0.14248970
+2024-03-31                         0.09286282
+2024-04-30                         0.06879925
+2024-05-31                         0.06565505
+           StdDev.pct_contrib_StdDev.MGLU3.SA
+2020-05-31                         0.26224372
+2020-06-30                         0.25558437
+2020-07-31                         0.25295358
+2020-08-31                         0.25112775
+2020-09-30                         0.26206545
+2020-10-31                         0.26281464
+2020-11-30                         0.15274537
+2020-12-31                         0.14625226
+2021-01-31                         0.14937802
+2021-02-28                         0.15727025
+2021-03-31                         0.15822312
+2021-04-30                         0.10217061
+2021-05-31                         0.08068540
+2021-06-30                         0.12014505
+2021-07-31                         0.10704137
+2021-08-31                         0.11305772
+2021-09-30                         0.19628647
+2021-10-31                         0.26219012
+2021-11-30                         0.29037777
+2021-12-31                         0.15398844
+2022-01-31                         0.45359853
+2022-02-28                         0.43599744
+2022-03-31                         0.22102962
+2022-04-30                         0.24779679
+2022-05-31                         0.24087302
+2022-06-30                         0.25257245
+2022-07-31                         0.25539211
+2022-08-31                         0.08361407
+2022-09-30                         0.08511285
+2022-10-31                         0.08602175
+2022-11-30                         0.72081436
+2022-12-31                         0.41113024
+2023-01-31                         0.07974211
+2023-02-28                         0.07813502
+2023-03-31                         0.08708893
+2023-04-30                         0.08702174
+2023-05-31                         0.07987101
+2023-06-30                         0.07598578
+2023-07-31                         0.51145818
+2023-08-31                         0.51692983
+2023-09-30                         0.15542766
+2023-10-31                         0.44275059
+2023-11-30                         0.06832555
+2023-12-31                         0.12354623
+2024-01-31                         0.10674570
+2024-02-29                         0.06958702
+2024-03-31                         0.07884379
+2024-04-30                         0.06795914
+2024-05-31                         0.07462573
+           StdDev.pct_contrib_StdDev.CMIG4.SA
+2020-05-31                         0.21675921
+2020-06-30                         0.21336272
+2020-07-31                         0.21766811
+2020-08-31                         0.21873530
+2020-09-30                         0.22747582
+2020-10-31                         0.22780450
+2020-11-30                         0.22452914
+2020-12-31                         0.22805040
+2021-01-31                         0.22760177
+2021-02-28                         0.23553262
+2021-03-31                         0.26116264
+2021-04-30                         0.22647063
+2021-05-31                         0.22946561
+2021-06-30                         0.21707205
+2021-07-31                         0.20784433
+2021-08-31                         0.17021984
+2021-09-30                         0.12900399
+2021-10-31                         0.12775195
+2021-11-30                         0.12255777
+2021-12-31                         0.18397116
+2022-01-31                         0.06605889
+2022-02-28                         0.06538268
+2022-03-31                         0.15030012
+2022-04-30                         0.14907710
+2022-05-31                         0.14923488
+2022-06-30                         0.13295458
+2022-07-31                         0.14187198
+2022-08-31                         0.09141470
+2022-09-30                         0.09061801
+2022-10-31                         0.10366352
+2022-11-30                         0.06644251
+2022-12-31                         0.10522483
+2023-01-31                         0.07218087
+2023-02-28                         0.08531178
+2023-03-31                         0.09683651
+2023-04-30                         0.06623134
+2023-05-31                         0.06810471
+2023-06-30                         0.07346073
+2023-07-31                         0.05194995
+2023-08-31                         0.06004081
+2023-09-30                         0.05336481
+2023-10-31                         0.07506345
+2023-11-30                         0.04714143
+2023-12-31                         0.07392093
+2024-01-31                         0.06665921
+2024-02-29                         0.07130279
+2024-03-31                         0.02079591
+2024-04-30                         0.02047914
+2024-05-31                         0.03193885</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">extractWeights</span>(opt_rebal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             VALE3.SA   PETR4.SA   AZUL4.SA   MGLU3.SA  CMIG4.SA
+2020-05-31 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2020-06-30 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2020-07-31 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2020-08-31 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2020-09-30 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2020-10-31 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2020-11-30 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2020-12-31 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2021-01-31 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2021-02-28 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2021-03-31 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2021-04-30 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2021-05-31 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2021-06-30 0.33122082 0.15213840 0.03642544 0.32815744 0.1520579
+2021-07-31 0.33122082 0.15213840 0.03642544 0.32815744 0.1520579
+2021-08-31 0.33122082 0.15213840 0.03642544 0.32815744 0.1520579
+2021-09-30 0.33122082 0.15213840 0.03642544 0.32815744 0.1520579
+2021-10-31 0.33122082 0.15213840 0.03642544 0.32815744 0.1520579
+2021-11-30 0.33122082 0.15213840 0.03642544 0.32815744 0.1520579
+2021-12-31 0.06083253 0.40986067 0.17104866 0.17574864 0.1825095
+2022-01-31 0.33122082 0.15213840 0.03642544 0.32815744 0.1520579
+2022-02-28 0.33122082 0.15213840 0.03642544 0.32815744 0.1520579
+2022-03-31 0.06083253 0.40986067 0.17104866 0.17574864 0.1825095
+2022-04-30 0.06083253 0.40986067 0.17104866 0.17574864 0.1825095
+2022-05-31 0.06083253 0.40986067 0.17104866 0.17574864 0.1825095
+2022-06-30 0.06083253 0.40986067 0.17104866 0.17574864 0.1825095
+2022-07-31 0.06083253 0.40986067 0.17104866 0.17574864 0.1825095
+2022-08-31 0.57583209 0.19330382 0.05224613 0.03863223 0.1399857
+2022-09-30 0.57583209 0.19330382 0.05224613 0.03863223 0.1399857
+2022-10-31 0.57583209 0.19330382 0.05224613 0.03863223 0.1399857
+2022-11-30 0.33122082 0.15213840 0.03642544 0.32815744 0.1520579
+2022-12-31 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2023-01-31 0.57583209 0.19330382 0.05224613 0.03863223 0.1399857
+2023-02-28 0.57583209 0.19330382 0.05224613 0.03863223 0.1399857
+2023-03-31 0.57583209 0.19330382 0.05224613 0.03863223 0.1399857
+2023-04-30 0.57583209 0.19330382 0.05224613 0.03863223 0.1399857
+2023-05-31 0.57583209 0.19330382 0.05224613 0.03863223 0.1399857
+2023-06-30 0.57583209 0.19330382 0.05224613 0.03863223 0.1399857
+2023-07-31 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2023-08-31 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2023-09-30 0.01395707 0.63357071 0.11034736 0.11649481 0.1256300
+2023-10-31 0.49635835 0.07428687 0.05170816 0.18823989 0.1894067
+2023-11-30 0.57583209 0.19330382 0.05224613 0.03863223 0.1399857
+2023-12-31 0.57583209 0.19330382 0.05224613 0.03863223 0.1399857
+2024-01-31 0.57583209 0.19330382 0.05224613 0.03863223 0.1399857
+2024-02-29 0.57583209 0.19330382 0.05224613 0.03863223 0.1399857
+2024-03-31 0.57583209 0.19330382 0.05224613 0.03863223 0.1399857
+2024-04-30 0.57583209 0.19330382 0.05224613 0.03863223 0.1399857
+2024-05-31 0.57583209 0.19330382 0.05224613 0.03863223 0.1399857</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chart.Weights</span>(opt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="aula_2_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chart.Weights</span>(opt_rebal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="aula_2_files/figure-html/unnamed-chunk-20-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="plotando-os-pesos-ao-longo-do-tempo-com-ggplot2" class="level2">
+<h2 class="anchored" data-anchor-id="plotando-os-pesos-ao-longo-do-tempo-com-ggplot2">Plotando os pesos ao longo do tempo com ggplot2</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraindo os pesos dos ativos ao longo do tempo</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>weights_xts <span class="ot">&lt;-</span> <span class="fu">extractWeights</span>(opt_rebal)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertendo os pesos para um data frame</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>weights_df <span class="ot">&lt;-</span> weights_xts <span class="sc">%&gt;%</span> </span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>              <span class="fu">tk_tbl</span>(<span class="at">preserve_index =</span> <span class="cn">TRUE</span>, <span class="at">rename_index =</span> <span class="st">"Date"</span>)</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Colocando o data frame em formato longo</span></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>weights_long_df <span class="ot">&lt;-</span> weights_df <span class="sc">%&gt;%</span> </span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>                <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>Date, <span class="at">names_to =</span> <span class="st">"Asset"</span>, <span class="at">values_to =</span> <span class="st">"Weight"</span>)</span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>plotly<span class="sc">::</span><span class="fu">ggplotly</span>(<span class="fu">ggplot</span>(weights_long_df) <span class="sc">+</span></span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Weight, <span class="at">colour =</span> Asset) <span class="sc">+</span></span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">se =</span> <span class="cn">FALSE</span> ) <span class="sc">+</span></span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_hue</span>(<span class="at">direction =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Data"</span>,</span>
+<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Peso"</span>,</span>
+<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Peso dos ativos rebalanceados ao longo do tempo"</span>,</span>
+<span id="cb46-25"><a href="#cb46-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"Ativos"</span></span>
+<span id="cb46-26"><a href="#cb46-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb46-27"><a href="#cb46-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb46-28"><a href="#cb46-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb46-29"><a href="#cb46-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>L,</span>
+<span id="cb46-30"><a href="#cb46-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb46-31"><a href="#cb46-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb46-32"><a href="#cb46-32" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb46-33"><a href="#cb46-33" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-7b0957640c99ab299a48" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-7b0957640c99ab299a48">{"x":{"data":[{"x":[18413,18431.493670886077,18449.98734177215,18468.481012658227,18486.974683544304,18505.468354430381,18523.962025316454,18542.455696202531,18560.949367088608,18579.443037974685,18597.936708860758,18616.430379746835,18634.924050632912,18653.417721518988,18671.911392405062,18690.405063291139,18708.898734177215,18727.392405063292,18745.886075949365,18764.379746835442,18782.873417721519,18801.367088607596,18819.860759493669,18838.354430379746,18856.848101265823,18875.3417721519,18893.835443037973,18912.32911392405,18930.822784810127,18949.316455696204,18967.810126582277,18986.303797468354,19004.797468354431,19023.291139240508,19041.784810126581,19060.278481012658,19078.772151898735,19097.265822784811,19115.759493670885,19134.253164556962,19152.746835443038,19171.240506329115,19189.734177215189,19208.227848101265,19226.721518987342,19245.215189873419,19263.708860759492,19282.202531645569,19300.696202531646,19319.189873417723,19337.683544303796,19356.177215189873,19374.67088607595,19393.164556962027,19411.6582278481,19430.151898734177,19448.645569620254,19467.139240506331,19485.632911392404,19504.126582278481,19522.620253164558,19541.113924050635,19559.607594936708,19578.101265822785,19596.594936708861,19615.088607594938,19633.582278481012,19652.075949367088,19670.569620253165,19689.063291139242,19707.556962025315,19726.050632911392,19744.544303797469,19763.037974683546,19781.531645569619,19800.025316455696,19818.518987341773,19837.012658227846,19855.506329113923,19874],"y":[0.057256878525509376,0.0553820288320378,0.05366230958454371,0.052103351499455171,0.050710785293201249,0.049490241682210667,0.048447351382912361,0.047587745111734608,0.046917053585106373,0.046440907519456384,0.046165410016767994,0.046140437179343199,0.046376730160613042,0.046845970273007326,0.047519838828955718,0.048370017140888261,0.049368186521234689,0.050486028282424766,0.051695223736888077,0.052967454197054904,0.054301333345943233,0.056175522091646508,0.058664717912553982,0.061622582147555033,0.064902776135537577,0.068358961215389993,0.071844798725999998,0.075213950006257357,0.078320076395049718,0.081016839231265472,0.083242710379641496,0.085761911174306635,0.088660124183505357,0.091772152202732216,0.094932798027481113,0.097976864453247992,0.10073915427552674,0.10305447028981192,0.10475761529159783,0.10568339207637978,0.1056496567147104,0.10454389882436552,0.10254426330416508,0.099856367663026788,0.0966858294098695,0.093238266053611726,0.089719295103172711,0.086334534067469521,0.083289600455421456,0.080790111775946999,0.078789321492724135,0.076519283528312762,0.073996215270560523,0.071319678234208206,0.06858923393399724,0.06590444388466736,0.06336486960095998,0.061070072597615925,0.059119614389376393,0.057613056490981439,0.056483238237654013,0.055429633037399485,0.054456535501468437,0.053579327108396718,0.052813389336720744,0.052174103664976712,0.051676851571700939,0.05133701453542943,0.051169974034698536,0.051191111548044455,0.051390745816475833,0.051736284393434841,0.052224689634639922,0.052853233717858362,0.053619188820857269,0.054519827121404206,0.055552420797266334,0.056714242026210684,0.058002562986004987,0.059414655854416312],"text":["Date: 18413.00<br />Weight: 0.05725688<br />Asset: AZUL4.SA","Date: 18431.49<br />Weight: 0.05538203<br />Asset: AZUL4.SA","Date: 18449.99<br />Weight: 0.05366231<br />Asset: AZUL4.SA","Date: 18468.48<br />Weight: 0.05210335<br />Asset: AZUL4.SA","Date: 18486.97<br />Weight: 0.05071079<br />Asset: AZUL4.SA","Date: 18505.47<br />Weight: 0.04949024<br />Asset: AZUL4.SA","Date: 18523.96<br />Weight: 0.04844735<br />Asset: AZUL4.SA","Date: 18542.46<br />Weight: 0.04758775<br />Asset: AZUL4.SA","Date: 18560.95<br />Weight: 0.04691705<br />Asset: AZUL4.SA","Date: 18579.44<br />Weight: 0.04644091<br />Asset: AZUL4.SA","Date: 18597.94<br />Weight: 0.04616541<br />Asset: AZUL4.SA","Date: 18616.43<br />Weight: 0.04614044<br />Asset: AZUL4.SA","Date: 18634.92<br />Weight: 0.04637673<br />Asset: AZUL4.SA","Date: 18653.42<br />Weight: 0.04684597<br />Asset: AZUL4.SA","Date: 18671.91<br />Weight: 0.04751984<br />Asset: AZUL4.SA","Date: 18690.41<br />Weight: 0.04837002<br />Asset: AZUL4.SA","Date: 18708.90<br />Weight: 0.04936819<br />Asset: AZUL4.SA","Date: 18727.39<br />Weight: 0.05048603<br />Asset: AZUL4.SA","Date: 18745.89<br />Weight: 0.05169522<br />Asset: AZUL4.SA","Date: 18764.38<br />Weight: 0.05296745<br />Asset: AZUL4.SA","Date: 18782.87<br />Weight: 0.05430133<br />Asset: AZUL4.SA","Date: 18801.37<br />Weight: 0.05617552<br />Asset: AZUL4.SA","Date: 18819.86<br />Weight: 0.05866472<br />Asset: AZUL4.SA","Date: 18838.35<br />Weight: 0.06162258<br />Asset: AZUL4.SA","Date: 18856.85<br />Weight: 0.06490278<br />Asset: AZUL4.SA","Date: 18875.34<br />Weight: 0.06835896<br />Asset: AZUL4.SA","Date: 18893.84<br />Weight: 0.07184480<br />Asset: AZUL4.SA","Date: 18912.33<br />Weight: 0.07521395<br />Asset: AZUL4.SA","Date: 18930.82<br />Weight: 0.07832008<br />Asset: AZUL4.SA","Date: 18949.32<br />Weight: 0.08101684<br />Asset: AZUL4.SA","Date: 18967.81<br />Weight: 0.08324271<br />Asset: AZUL4.SA","Date: 18986.30<br />Weight: 0.08576191<br />Asset: AZUL4.SA","Date: 19004.80<br />Weight: 0.08866012<br />Asset: AZUL4.SA","Date: 19023.29<br />Weight: 0.09177215<br />Asset: AZUL4.SA","Date: 19041.78<br />Weight: 0.09493280<br />Asset: AZUL4.SA","Date: 19060.28<br />Weight: 0.09797686<br />Asset: AZUL4.SA","Date: 19078.77<br />Weight: 0.10073915<br />Asset: AZUL4.SA","Date: 19097.27<br />Weight: 0.10305447<br />Asset: AZUL4.SA","Date: 19115.76<br />Weight: 0.10475762<br />Asset: AZUL4.SA","Date: 19134.25<br />Weight: 0.10568339<br />Asset: AZUL4.SA","Date: 19152.75<br />Weight: 0.10564966<br />Asset: AZUL4.SA","Date: 19171.24<br />Weight: 0.10454390<br />Asset: AZUL4.SA","Date: 19189.73<br />Weight: 0.10254426<br />Asset: AZUL4.SA","Date: 19208.23<br />Weight: 0.09985637<br />Asset: AZUL4.SA","Date: 19226.72<br />Weight: 0.09668583<br />Asset: AZUL4.SA","Date: 19245.22<br />Weight: 0.09323827<br />Asset: AZUL4.SA","Date: 19263.71<br />Weight: 0.08971930<br />Asset: AZUL4.SA","Date: 19282.20<br />Weight: 0.08633453<br />Asset: AZUL4.SA","Date: 19300.70<br />Weight: 0.08328960<br />Asset: AZUL4.SA","Date: 19319.19<br />Weight: 0.08079011<br />Asset: AZUL4.SA","Date: 19337.68<br />Weight: 0.07878932<br />Asset: AZUL4.SA","Date: 19356.18<br />Weight: 0.07651928<br />Asset: AZUL4.SA","Date: 19374.67<br />Weight: 0.07399622<br />Asset: AZUL4.SA","Date: 19393.16<br />Weight: 0.07131968<br />Asset: AZUL4.SA","Date: 19411.66<br />Weight: 0.06858923<br />Asset: AZUL4.SA","Date: 19430.15<br />Weight: 0.06590444<br />Asset: AZUL4.SA","Date: 19448.65<br />Weight: 0.06336487<br />Asset: AZUL4.SA","Date: 19467.14<br />Weight: 0.06107007<br />Asset: AZUL4.SA","Date: 19485.63<br />Weight: 0.05911961<br />Asset: AZUL4.SA","Date: 19504.13<br />Weight: 0.05761306<br />Asset: AZUL4.SA","Date: 19522.62<br />Weight: 0.05648324<br />Asset: AZUL4.SA","Date: 19541.11<br />Weight: 0.05542963<br />Asset: AZUL4.SA","Date: 19559.61<br />Weight: 0.05445654<br />Asset: AZUL4.SA","Date: 19578.10<br />Weight: 0.05357933<br />Asset: AZUL4.SA","Date: 19596.59<br />Weight: 0.05281339<br />Asset: AZUL4.SA","Date: 19615.09<br />Weight: 0.05217410<br />Asset: AZUL4.SA","Date: 19633.58<br />Weight: 0.05167685<br />Asset: AZUL4.SA","Date: 19652.08<br />Weight: 0.05133701<br />Asset: AZUL4.SA","Date: 19670.57<br />Weight: 0.05116997<br />Asset: AZUL4.SA","Date: 19689.06<br />Weight: 0.05119111<br />Asset: AZUL4.SA","Date: 19707.56<br />Weight: 0.05139075<br />Asset: AZUL4.SA","Date: 19726.05<br />Weight: 0.05173628<br />Asset: AZUL4.SA","Date: 19744.54<br />Weight: 0.05222469<br />Asset: AZUL4.SA","Date: 19763.04<br />Weight: 0.05285323<br />Asset: AZUL4.SA","Date: 19781.53<br />Weight: 0.05361919<br />Asset: AZUL4.SA","Date: 19800.03<br />Weight: 0.05451983<br />Asset: AZUL4.SA","Date: 19818.52<br />Weight: 0.05555242<br />Asset: AZUL4.SA","Date: 19837.01<br />Weight: 0.05671424<br />Asset: AZUL4.SA","Date: 19855.51<br />Weight: 0.05800256<br />Asset: AZUL4.SA","Date: 19874.00<br />Weight: 0.05941466<br />Asset: AZUL4.SA"],"type":"scatter","mode":"lines","name":"(AZUL4.SA,1)","line":{"width":3.7795275590551185,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","legendgroup":"(AZUL4.SA,1)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[18413,18431.493670886077,18449.98734177215,18468.481012658227,18486.974683544304,18505.468354430381,18523.962025316454,18542.455696202531,18560.949367088608,18579.443037974685,18597.936708860758,18616.430379746835,18634.924050632912,18653.417721518988,18671.911392405062,18690.405063291139,18708.898734177215,18727.392405063292,18745.886075949365,18764.379746835442,18782.873417721519,18801.367088607596,18819.860759493669,18838.354430379746,18856.848101265823,18875.3417721519,18893.835443037973,18912.32911392405,18930.822784810127,18949.316455696204,18967.810126582277,18986.303797468354,19004.797468354431,19023.291139240508,19041.784810126581,19060.278481012658,19078.772151898735,19097.265822784811,19115.759493670885,19134.253164556962,19152.746835443038,19171.240506329115,19189.734177215189,19208.227848101265,19226.721518987342,19245.215189873419,19263.708860759492,19282.202531645569,19300.696202531646,19319.189873417723,19337.683544303796,19356.177215189873,19374.67088607595,19393.164556962027,19411.6582278481,19430.151898734177,19448.645569620254,19467.139240506331,19485.632911392404,19504.126582278481,19522.620253164558,19541.113924050635,19559.607594936708,19578.101265822785,19596.594936708861,19615.088607594938,19633.582278481012,19652.075949367088,19670.569620253165,19689.063291139242,19707.556962025315,19726.050632911392,19744.544303797469,19763.037974683546,19781.531645569619,19800.025316455696,19818.518987341773,19837.012658227846,19855.506329113923,19874],"y":[0.19747250889982601,0.19600577973536432,0.1945646677535357,0.19314857598412896,0.19175690745693391,0.19038906520173984,0.18904445224833646,0.18772247162651265,0.18642252636605811,0.18514401949676218,0.18388638365042906,0.18265260769236127,0.18144587881459978,0.18026747060635986,0.179118656656857,0.17800071055530592,0.17691490589092229,0.17586251625292129,0.17484481523051834,0.17386307641292842,0.17291660030595415,0.17196962506923746,0.17101624042010879,0.17006676542367072,0.16913151914502628,0.16822082064927851,0.16734498900153058,0.16651434326688502,0.16573920251044499,0.1650298857973134,0.16440881172444136,0.16399785635914613,0.16378554546687565,0.16372070113250023,0.1637521454408904,0.16382870047691661,0.16389918832544922,0.16391243107135881,0.16381725079951567,0.16356246959479034,0.16311315891760864,0.16253583335796137,0.16186678501624513,0.16113210046949245,0.16035786629473645,0.15957016906900987,0.15879509536934577,0.15805873177277671,0.15738716485633572,0.15680648119705565,0.15632381199991258,0.15588023162738485,0.15546142047808684,0.15505871367232579,0.15466344633040915,0.15426695357264406,0.15386057051933791,0.15343563229079799,0.15298347400733181,0.15249543078924638,0.15197990240765963,0.15146853798003004,0.15096124100831318,0.15045677150174039,0.14995388946954316,0.1494513549209531,0.1489479278652017,0.1484423683115203,0.14793343626914049,0.14741989174729372,0.14689843680049924,0.14636588345229465,0.14582279927942773,0.14526978337823868,0.14470743484506757,0.14413635277625433,0.14355713626813932,0.14297038441706258,0.14237669631936414,0.14177667107138411],"text":["Date: 18413.00<br />Weight: 0.19747251<br />Asset: CMIG4.SA","Date: 18431.49<br />Weight: 0.19600578<br />Asset: CMIG4.SA","Date: 18449.99<br />Weight: 0.19456467<br />Asset: CMIG4.SA","Date: 18468.48<br />Weight: 0.19314858<br />Asset: CMIG4.SA","Date: 18486.97<br />Weight: 0.19175691<br />Asset: CMIG4.SA","Date: 18505.47<br />Weight: 0.19038907<br />Asset: CMIG4.SA","Date: 18523.96<br />Weight: 0.18904445<br />Asset: CMIG4.SA","Date: 18542.46<br />Weight: 0.18772247<br />Asset: CMIG4.SA","Date: 18560.95<br />Weight: 0.18642253<br />Asset: CMIG4.SA","Date: 18579.44<br />Weight: 0.18514402<br />Asset: CMIG4.SA","Date: 18597.94<br />Weight: 0.18388638<br />Asset: CMIG4.SA","Date: 18616.43<br />Weight: 0.18265261<br />Asset: CMIG4.SA","Date: 18634.92<br />Weight: 0.18144588<br />Asset: CMIG4.SA","Date: 18653.42<br />Weight: 0.18026747<br />Asset: CMIG4.SA","Date: 18671.91<br />Weight: 0.17911866<br />Asset: CMIG4.SA","Date: 18690.41<br />Weight: 0.17800071<br />Asset: CMIG4.SA","Date: 18708.90<br />Weight: 0.17691491<br />Asset: CMIG4.SA","Date: 18727.39<br />Weight: 0.17586252<br />Asset: CMIG4.SA","Date: 18745.89<br />Weight: 0.17484482<br />Asset: CMIG4.SA","Date: 18764.38<br />Weight: 0.17386308<br />Asset: CMIG4.SA","Date: 18782.87<br />Weight: 0.17291660<br />Asset: CMIG4.SA","Date: 18801.37<br />Weight: 0.17196963<br />Asset: CMIG4.SA","Date: 18819.86<br />Weight: 0.17101624<br />Asset: CMIG4.SA","Date: 18838.35<br />Weight: 0.17006677<br />Asset: CMIG4.SA","Date: 18856.85<br />Weight: 0.16913152<br />Asset: CMIG4.SA","Date: 18875.34<br />Weight: 0.16822082<br />Asset: CMIG4.SA","Date: 18893.84<br />Weight: 0.16734499<br />Asset: CMIG4.SA","Date: 18912.33<br />Weight: 0.16651434<br />Asset: CMIG4.SA","Date: 18930.82<br />Weight: 0.16573920<br />Asset: CMIG4.SA","Date: 18949.32<br />Weight: 0.16502989<br />Asset: CMIG4.SA","Date: 18967.81<br />Weight: 0.16440881<br />Asset: CMIG4.SA","Date: 18986.30<br />Weight: 0.16399786<br />Asset: CMIG4.SA","Date: 19004.80<br />Weight: 0.16378555<br />Asset: CMIG4.SA","Date: 19023.29<br />Weight: 0.16372070<br />Asset: CMIG4.SA","Date: 19041.78<br />Weight: 0.16375215<br />Asset: CMIG4.SA","Date: 19060.28<br />Weight: 0.16382870<br />Asset: CMIG4.SA","Date: 19078.77<br />Weight: 0.16389919<br />Asset: CMIG4.SA","Date: 19097.27<br />Weight: 0.16391243<br />Asset: CMIG4.SA","Date: 19115.76<br />Weight: 0.16381725<br />Asset: CMIG4.SA","Date: 19134.25<br />Weight: 0.16356247<br />Asset: CMIG4.SA","Date: 19152.75<br />Weight: 0.16311316<br />Asset: CMIG4.SA","Date: 19171.24<br />Weight: 0.16253583<br />Asset: CMIG4.SA","Date: 19189.73<br />Weight: 0.16186679<br />Asset: CMIG4.SA","Date: 19208.23<br />Weight: 0.16113210<br />Asset: CMIG4.SA","Date: 19226.72<br />Weight: 0.16035787<br />Asset: CMIG4.SA","Date: 19245.22<br />Weight: 0.15957017<br />Asset: CMIG4.SA","Date: 19263.71<br />Weight: 0.15879510<br />Asset: CMIG4.SA","Date: 19282.20<br />Weight: 0.15805873<br />Asset: CMIG4.SA","Date: 19300.70<br />Weight: 0.15738716<br />Asset: CMIG4.SA","Date: 19319.19<br />Weight: 0.15680648<br />Asset: CMIG4.SA","Date: 19337.68<br />Weight: 0.15632381<br />Asset: CMIG4.SA","Date: 19356.18<br />Weight: 0.15588023<br />Asset: CMIG4.SA","Date: 19374.67<br />Weight: 0.15546142<br />Asset: CMIG4.SA","Date: 19393.16<br />Weight: 0.15505871<br />Asset: CMIG4.SA","Date: 19411.66<br />Weight: 0.15466345<br />Asset: CMIG4.SA","Date: 19430.15<br />Weight: 0.15426695<br />Asset: CMIG4.SA","Date: 19448.65<br />Weight: 0.15386057<br />Asset: CMIG4.SA","Date: 19467.14<br />Weight: 0.15343563<br />Asset: CMIG4.SA","Date: 19485.63<br />Weight: 0.15298347<br />Asset: CMIG4.SA","Date: 19504.13<br />Weight: 0.15249543<br />Asset: CMIG4.SA","Date: 19522.62<br />Weight: 0.15197990<br />Asset: CMIG4.SA","Date: 19541.11<br />Weight: 0.15146854<br />Asset: CMIG4.SA","Date: 19559.61<br />Weight: 0.15096124<br />Asset: CMIG4.SA","Date: 19578.10<br />Weight: 0.15045677<br />Asset: CMIG4.SA","Date: 19596.59<br />Weight: 0.14995389<br />Asset: CMIG4.SA","Date: 19615.09<br />Weight: 0.14945135<br />Asset: CMIG4.SA","Date: 19633.58<br />Weight: 0.14894793<br />Asset: CMIG4.SA","Date: 19652.08<br />Weight: 0.14844237<br />Asset: CMIG4.SA","Date: 19670.57<br />Weight: 0.14793344<br />Asset: CMIG4.SA","Date: 19689.06<br />Weight: 0.14741989<br />Asset: CMIG4.SA","Date: 19707.56<br />Weight: 0.14689844<br />Asset: CMIG4.SA","Date: 19726.05<br />Weight: 0.14636588<br />Asset: CMIG4.SA","Date: 19744.54<br />Weight: 0.14582280<br />Asset: CMIG4.SA","Date: 19763.04<br />Weight: 0.14526978<br />Asset: CMIG4.SA","Date: 19781.53<br />Weight: 0.14470743<br />Asset: CMIG4.SA","Date: 19800.03<br />Weight: 0.14413635<br />Asset: CMIG4.SA","Date: 19818.52<br />Weight: 0.14355714<br />Asset: CMIG4.SA","Date: 19837.01<br />Weight: 0.14297038<br />Asset: CMIG4.SA","Date: 19855.51<br />Weight: 0.14237670<br />Asset: CMIG4.SA","Date: 19874.00<br />Weight: 0.14177667<br />Asset: CMIG4.SA"],"type":"scatter","mode":"lines","name":"(CMIG4.SA,1)","line":{"width":3.7795275590551185,"color":"rgba(163,165,0,1)","dash":"solid"},"hoveron":"points","legendgroup":"(CMIG4.SA,1)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[18413,18431.493670886077,18449.98734177215,18468.481012658227,18486.974683544304,18505.468354430381,18523.962025316454,18542.455696202531,18560.949367088608,18579.443037974685,18597.936708860758,18616.430379746835,18634.924050632912,18653.417721518988,18671.911392405062,18690.405063291139,18708.898734177215,18727.392405063292,18745.886075949365,18764.379746835442,18782.873417721519,18801.367088607596,18819.860759493669,18838.354430379746,18856.848101265823,18875.3417721519,18893.835443037973,18912.32911392405,18930.822784810127,18949.316455696204,18967.810126582277,18986.303797468354,19004.797468354431,19023.291139240508,19041.784810126581,19060.278481012658,19078.772151898735,19097.265822784811,19115.759493670885,19134.253164556962,19152.746835443038,19171.240506329115,19189.734177215189,19208.227848101265,19226.721518987342,19245.215189873419,19263.708860759492,19282.202531645569,19300.696202531646,19319.189873417723,19337.683544303796,19356.177215189873,19374.67088607595,19393.164556962027,19411.6582278481,19430.151898734177,19448.645569620254,19467.139240506331,19485.632911392404,19504.126582278481,19522.620253164558,19541.113924050635,19559.607594936708,19578.101265822785,19596.594936708861,19615.088607594938,19633.582278481012,19652.075949367088,19670.569620253165,19689.063291139242,19707.556962025315,19726.050632911392,19744.544303797469,19763.037974683546,19781.531645569619,19800.025316455696,19818.518987341773,19837.012658227846,19855.506329113923,19874],"y":[0.13980769846447555,0.14934161102949342,0.15849450830128864,0.16727609491435633,0.17569607550318617,0.18376415470226967,0.19149003714609686,0.19888342746916232,0.20595403030595608,0.21271155029096955,0.21916600472710082,0.22535132195785507,0.23125902714511351,0.23685146752257136,0.24209099032392287,0.24693994278286524,0.25136067213309271,0.25531552560830051,0.25876685044218317,0.2616769938684374,0.26403963031060995,0.26641084791078506,0.26888660533242625,0.27130712650200839,0.27351263534600445,0.2753433557908882,0.27663951176313317,0.27724132718921357,0.27698902599560271,0.27572283210877424,0.27320935690878062,0.26866889072428529,0.26225007342553541,0.25435562825568614,0.24538827845789421,0.23575074727531148,0.22584575795109446,0.2160760337283984,0.20684429785038,0.19855327356019081,0.19114599544405578,0.18254584915143318,0.17278698111837024,0.16227380242737377,0.15141072416095652,0.14060215740162932,0.13025251323190484,0.12076620273428977,0.11254763699129712,0.10600122708543763,0.10131084005476418,0.097797216108962581,0.095186374714626806,0.093265311741845977,0.091821023060709578,0.09064050454130626,0.089510752053725565,0.088218761468056656,0.086551528654389115,0.084296049482811497,0.081611386800328242,0.07917259168438126,0.076970336979223189,0.074970487684512505,0.07313890879990903,0.071441465325072076,0.069844022259661381,0.068312444603335576,0.066812597355754441,0.065310345516577259,0.063802277879277711,0.062325218516584756,0.060887867917897374,0.059498583861198356,0.058165724124470755,0.056897646485696854,0.055702708722859755,0.054589268613942449,0.053565683936927323,0.052640312469797404],"text":["Date: 18413.00<br />Weight: 0.13980770<br />Asset: MGLU3.SA","Date: 18431.49<br />Weight: 0.14934161<br />Asset: MGLU3.SA","Date: 18449.99<br />Weight: 0.15849451<br />Asset: MGLU3.SA","Date: 18468.48<br />Weight: 0.16727609<br />Asset: MGLU3.SA","Date: 18486.97<br />Weight: 0.17569608<br />Asset: MGLU3.SA","Date: 18505.47<br />Weight: 0.18376415<br />Asset: MGLU3.SA","Date: 18523.96<br />Weight: 0.19149004<br />Asset: MGLU3.SA","Date: 18542.46<br />Weight: 0.19888343<br />Asset: MGLU3.SA","Date: 18560.95<br />Weight: 0.20595403<br />Asset: MGLU3.SA","Date: 18579.44<br />Weight: 0.21271155<br />Asset: MGLU3.SA","Date: 18597.94<br />Weight: 0.21916600<br />Asset: MGLU3.SA","Date: 18616.43<br />Weight: 0.22535132<br />Asset: MGLU3.SA","Date: 18634.92<br />Weight: 0.23125903<br />Asset: MGLU3.SA","Date: 18653.42<br />Weight: 0.23685147<br />Asset: MGLU3.SA","Date: 18671.91<br />Weight: 0.24209099<br />Asset: MGLU3.SA","Date: 18690.41<br />Weight: 0.24693994<br />Asset: MGLU3.SA","Date: 18708.90<br />Weight: 0.25136067<br />Asset: MGLU3.SA","Date: 18727.39<br />Weight: 0.25531553<br />Asset: MGLU3.SA","Date: 18745.89<br />Weight: 0.25876685<br />Asset: MGLU3.SA","Date: 18764.38<br />Weight: 0.26167699<br />Asset: MGLU3.SA","Date: 18782.87<br />Weight: 0.26403963<br />Asset: MGLU3.SA","Date: 18801.37<br />Weight: 0.26641085<br />Asset: MGLU3.SA","Date: 18819.86<br />Weight: 0.26888661<br />Asset: MGLU3.SA","Date: 18838.35<br />Weight: 0.27130713<br />Asset: MGLU3.SA","Date: 18856.85<br />Weight: 0.27351264<br />Asset: MGLU3.SA","Date: 18875.34<br />Weight: 0.27534336<br />Asset: MGLU3.SA","Date: 18893.84<br />Weight: 0.27663951<br />Asset: MGLU3.SA","Date: 18912.33<br />Weight: 0.27724133<br />Asset: MGLU3.SA","Date: 18930.82<br />Weight: 0.27698903<br />Asset: MGLU3.SA","Date: 18949.32<br />Weight: 0.27572283<br />Asset: MGLU3.SA","Date: 18967.81<br />Weight: 0.27320936<br />Asset: MGLU3.SA","Date: 18986.30<br />Weight: 0.26866889<br />Asset: MGLU3.SA","Date: 19004.80<br />Weight: 0.26225007<br />Asset: MGLU3.SA","Date: 19023.29<br />Weight: 0.25435563<br />Asset: MGLU3.SA","Date: 19041.78<br />Weight: 0.24538828<br />Asset: MGLU3.SA","Date: 19060.28<br />Weight: 0.23575075<br />Asset: MGLU3.SA","Date: 19078.77<br />Weight: 0.22584576<br />Asset: MGLU3.SA","Date: 19097.27<br />Weight: 0.21607603<br />Asset: MGLU3.SA","Date: 19115.76<br />Weight: 0.20684430<br />Asset: MGLU3.SA","Date: 19134.25<br />Weight: 0.19855327<br />Asset: MGLU3.SA","Date: 19152.75<br />Weight: 0.19114600<br />Asset: MGLU3.SA","Date: 19171.24<br />Weight: 0.18254585<br />Asset: MGLU3.SA","Date: 19189.73<br />Weight: 0.17278698<br />Asset: MGLU3.SA","Date: 19208.23<br />Weight: 0.16227380<br />Asset: MGLU3.SA","Date: 19226.72<br />Weight: 0.15141072<br />Asset: MGLU3.SA","Date: 19245.22<br />Weight: 0.14060216<br />Asset: MGLU3.SA","Date: 19263.71<br />Weight: 0.13025251<br />Asset: MGLU3.SA","Date: 19282.20<br />Weight: 0.12076620<br />Asset: MGLU3.SA","Date: 19300.70<br />Weight: 0.11254764<br />Asset: MGLU3.SA","Date: 19319.19<br />Weight: 0.10600123<br />Asset: MGLU3.SA","Date: 19337.68<br />Weight: 0.10131084<br />Asset: MGLU3.SA","Date: 19356.18<br />Weight: 0.09779722<br />Asset: MGLU3.SA","Date: 19374.67<br />Weight: 0.09518637<br />Asset: MGLU3.SA","Date: 19393.16<br />Weight: 0.09326531<br />Asset: MGLU3.SA","Date: 19411.66<br />Weight: 0.09182102<br />Asset: MGLU3.SA","Date: 19430.15<br />Weight: 0.09064050<br />Asset: MGLU3.SA","Date: 19448.65<br />Weight: 0.08951075<br />Asset: MGLU3.SA","Date: 19467.14<br />Weight: 0.08821876<br />Asset: MGLU3.SA","Date: 19485.63<br />Weight: 0.08655153<br />Asset: MGLU3.SA","Date: 19504.13<br />Weight: 0.08429605<br />Asset: MGLU3.SA","Date: 19522.62<br />Weight: 0.08161139<br />Asset: MGLU3.SA","Date: 19541.11<br />Weight: 0.07917259<br />Asset: MGLU3.SA","Date: 19559.61<br />Weight: 0.07697034<br />Asset: MGLU3.SA","Date: 19578.10<br />Weight: 0.07497049<br />Asset: MGLU3.SA","Date: 19596.59<br />Weight: 0.07313891<br />Asset: MGLU3.SA","Date: 19615.09<br />Weight: 0.07144147<br />Asset: MGLU3.SA","Date: 19633.58<br />Weight: 0.06984402<br />Asset: MGLU3.SA","Date: 19652.08<br />Weight: 0.06831244<br />Asset: MGLU3.SA","Date: 19670.57<br />Weight: 0.06681260<br />Asset: MGLU3.SA","Date: 19689.06<br />Weight: 0.06531035<br />Asset: MGLU3.SA","Date: 19707.56<br />Weight: 0.06380228<br />Asset: MGLU3.SA","Date: 19726.05<br />Weight: 0.06232522<br />Asset: MGLU3.SA","Date: 19744.54<br />Weight: 0.06088787<br />Asset: MGLU3.SA","Date: 19763.04<br />Weight: 0.05949858<br />Asset: MGLU3.SA","Date: 19781.53<br />Weight: 0.05816572<br />Asset: MGLU3.SA","Date: 19800.03<br />Weight: 0.05689765<br />Asset: MGLU3.SA","Date: 19818.52<br />Weight: 0.05570271<br />Asset: MGLU3.SA","Date: 19837.01<br />Weight: 0.05458927<br />Asset: MGLU3.SA","Date: 19855.51<br />Weight: 0.05356568<br />Asset: MGLU3.SA","Date: 19874.00<br />Weight: 0.05264031<br />Asset: MGLU3.SA"],"type":"scatter","mode":"lines","name":"(MGLU3.SA,1)","line":{"width":3.7795275590551185,"color":"rgba(0,191,125,1)","dash":"solid"},"hoveron":"points","legendgroup":"(MGLU3.SA,1)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[18413,18431.493670886077,18449.98734177215,18468.481012658227,18486.974683544304,18505.468354430381,18523.962025316454,18542.455696202531,18560.949367088608,18579.443037974685,18597.936708860758,18616.430379746835,18634.924050632912,18653.417721518988,18671.911392405062,18690.405063291139,18708.898734177215,18727.392405063292,18745.886075949365,18764.379746835442,18782.873417721519,18801.367088607596,18819.860759493669,18838.354430379746,18856.848101265823,18875.3417721519,18893.835443037973,18912.32911392405,18930.822784810127,18949.316455696204,18967.810126582277,18986.303797468354,19004.797468354431,19023.291139240508,19041.784810126581,19060.278481012658,19078.772151898735,19097.265822784811,19115.759493670885,19134.253164556962,19152.746835443038,19171.240506329115,19189.734177215189,19208.227848101265,19226.721518987342,19245.215189873419,19263.708860759492,19282.202531645569,19300.696202531646,19319.189873417723,19337.683544303796,19356.177215189873,19374.67088607595,19393.164556962027,19411.6582278481,19430.151898734177,19448.645569620254,19467.139240506331,19485.632911392404,19504.126582278481,19522.620253164558,19541.113924050635,19559.607594936708,19578.101265822785,19596.594936708861,19615.088607594938,19633.582278481012,19652.075949367088,19670.569620253165,19689.063291139242,19707.556962025315,19726.050632911392,19744.544303797469,19763.037974683546,19781.531645569619,19800.025316455696,19818.518987341773,19837.012658227846,19855.506329113923,19874],"y":[0.061327298486370828,0.061460930667642598,0.061893310741651303,0.062642224434104637,0.063725457470710123,0.065160795577175259,0.066966024479207242,0.069158929902514307,0.071757297572803677,0.074778913215782894,0.078242777790922438,0.082277681181855425,0.0869025474733221,0.092033965983395485,0.097588526030147393,0.10348281693165301,0.10963342800598426,0.11595694857121412,0.12236996794541427,0.12878907544666029,0.13521174456565449,0.14307732570472997,0.15261241680978077,0.1633798552195217,0.17494247827266207,0.18686312330791291,0.198704627663983,0.21002982867958811,0.22040156369343689,0.2293826700442404,0.23671624565911317,0.24397474888982965,0.25143636901253746,0.25886189688808203,0.26601212337730767,0.27264783934106285,0.27852983564019163,0.28341890313553941,0.28707583268795128,0.28926141515827436,0.28956528893647088,0.28713795649023111,0.28237789209620207,0.2758514373983621,0.26812493404069204,0.25976472366717213,0.25133714792178397,0.24340854844850443,0.23654526689131536,0.23131364489419687,0.22765840363226483,0.22368522021985973,0.21935604844054785,0.21483494675845252,0.21028597363769821,0.20587318754240663,0.20176064693670206,0.19811241028470813,0.1950925360505488,0.19286508269834626,0.19131941622149309,0.1899611451826041,0.18879873615398904,0.18785893259088376,0.18716847794852473,0.18675411568214817,0.18664258924699026,0.18686064209828715,0.18743501769127524,0.1883924594811906,0.18971239435810811,0.19133278976639229,0.19324860828573878,0.19545540289732624,0.19794872658233262,0.20072413232193764,0.20377717309731944,0.20710340188965595,0.21069837168012709,0.21455763544991088],"text":["Date: 18413.00<br />Weight: 0.06132730<br />Asset: PETR4.SA","Date: 18431.49<br />Weight: 0.06146093<br />Asset: PETR4.SA","Date: 18449.99<br />Weight: 0.06189331<br />Asset: PETR4.SA","Date: 18468.48<br />Weight: 0.06264222<br />Asset: PETR4.SA","Date: 18486.97<br />Weight: 0.06372546<br />Asset: PETR4.SA","Date: 18505.47<br />Weight: 0.06516080<br />Asset: PETR4.SA","Date: 18523.96<br />Weight: 0.06696602<br />Asset: PETR4.SA","Date: 18542.46<br />Weight: 0.06915893<br />Asset: PETR4.SA","Date: 18560.95<br />Weight: 0.07175730<br />Asset: PETR4.SA","Date: 18579.44<br />Weight: 0.07477891<br />Asset: PETR4.SA","Date: 18597.94<br />Weight: 0.07824278<br />Asset: PETR4.SA","Date: 18616.43<br />Weight: 0.08227768<br />Asset: PETR4.SA","Date: 18634.92<br />Weight: 0.08690255<br />Asset: PETR4.SA","Date: 18653.42<br />Weight: 0.09203397<br />Asset: PETR4.SA","Date: 18671.91<br />Weight: 0.09758853<br />Asset: PETR4.SA","Date: 18690.41<br />Weight: 0.10348282<br />Asset: PETR4.SA","Date: 18708.90<br />Weight: 0.10963343<br />Asset: PETR4.SA","Date: 18727.39<br />Weight: 0.11595695<br />Asset: PETR4.SA","Date: 18745.89<br />Weight: 0.12236997<br />Asset: PETR4.SA","Date: 18764.38<br />Weight: 0.12878908<br />Asset: PETR4.SA","Date: 18782.87<br />Weight: 0.13521174<br />Asset: PETR4.SA","Date: 18801.37<br />Weight: 0.14307733<br />Asset: PETR4.SA","Date: 18819.86<br />Weight: 0.15261242<br />Asset: PETR4.SA","Date: 18838.35<br />Weight: 0.16337986<br />Asset: PETR4.SA","Date: 18856.85<br />Weight: 0.17494248<br />Asset: PETR4.SA","Date: 18875.34<br />Weight: 0.18686312<br />Asset: PETR4.SA","Date: 18893.84<br />Weight: 0.19870463<br />Asset: PETR4.SA","Date: 18912.33<br />Weight: 0.21002983<br />Asset: PETR4.SA","Date: 18930.82<br />Weight: 0.22040156<br />Asset: PETR4.SA","Date: 18949.32<br />Weight: 0.22938267<br />Asset: PETR4.SA","Date: 18967.81<br />Weight: 0.23671625<br />Asset: PETR4.SA","Date: 18986.30<br />Weight: 0.24397475<br />Asset: PETR4.SA","Date: 19004.80<br />Weight: 0.25143637<br />Asset: PETR4.SA","Date: 19023.29<br />Weight: 0.25886190<br />Asset: PETR4.SA","Date: 19041.78<br />Weight: 0.26601212<br />Asset: PETR4.SA","Date: 19060.28<br />Weight: 0.27264784<br />Asset: PETR4.SA","Date: 19078.77<br />Weight: 0.27852984<br />Asset: PETR4.SA","Date: 19097.27<br />Weight: 0.28341890<br />Asset: PETR4.SA","Date: 19115.76<br />Weight: 0.28707583<br />Asset: PETR4.SA","Date: 19134.25<br />Weight: 0.28926142<br />Asset: PETR4.SA","Date: 19152.75<br />Weight: 0.28956529<br />Asset: PETR4.SA","Date: 19171.24<br />Weight: 0.28713796<br />Asset: PETR4.SA","Date: 19189.73<br />Weight: 0.28237789<br />Asset: PETR4.SA","Date: 19208.23<br />Weight: 0.27585144<br />Asset: PETR4.SA","Date: 19226.72<br />Weight: 0.26812493<br />Asset: PETR4.SA","Date: 19245.22<br />Weight: 0.25976472<br />Asset: PETR4.SA","Date: 19263.71<br />Weight: 0.25133715<br />Asset: PETR4.SA","Date: 19282.20<br />Weight: 0.24340855<br />Asset: PETR4.SA","Date: 19300.70<br />Weight: 0.23654527<br />Asset: PETR4.SA","Date: 19319.19<br />Weight: 0.23131364<br />Asset: PETR4.SA","Date: 19337.68<br />Weight: 0.22765840<br />Asset: PETR4.SA","Date: 19356.18<br />Weight: 0.22368522<br />Asset: PETR4.SA","Date: 19374.67<br />Weight: 0.21935605<br />Asset: PETR4.SA","Date: 19393.16<br />Weight: 0.21483495<br />Asset: PETR4.SA","Date: 19411.66<br />Weight: 0.21028597<br />Asset: PETR4.SA","Date: 19430.15<br />Weight: 0.20587319<br />Asset: PETR4.SA","Date: 19448.65<br />Weight: 0.20176065<br />Asset: PETR4.SA","Date: 19467.14<br />Weight: 0.19811241<br />Asset: PETR4.SA","Date: 19485.63<br />Weight: 0.19509254<br />Asset: PETR4.SA","Date: 19504.13<br />Weight: 0.19286508<br />Asset: PETR4.SA","Date: 19522.62<br />Weight: 0.19131942<br />Asset: PETR4.SA","Date: 19541.11<br />Weight: 0.18996115<br />Asset: PETR4.SA","Date: 19559.61<br />Weight: 0.18879874<br />Asset: PETR4.SA","Date: 19578.10<br />Weight: 0.18785893<br />Asset: PETR4.SA","Date: 19596.59<br />Weight: 0.18716848<br />Asset: PETR4.SA","Date: 19615.09<br />Weight: 0.18675412<br />Asset: PETR4.SA","Date: 19633.58<br />Weight: 0.18664259<br />Asset: PETR4.SA","Date: 19652.08<br />Weight: 0.18686064<br />Asset: PETR4.SA","Date: 19670.57<br />Weight: 0.18743502<br />Asset: PETR4.SA","Date: 19689.06<br />Weight: 0.18839246<br />Asset: PETR4.SA","Date: 19707.56<br />Weight: 0.18971239<br />Asset: PETR4.SA","Date: 19726.05<br />Weight: 0.19133279<br />Asset: PETR4.SA","Date: 19744.54<br />Weight: 0.19324861<br />Asset: PETR4.SA","Date: 19763.04<br />Weight: 0.19545540<br />Asset: PETR4.SA","Date: 19781.53<br />Weight: 0.19794873<br />Asset: PETR4.SA","Date: 19800.03<br />Weight: 0.20072413<br />Asset: PETR4.SA","Date: 19818.52<br />Weight: 0.20377717<br />Asset: PETR4.SA","Date: 19837.01<br />Weight: 0.20710340<br />Asset: PETR4.SA","Date: 19855.51<br />Weight: 0.21069837<br />Asset: PETR4.SA","Date: 19874.00<br />Weight: 0.21455764<br />Asset: PETR4.SA"],"type":"scatter","mode":"lines","name":"(PETR4.SA,1)","line":{"width":3.7795275590551185,"color":"rgba(0,176,246,1)","dash":"solid"},"hoveron":"points","legendgroup":"(PETR4.SA,1)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[18413,18431.493670886077,18449.98734177215,18468.481012658227,18486.974683544304,18505.468354430381,18523.962025316454,18542.455696202531,18560.949367088608,18579.443037974685,18597.936708860758,18616.430379746835,18634.924050632912,18653.417721518988,18671.911392405062,18690.405063291139,18708.898734177215,18727.392405063292,18745.886075949365,18764.379746835442,18782.873417721519,18801.367088607596,18819.860759493669,18838.354430379746,18856.848101265823,18875.3417721519,18893.835443037973,18912.32911392405,18930.822784810127,18949.316455696204,18967.810126582277,18986.303797468354,19004.797468354431,19023.291139240508,19041.784810126581,19060.278481012658,19078.772151898735,19097.265822784811,19115.759493670885,19134.253164556962,19152.746835443038,19171.240506329115,19189.734177215189,19208.227848101265,19226.721518987342,19245.215189873419,19263.708860759492,19282.202531645569,19300.696202531646,19319.189873417723,19337.683544303796,19356.177215189873,19374.67088607595,19393.164556962027,19411.6582278481,19430.151898734177,19448.645569620254,19467.139240506331,19485.632911392404,19504.126582278481,19522.620253164558,19541.113924050635,19559.607594936708,19578.101265822785,19596.594936708861,19615.088607594938,19633.582278481012,19652.075949367088,19670.569620253165,19689.063291139242,19707.556962025315,19726.050632911392,19744.544303797469,19763.037974683546,19781.531645569619,19800.025316455696,19818.518987341773,19837.012658227846,19855.506329113923,19874],"y":[0.54413561562381829,0.53780964973546197,0.53138520361898078,0.52482975316795488,0.51811077427596863,0.51119574283660474,0.50405213474344723,0.49664742589007616,0.48894909217007587,0.48092460947702903,0.47253942381477976,0.46357795198858515,0.45401581640635158,0.44400112561466609,0.43368198816011716,0.4232065125892876,0.41272280744876616,0.40237898128513938,0.39232314264499613,0.38270340007491899,0.37353069147183821,0.362366679223601,0.34882001952513025,0.33362367070724436,0.31751059110076979,0.30121373903653037,0.28546607284535336,0.27100055085805613,0.25855013140546584,0.24884777281840656,0.24242287532802362,0.23759659285243248,0.23386788791154642,0.23128962152099955,0.22991465469642647,0.2297958484534611,0.23098606380773798,0.23353816177489148,0.237505003370555,0.24293944961036451,0.25052589998715419,0.26323646217600866,0.28042407846501721,0.3008862920417445,0.32342064609374521,0.34682468380857684,0.36989594837379253,0.3914319829769593,0.41023033080563009,0.42508853504736244,0.43591762282033408,0.44611804851547981,0.45599994109617792,0.46552134959316749,0.47464032303718579,0.48331491045897579,0.4915031608892747,0.49916312335882163,0.50625284689835448,0.51273038053861475,0.51860605633286538,0.52396809211558559,0.52881315035700649,0.53313448111446693,0.53692533444530266,0.54017896040685009,0.54288860905644598,0.54504753045142762,0.54664897464913142,0.54768619170689414,0.54819614514563919,0.54823982387129344,0.54781603488229624,0.54692299614537865,0.54555892562727204,0.54372204129470703,0.54141056111441532,0.53862270305312843,0.53535668507757661,0.53161072515449148],"text":["Date: 18413.00<br />Weight: 0.54413562<br />Asset: VALE3.SA","Date: 18431.49<br />Weight: 0.53780965<br />Asset: VALE3.SA","Date: 18449.99<br />Weight: 0.53138520<br />Asset: VALE3.SA","Date: 18468.48<br />Weight: 0.52482975<br />Asset: VALE3.SA","Date: 18486.97<br />Weight: 0.51811077<br />Asset: VALE3.SA","Date: 18505.47<br />Weight: 0.51119574<br />Asset: VALE3.SA","Date: 18523.96<br />Weight: 0.50405213<br />Asset: VALE3.SA","Date: 18542.46<br />Weight: 0.49664743<br />Asset: VALE3.SA","Date: 18560.95<br />Weight: 0.48894909<br />Asset: VALE3.SA","Date: 18579.44<br />Weight: 0.48092461<br />Asset: VALE3.SA","Date: 18597.94<br />Weight: 0.47253942<br />Asset: VALE3.SA","Date: 18616.43<br />Weight: 0.46357795<br />Asset: VALE3.SA","Date: 18634.92<br />Weight: 0.45401582<br />Asset: VALE3.SA","Date: 18653.42<br />Weight: 0.44400113<br />Asset: VALE3.SA","Date: 18671.91<br />Weight: 0.43368199<br />Asset: VALE3.SA","Date: 18690.41<br />Weight: 0.42320651<br />Asset: VALE3.SA","Date: 18708.90<br />Weight: 0.41272281<br />Asset: VALE3.SA","Date: 18727.39<br />Weight: 0.40237898<br />Asset: VALE3.SA","Date: 18745.89<br />Weight: 0.39232314<br />Asset: VALE3.SA","Date: 18764.38<br />Weight: 0.38270340<br />Asset: VALE3.SA","Date: 18782.87<br />Weight: 0.37353069<br />Asset: VALE3.SA","Date: 18801.37<br />Weight: 0.36236668<br />Asset: VALE3.SA","Date: 18819.86<br />Weight: 0.34882002<br />Asset: VALE3.SA","Date: 18838.35<br />Weight: 0.33362367<br />Asset: VALE3.SA","Date: 18856.85<br />Weight: 0.31751059<br />Asset: VALE3.SA","Date: 18875.34<br />Weight: 0.30121374<br />Asset: VALE3.SA","Date: 18893.84<br />Weight: 0.28546607<br />Asset: VALE3.SA","Date: 18912.33<br />Weight: 0.27100055<br />Asset: VALE3.SA","Date: 18930.82<br />Weight: 0.25855013<br />Asset: VALE3.SA","Date: 18949.32<br />Weight: 0.24884777<br />Asset: VALE3.SA","Date: 18967.81<br />Weight: 0.24242288<br />Asset: VALE3.SA","Date: 18986.30<br />Weight: 0.23759659<br />Asset: VALE3.SA","Date: 19004.80<br />Weight: 0.23386789<br />Asset: VALE3.SA","Date: 19023.29<br />Weight: 0.23128962<br />Asset: VALE3.SA","Date: 19041.78<br />Weight: 0.22991465<br />Asset: VALE3.SA","Date: 19060.28<br />Weight: 0.22979585<br />Asset: VALE3.SA","Date: 19078.77<br />Weight: 0.23098606<br />Asset: VALE3.SA","Date: 19097.27<br />Weight: 0.23353816<br />Asset: VALE3.SA","Date: 19115.76<br />Weight: 0.23750500<br />Asset: VALE3.SA","Date: 19134.25<br />Weight: 0.24293945<br />Asset: VALE3.SA","Date: 19152.75<br />Weight: 0.25052590<br />Asset: VALE3.SA","Date: 19171.24<br />Weight: 0.26323646<br />Asset: VALE3.SA","Date: 19189.73<br />Weight: 0.28042408<br />Asset: VALE3.SA","Date: 19208.23<br />Weight: 0.30088629<br />Asset: VALE3.SA","Date: 19226.72<br />Weight: 0.32342065<br />Asset: VALE3.SA","Date: 19245.22<br />Weight: 0.34682468<br />Asset: VALE3.SA","Date: 19263.71<br />Weight: 0.36989595<br />Asset: VALE3.SA","Date: 19282.20<br />Weight: 0.39143198<br />Asset: VALE3.SA","Date: 19300.70<br />Weight: 0.41023033<br />Asset: VALE3.SA","Date: 19319.19<br />Weight: 0.42508854<br />Asset: VALE3.SA","Date: 19337.68<br />Weight: 0.43591762<br />Asset: VALE3.SA","Date: 19356.18<br />Weight: 0.44611805<br />Asset: VALE3.SA","Date: 19374.67<br />Weight: 0.45599994<br />Asset: VALE3.SA","Date: 19393.16<br />Weight: 0.46552135<br />Asset: VALE3.SA","Date: 19411.66<br />Weight: 0.47464032<br />Asset: VALE3.SA","Date: 19430.15<br />Weight: 0.48331491<br />Asset: VALE3.SA","Date: 19448.65<br />Weight: 0.49150316<br />Asset: VALE3.SA","Date: 19467.14<br />Weight: 0.49916312<br />Asset: VALE3.SA","Date: 19485.63<br />Weight: 0.50625285<br />Asset: VALE3.SA","Date: 19504.13<br />Weight: 0.51273038<br />Asset: VALE3.SA","Date: 19522.62<br />Weight: 0.51860606<br />Asset: VALE3.SA","Date: 19541.11<br />Weight: 0.52396809<br />Asset: VALE3.SA","Date: 19559.61<br />Weight: 0.52881315<br />Asset: VALE3.SA","Date: 19578.10<br />Weight: 0.53313448<br />Asset: VALE3.SA","Date: 19596.59<br />Weight: 0.53692533<br />Asset: VALE3.SA","Date: 19615.09<br />Weight: 0.54017896<br />Asset: VALE3.SA","Date: 19633.58<br />Weight: 0.54288861<br />Asset: VALE3.SA","Date: 19652.08<br />Weight: 0.54504753<br />Asset: VALE3.SA","Date: 19670.57<br />Weight: 0.54664897<br />Asset: VALE3.SA","Date: 19689.06<br />Weight: 0.54768619<br />Asset: VALE3.SA","Date: 19707.56<br />Weight: 0.54819615<br />Asset: VALE3.SA","Date: 19726.05<br />Weight: 0.54823982<br />Asset: VALE3.SA","Date: 19744.54<br />Weight: 0.54781603<br />Asset: VALE3.SA","Date: 19763.04<br />Weight: 0.54692300<br />Asset: VALE3.SA","Date: 19781.53<br />Weight: 0.54555893<br />Asset: VALE3.SA","Date: 19800.03<br />Weight: 0.54372204<br />Asset: VALE3.SA","Date: 19818.52<br />Weight: 0.54141056<br />Asset: VALE3.SA","Date: 19837.01<br />Weight: 0.53862270<br />Asset: VALE3.SA","Date: 19855.51<br />Weight: 0.53535669<br />Asset: VALE3.SA","Date: 19874.00<br />Weight: 0.53161073<br />Asset: VALE3.SA"],"type":"scatter","mode":"lines","name":"(VALE3.SA,1)","line":{"width":3.7795275590551185,"color":"rgba(231,107,243,1)","dash":"solid"},"hoveron":"points","legendgroup":"(VALE3.SA,1)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":47.481942714819425,"r":7.3059360730593621,"b":40.182648401826491,"l":43.105022831050235},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"<b> Peso dos ativos rebalanceados ao longo do tempo <\/b>","font":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321},"x":0.5,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[18339.950000000001,19947.049999999999],"tickmode":"array","ticktext":["2021","2022","2023","2024"],"tickvals":[18628,18993,19358,19723],"categoryorder":"array","categoryarray":["2021","2022","2023","2024"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Data","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.021035467844745689,0.57334479320589093],"tickmode":"array","ticktext":["0.1","0.2","0.3","0.4","0.5"],"tickvals":[0.10000000000000001,0.20000000000000001,0.30000000000000004,0.40000000000000002,0.5],"categoryorder":"array","categoryarray":["0.1","0.2","0.3","0.4","0.5"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Peso","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Ativos","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"7c0046a76970e":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"7c0046a76970e","visdat":{"7c0046a76970e":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="plotando-o-retorno-do-portfólio-ao-longo-do-tempo" class="level2">
+<h2 class="anchored" data-anchor-id="plotando-o-retorno-do-portfólio-ao-longo-do-tempo">Plotando o retorno do portfólio ao longo do tempo</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculando o retorno do portfólio otimizado e adicionando o retorno do IBOV</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>opt_returns_long_df <span class="ot">&lt;-</span> <span class="fu">Return.portfolio</span>(<span class="at">R =</span> asset_returns_xts, <span class="at">weights =</span> <span class="fu">extractWeights</span>(opt_rebal)) <span class="sc">%&gt;%</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tk_tbl</span>(<span class="at">preserve_index =</span> <span class="cn">TRUE</span>, <span class="at">rename_index =</span> <span class="st">"Date"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(ibov_returns_xts <span class="sc">%&gt;%</span> <span class="fu">tk_tbl</span>(<span class="at">preserve_index =</span> <span class="cn">TRUE</span>, <span class="at">rename_index =</span> <span class="st">"Date"</span>), <span class="at">by =</span> <span class="st">"Date"</span>, <span class="at">suffix =</span> <span class="fu">c</span>(<span class="st">"_Portfolio"</span>, <span class="st">"_IBOV"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>Date, <span class="at">names_to =</span> <span class="st">"Portfolio"</span>, <span class="at">values_to =</span> <span class="st">"Return"</span>)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>plotly<span class="sc">::</span><span class="fu">ggplotly</span>(<span class="fu">ggplot</span>(opt_returns_long_df) <span class="sc">+</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Return, <span class="at">colour =</span> Portfolio) <span class="sc">+</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_hue</span>(<span class="at">direction =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Data"</span>,</span>
+<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Retorno"</span>,</span>
+<span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Retorno do portifólio vs IBOV ao longo do tempo"</span>,</span>
+<span id="cb48-15"><a href="#cb48-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"Portfólio"</span></span>
+<span id="cb48-16"><a href="#cb48-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb48-18"><a href="#cb48-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb48-19"><a href="#cb48-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">16</span>L,</span>
+<span id="cb48-20"><a href="#cb48-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">face =</span> <span class="st">"bold"</span>,</span>
+<span id="cb48-21"><a href="#cb48-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">hjust =</span> <span class="fl">0.5</span>)</span>
+<span id="cb48-22"><a href="#cb48-22" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb48-23"><a href="#cb48-23" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="plotly html-widget html-fill-item" id="htmlwidget-81a5badb6bf9f2c678d3" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-81a5badb6bf9f2c678d3">{"x":{"data":[{"x":[18443,18474,18505,18535,18566,18596,18627,18658,18686,18717,18747,18778,18808,18839,18870,18900,18931,18961,18992,19023,19051,19082,19112,19143,19173,19204,19235,19265,19296,19326,19357,19388,19416,19447,19477,19508,19538,19569,19600,19630,19661,19691,19722,19753,19782,19813,19843,19874],"y":[0.087559923572417375,0.082646019188688857,-0.034427472014925353,-0.047962644285441169,-0.0068813885394755081,0.1589747956403269,0.095676291235030408,-0.027651584999916157,-0.051479652089960082,0.059971827145908208,0.019376854090573881,0.061584268339865744,0.0046428345059263965,-0.039439441018280452,-0.024794541916733026,-0.065683905675150034,-0.067382117337514313,-0.015323523444217946,0.028523769808173505,0.072179504302531949,0.0067089013061891745,0.060605257110533772,-0.10102584188201569,0.032212911120174992,-0.11503264452048023,0.046914006210549752,0.061629428585276091,0.0046930781662299914,0.054527113607241162,-0.030602307884554092,-0.021824938214533351,0.031818305750197728,-0.075749568403621903,-0.029066443029771682,0.02502895506566416,0.037373601961084635,0.090017076660358963,0.032653890775445227,-0.050851627399686739,0.0071106426362081976,-0.029348432205207442,0.12538888496075806,0.053828211511729229,-0.047941275105265135,0.0099254806186988009,-0.0070841729964347122,-0.017032769737561071,-0.025547155427082968],"text":["Date: 2020-06-30<br />Return:  0.0875599236<br />Portfolio: IBOV","Date: 2020-07-31<br />Return:  0.0826460192<br />Portfolio: IBOV","Date: 2020-08-31<br />Return: -0.0344274720<br />Portfolio: IBOV","Date: 2020-09-30<br />Return: -0.0479626443<br />Portfolio: IBOV","Date: 2020-10-31<br />Return: -0.0068813885<br />Portfolio: IBOV","Date: 2020-11-30<br />Return:  0.1589747956<br />Portfolio: IBOV","Date: 2020-12-31<br />Return:  0.0956762912<br />Portfolio: IBOV","Date: 2021-01-31<br />Return: -0.0276515850<br />Portfolio: IBOV","Date: 2021-02-28<br />Return: -0.0514796521<br />Portfolio: IBOV","Date: 2021-03-31<br />Return:  0.0599718271<br />Portfolio: IBOV","Date: 2021-04-30<br />Return:  0.0193768541<br />Portfolio: IBOV","Date: 2021-05-31<br />Return:  0.0615842683<br />Portfolio: IBOV","Date: 2021-06-30<br />Return:  0.0046428345<br />Portfolio: IBOV","Date: 2021-07-31<br />Return: -0.0394394410<br />Portfolio: IBOV","Date: 2021-08-31<br />Return: -0.0247945419<br />Portfolio: IBOV","Date: 2021-09-30<br />Return: -0.0656839057<br />Portfolio: IBOV","Date: 2021-10-31<br />Return: -0.0673821173<br />Portfolio: IBOV","Date: 2021-11-30<br />Return: -0.0153235234<br />Portfolio: IBOV","Date: 2021-12-31<br />Return:  0.0285237698<br />Portfolio: IBOV","Date: 2022-01-31<br />Return:  0.0721795043<br />Portfolio: IBOV","Date: 2022-02-28<br />Return:  0.0067089013<br />Portfolio: IBOV","Date: 2022-03-31<br />Return:  0.0606052571<br />Portfolio: IBOV","Date: 2022-04-30<br />Return: -0.1010258419<br />Portfolio: IBOV","Date: 2022-05-31<br />Return:  0.0322129111<br />Portfolio: IBOV","Date: 2022-06-30<br />Return: -0.1150326445<br />Portfolio: IBOV","Date: 2022-07-31<br />Return:  0.0469140062<br />Portfolio: IBOV","Date: 2022-08-31<br />Return:  0.0616294286<br />Portfolio: IBOV","Date: 2022-09-30<br />Return:  0.0046930782<br />Portfolio: IBOV","Date: 2022-10-31<br />Return:  0.0545271136<br />Portfolio: IBOV","Date: 2022-11-30<br />Return: -0.0306023079<br />Portfolio: IBOV","Date: 2022-12-31<br />Return: -0.0218249382<br />Portfolio: IBOV","Date: 2023-01-31<br />Return:  0.0318183058<br />Portfolio: IBOV","Date: 2023-02-28<br />Return: -0.0757495684<br />Portfolio: IBOV","Date: 2023-03-31<br />Return: -0.0290664430<br />Portfolio: IBOV","Date: 2023-04-30<br />Return:  0.0250289551<br />Portfolio: IBOV","Date: 2023-05-31<br />Return:  0.0373736020<br />Portfolio: IBOV","Date: 2023-06-30<br />Return:  0.0900170767<br />Portfolio: IBOV","Date: 2023-07-31<br />Return:  0.0326538908<br />Portfolio: IBOV","Date: 2023-08-31<br />Return: -0.0508516274<br />Portfolio: IBOV","Date: 2023-09-30<br />Return:  0.0071106426<br />Portfolio: IBOV","Date: 2023-10-31<br />Return: -0.0293484322<br />Portfolio: IBOV","Date: 2023-11-30<br />Return:  0.1253888850<br />Portfolio: IBOV","Date: 2023-12-31<br />Return:  0.0538282115<br />Portfolio: IBOV","Date: 2024-01-31<br />Return: -0.0479412751<br />Portfolio: IBOV","Date: 2024-02-29<br />Return:  0.0099254806<br />Portfolio: IBOV","Date: 2024-03-31<br />Return: -0.0070841730<br />Portfolio: IBOV","Date: 2024-04-30<br />Return: -0.0170327697<br />Portfolio: IBOV","Date: 2024-05-31<br />Return: -0.0255471554<br />Portfolio: IBOV"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(248,118,109,1)","dash":"solid"},"hoveron":"points","name":"(IBOV,1)","legendgroup":"(IBOV,1)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[18443,18474,18505,18535,18566,18596,18627,18658,18686,18717,18747,18778,18808,18839,18870,18900,18931,18961,18992,19023,19051,19082,19112,19143,19173,19204,19235,19265,19296,19326,19357,19388,19416,19447,19477,19508,19538,19569,19600,19630,19661,19691,19722,19753,19782,19813,19843,19874],"y":[0.078089003876779639,0.086159905129742143,0.012022226096225275,-0.0013547357813361582,0.028153694368503457,0.23632204600107753,0.1139326978359485,-0.0053271164221979639,-0.0071493099809205596,0.030277233128023662,0.067664156210883952,0.071102303398310918,0.00022301237813060482,-0.040984001113729795,-0.038655360342948808,-0.11410100263880252,-0.12535117554369613,-0.085388701670685685,0.034247024720909236,0.087433795998493435,-0.00062889079822681104,0.10313886264924732,-0.082217527023270898,0.0058777070275812804,-0.18419905427856942,0.11003069806818422,0.27568831235788349,0.030445368406398998,-0.026327599482201425,0.1307506127230702,-0.065913158863978527,0.16169163110034113,-0.10225372660174725,0.012712898038220954,-0.022036430052924993,-0.021812065594503438,0.07063492390923809,0.042397468181031739,-0.057914703110660271,-0.014269710693605608,-0.06026407541659462,0.14862179529086927,0.046433161338427897,-0.06124381470756346,-0.0058619670427828563,-0.03367246530826884,0.036035206024500832,-0.014572550243878268],"text":["Date: 2020-06-30<br />Return:  0.0780890039<br />Portfolio: portfolio.returns","Date: 2020-07-31<br />Return:  0.0861599051<br />Portfolio: portfolio.returns","Date: 2020-08-31<br />Return:  0.0120222261<br />Portfolio: portfolio.returns","Date: 2020-09-30<br />Return: -0.0013547358<br />Portfolio: portfolio.returns","Date: 2020-10-31<br />Return:  0.0281536944<br />Portfolio: portfolio.returns","Date: 2020-11-30<br />Return:  0.2363220460<br />Portfolio: portfolio.returns","Date: 2020-12-31<br />Return:  0.1139326978<br />Portfolio: portfolio.returns","Date: 2021-01-31<br />Return: -0.0053271164<br />Portfolio: portfolio.returns","Date: 2021-02-28<br />Return: -0.0071493100<br />Portfolio: portfolio.returns","Date: 2021-03-31<br />Return:  0.0302772331<br />Portfolio: portfolio.returns","Date: 2021-04-30<br />Return:  0.0676641562<br />Portfolio: portfolio.returns","Date: 2021-05-31<br />Return:  0.0711023034<br />Portfolio: portfolio.returns","Date: 2021-06-30<br />Return:  0.0002230124<br />Portfolio: portfolio.returns","Date: 2021-07-31<br />Return: -0.0409840011<br />Portfolio: portfolio.returns","Date: 2021-08-31<br />Return: -0.0386553603<br />Portfolio: portfolio.returns","Date: 2021-09-30<br />Return: -0.1141010026<br />Portfolio: portfolio.returns","Date: 2021-10-31<br />Return: -0.1253511755<br />Portfolio: portfolio.returns","Date: 2021-11-30<br />Return: -0.0853887017<br />Portfolio: portfolio.returns","Date: 2021-12-31<br />Return:  0.0342470247<br />Portfolio: portfolio.returns","Date: 2022-01-31<br />Return:  0.0874337960<br />Portfolio: portfolio.returns","Date: 2022-02-28<br />Return: -0.0006288908<br />Portfolio: portfolio.returns","Date: 2022-03-31<br />Return:  0.1031388626<br />Portfolio: portfolio.returns","Date: 2022-04-30<br />Return: -0.0822175270<br />Portfolio: portfolio.returns","Date: 2022-05-31<br />Return:  0.0058777070<br />Portfolio: portfolio.returns","Date: 2022-06-30<br />Return: -0.1841990543<br />Portfolio: portfolio.returns","Date: 2022-07-31<br />Return:  0.1100306981<br />Portfolio: portfolio.returns","Date: 2022-08-31<br />Return:  0.2756883124<br />Portfolio: portfolio.returns","Date: 2022-09-30<br />Return:  0.0304453684<br />Portfolio: portfolio.returns","Date: 2022-10-31<br />Return: -0.0263275995<br />Portfolio: portfolio.returns","Date: 2022-11-30<br />Return:  0.1307506127<br />Portfolio: portfolio.returns","Date: 2022-12-31<br />Return: -0.0659131589<br />Portfolio: portfolio.returns","Date: 2023-01-31<br />Return:  0.1616916311<br />Portfolio: portfolio.returns","Date: 2023-02-28<br />Return: -0.1022537266<br />Portfolio: portfolio.returns","Date: 2023-03-31<br />Return:  0.0127128980<br />Portfolio: portfolio.returns","Date: 2023-04-30<br />Return: -0.0220364301<br />Portfolio: portfolio.returns","Date: 2023-05-31<br />Return: -0.0218120656<br />Portfolio: portfolio.returns","Date: 2023-06-30<br />Return:  0.0706349239<br />Portfolio: portfolio.returns","Date: 2023-07-31<br />Return:  0.0423974682<br />Portfolio: portfolio.returns","Date: 2023-08-31<br />Return: -0.0579147031<br />Portfolio: portfolio.returns","Date: 2023-09-30<br />Return: -0.0142697107<br />Portfolio: portfolio.returns","Date: 2023-10-31<br />Return: -0.0602640754<br />Portfolio: portfolio.returns","Date: 2023-11-30<br />Return:  0.1486217953<br />Portfolio: portfolio.returns","Date: 2023-12-31<br />Return:  0.0464331613<br />Portfolio: portfolio.returns","Date: 2024-01-31<br />Return: -0.0612438147<br />Portfolio: portfolio.returns","Date: 2024-02-29<br />Return: -0.0058619670<br />Portfolio: portfolio.returns","Date: 2024-03-31<br />Return: -0.0336724653<br />Portfolio: portfolio.returns","Date: 2024-04-30<br />Return:  0.0360352060<br />Portfolio: portfolio.returns","Date: 2024-05-31<br />Return: -0.0145725502<br />Portfolio: portfolio.returns"],"type":"scatter","mode":"lines","line":{"width":1.8897637795275593,"color":"rgba(0,191,196,1)","dash":"solid"},"hoveron":"points","name":"(portfolio.returns,1)","legendgroup":"(portfolio.returns,1)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":47.481942714819425,"r":7.3059360730593621,"b":40.182648401826491,"l":48.949771689497723},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"<b> Retorno do portifólio vs IBOV ao longo do tempo <\/b>","font":{"color":"rgba(0,0,0,1)","family":"","size":21.253632212536321},"x":0.5,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[18371.450000000001,19945.549999999999],"tickmode":"array","ticktext":["2021","2022","2023","2024"],"tickvals":[18628,18993,19358,19723],"categoryorder":"array","categoryarray":["2021","2022","2023","2024"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Data","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-0.20719342261039206,0.29868268068970616],"tickmode":"array","ticktext":["-0.2","-0.1","0.0","0.1","0.2"],"tickvals":[-0.20000000000000001,-0.10000000000000001,0,0.10000000000000001,0.19999999999999998],"categoryorder":"array","categoryarray":["-0.2","-0.1","0.0","0.1","0.2"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Retorno","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Portfólio","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"7c004623be0c8":{"x":{},"y":{},"colour":{},"type":"scatter"}},"cur_data":"7c004623be0c8","visdat":{"7c004623be0c8":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="dashboards-interativos-com-quarto" class="level2">
+<h2 class="anchored" data-anchor-id="dashboards-interativos-com-quarto">Dashboards interativos com QUARTO</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://quarto.org/docs/dashboards/.png" class="img-fluid figure-img"></p>
+<figcaption>Clique aqui!!</figcaption>
+</figure>
+</div>
+</section>
+<section id="exercício" class="level2">
+<h2 class="anchored" data-anchor-id="exercício">Exercício</h2>
+<ul>
+<li>Crie uma carteira com 5 ativos de sua escolha</li>
+<li>Baixe os preços dos ativos</li>
+<li>Calcule os retornos mensais</li>
+<li>Crie um vetor de pesos para a carteira</li>
+<li>Calcule o retorno da carteira</li>
+<li>Faça a otimização da carteira com o objetivo de maximizar o retorno esperado e minimizar o risco</li>
+<li>Opcionalmente faça a otimização com rebalanceamento</li>
+<li>Visualize o retorno da carteira e dos ativos</li>
+<li>Compare o retorno da carteira com o índice do mercado</li>
+<li>Salve o seu dashboard e compartilhe com o professor</li>
+</ul>
+</section>
+<section id="dica-use-o-arquivo-das-aulas-anteriores-como-referência-para-criar-o-seu-dashboard" class="level2">
+<h2 class="anchored" data-anchor-id="dica-use-o-arquivo-das-aulas-anteriores-como-referência-para-criar-o-seu-dashboard">Dica: Use o arquivo das aulas anteriores como referência para criar o seu dashboard</h2>
 
 
 </section>

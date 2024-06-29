@@ -199,13 +199,4 @@ plotly::ggplotly(comparação %>%
   theme_minimal())
 ```
 
-## Exercício
 
-- Crie uma carteira com 5 ativos de sua escolha
-- Baixe os preços dos ativos
-- Calcule os retornos mensais
-- Crie um vetor de pesos para a carteira
-- Calcule o retorno da carteira
-- Visualize o retorno da carteira e dos ativos
-- Compare o retorno da carteira com o índice do mercado
-- Salve o seu documento e compartilhe com o professor
