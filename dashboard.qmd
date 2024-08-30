@@ -41,6 +41,7 @@ comp_mkt %>% plotly::ggplotly()
 pbp
 ```
 
+
 ```{r}
 #| title: Retornos x DP - PETR4.SA
 distribuicaodp

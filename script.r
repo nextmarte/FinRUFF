@@ -28,7 +28,7 @@ prices_monthly <- to.monthly(prices, indexAt = "lastof", OHLC = FALSE)
 
 asset_returns_xts <-
         PerformanceAnalytics::Return.calculate(prices_monthly,
-                method = "discrete"
+                method = "log"
         ) %>%
         na.omit()
 
@@ -37,13 +37,48 @@ asset_returns_tbl <- asset_returns_xts %>%
     tk_tbl(rename_index = "Data") %>% #converte em um data frame para plotar com ggplot
     pivot_longer(!"Data" ,names_to = "assets")#seleciona todas as colunas menos data
 
-# plotando com o ggplot e com o plotly
-g1 <- plotly::ggplotly(ggplot(asset_returns_tbl) +
-        aes(x = Data, y = value, colour = assets) +
-        geom_line() +
-        scale_color_hue(direction = 1) +
-        labs(title = "Retornos de 2019 a 2024") + # 
-        theme_minimal())
+g1 <- plotly::ggplotly(
+  ggplot(asset_returns_tbl) +
+    aes(x = Data, y = value, colour = assets) +
+    geom_line(size = 1.2) +  # Aumentar a espessura da linha
+    scale_color_brewer(palette = "Set1") +  # Usar uma paleta de cores mais atraente
+    labs(
+      title = "Retornos de 2019 a 2024",
+      x = "Data",
+      y = "Retorno",
+      colour = "Ativos"
+    ) +
+    theme_minimal(base_size = 15) +  # Ajustar o tamanho base da fonte
+    theme(
+      plot.title = element_text(hjust = 0.5, face = "bold"),  # Centralizar e negritar o título
+      axis.title.x = element_text(face = "bold"),  # Negritar o título do eixo x
+      axis.title.y = element_text(face = "bold"),  # Negritar o título do eixo y
+      legend.position = "bottom"  # Mover a legenda para a parte inferior
+    )
+)
+
+# Criar o gráfico de densidade
+g2 <- plotly::ggplotly(
+  ggplot(asset_returns_tbl) +
+    aes(x = value, fill = assets) +
+    geom_density(alpha = 0.7) +  # Adicionar transparência para sobreposição
+    scale_fill_brewer(palette = "Set1") +  # Usar uma paleta de cores mais atraente
+    labs(
+      title = "Densidade dos Retornos dos Ativos e do Índice Bovespa",
+      x = "Retorno",
+      y = "Densidade",
+      fill = "Ativos"
+    ) +
+    theme_minimal(base_size = 15) +  # Ajustar o tamanho base da fonte
+    theme(
+      plot.title = element_text(hjust = 0.5, face = "bold"),  # Centralizar e negritar o título
+      axis.title.x = element_text(face = "bold"),  # Negritar o título do eixo x
+      axis.title.y = element_text(face = "bold"),  # Negritar o título do eixo y
+      legend.position = "bottom"  # Mover a legenda para a parte inferior
+    )
+)
+
+
 
 pbp <- ggplot(asset_returns_tbl) +
     aes(x = "", y = value, fill = assets) +
@@ -64,7 +99,7 @@ pbp <- ggplot(asset_returns_tbl) +
         axis.title.x = element_text(face = "bold")
     )
 
-
+pbp
 
 # removendo o índice do IBOV da lista de ativos para calcular o retorno da carteira
 retorno_ativos <- asset_returns_xts[, tickers[1:5]]
@@ -99,11 +134,31 @@ opt_result <- optimize.portfolio(
 #maxSR=TRUE maximiza o indice sharpe
 w <- extractWeights(opt_result)
 
+
+weights <- data.frame(tickers = colnames(retorno_ativos), w, row.names = NULL)
+
+chart.Weights(opt_result)
+
+ggplot(weights, aes(x = reorder(tickers, weights), y = weights, fill = tickers)) +
+  geom_col(color = "black", show.legend = FALSE) +
+  theme_minimal(base_size = 14) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1),
+        plot.title = element_text(hjust = 0.5, size = 20, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5, size = 16),
+        legend.position = "none") +
+  scale_fill_viridis_d() +
+  labs(title = "Distribuição dos Pesos dos Ativos",
+       x = "Ativos",
+       y = "Pesos") +
+  coord_flip()
+
 portfolio_returns_xts <- PerformanceAnalytics::Return.portfolio(retorno_ativos,
         weights = w,
         type = "discrete",
         verbose = FALSE
 ) %>% `colnames<-`("CARTEIRA")
+
+portfolio_returns_df <- portfolio_returns_xts %>% tk_tbl(rename_index = "Data")
 
 
 comparacao <- cbind(asset_returns_xts, portfolio_returns_xts) %>% 
@@ -146,15 +201,14 @@ comp_mkt <- comparacao %>%
 
 # desvio padrao dos precos dos ativos
 
-mean_value <- mean(asset_returns_tbl$value, na.rm = TRUE)
-sd_value <- sd(asset_returns_tbl$value, na.rm = TRUE)
+mean_value <- mean(portfolio_returns_df$CARTEIRA, na.rm = TRUE)
+sd_value <- sd(portfolio_returns_df$CARTEIRA, na.rm = TRUE)
 
-distribuicaodp <- plotly::ggplotly(asset_returns_tbl %>%
-        filter(assets %in% "PETR4.SA") %>%
+distribuicaodp <- plotly::ggplotly(portfolio_returns_df %>%
         mutate(
-                faixa_inferior = if_else(value < (mean_value - sd_value), value, as.numeric(NA)),
-                faixa_superior = if_else(value > (mean_value + sd_value), value, as.numeric(NA)),
-                faixa_central = if_else(value > (mean_value - sd_value) & value < (mean_value + sd_value), value, as.numeric(NA))
+                faixa_inferior = if_else(CARTEIRA < (mean_value - sd_value), CARTEIRA, as.numeric(NA)),
+                faixa_superior = if_else(CARTEIRA > (mean_value + sd_value), CARTEIRA, as.numeric(NA)),
+                faixa_central = if_else(CARTEIRA > (mean_value - sd_value) & CARTEIRA < (mean_value + sd_value), CARTEIRA, as.numeric(NA))
         ) %>%
         ggplot() +
         geom_point(aes(x = Data, y = faixa_inferior), color = "red") +
@@ -165,7 +219,7 @@ distribuicaodp <- plotly::ggplotly(asset_returns_tbl %>%
         labs(
                 x = "Data",
                 y = "Retornos",
-                title = "Distribuição padronizada - PETR4.SA",
+                title = "Distribuição padronizada - Portfólio",
                 color = "Ativo"
         ) +
         theme_minimal() +
@@ -174,6 +228,8 @@ distribuicaodp <- plotly::ggplotly(asset_returns_tbl %>%
                 axis.title.y = element_text(face = "bold"),
                 axis.title.x = element_text(face = "bold")
         ))
+
+
 
 
 # Cria o data frame risco_retorno
@@ -221,3 +277,8 @@ beta <- plotly::ggplotly(ggplot(beta_long) +
                         hjust = 0.5
                 )
         ))
+
+
+
+
+

@@ -121,7 +121,7 @@ for (pacote in pacotes) {
 
 # Ativos selecionados
 
-tickers <- c("VALE3.SA","PETR4.SA","AZUL4.SA","MGLU3.SA", "CMIG4.SA")
+tickers <- c("VALE3.SA","PETR4.SA","CMIG4.SA","RADL3.SA","ITUB4.SA")
 
 prices <- 
   getSymbols(tickers, 
@@ -198,7 +198,10 @@ portf <- portfolio.spec(assets = colnames(asset_returns_xts))
 
 # Adicionando restrições, como por exemplo, a soma dos pesos dos ativos deve ser igual a 1
 
-portf <- add.constraint(portf, type = "full_investment")
+portf <- add.constraint(portf,
+    type = "weight_sum",
+    min_sum = 0.99, max_sum = 1.01
+)
 
 # Adicionando restrição de peso mínimo e máximo para cada ativo
 # Neste caso, o peso mínimo é 0 e o peso máximo é 1
@@ -210,9 +213,17 @@ portf <- add.constraint(portf, type = "long_only")
 
 portf <- add.objective(portf, type = "risk", name = "StdDev")
 
+portf <- add.objective(portf,
+    type = "return", name = "mean"
+)
+
 # Resolve o problema de otimização
 
-opt_portf <- optimize.portfolio(asset_returns_xts, portf, optimize_method = "ROI")
+opt_portf <- optimize.portfolio(asset_returns_xts,
+                                portf,
+                                optimize_method = "ROI",
+                                maxSR = TRUE,
+                                trace = TRUE)
 
 ```
 
@@ -375,7 +386,7 @@ port_spec  <- add.constraint(port_spec, type = "weight_sum", min_sum = 1, max_su
 port_spec <- add.constraint(port_spec, type = "box", min = c(0.2, 0.1, 0.1, 0.1, 0.1), max = 0.4)
 
 
-print(port_spec)
+port_spec
 
 
 ```
@@ -437,7 +448,7 @@ rp <- random_portfolios(port_spec, permutations = 1000, rp_method = 'simplex')
 # rp <- random_portfolios(port_spec, permutations = 1000, rp_method = 'sample')
 # rp <- random_portfolios(port_spec, permutations = 1000, rp_method = 'grid') 
 
-print(rp)
+head(rp)
 ```
 
 Simplex: Distribui pesos aleatoriamente em um espaço triangular, garantindo que a soma seja sempre 1. Sample: Seleciona pesos aleatórios de uma distribuição de probabilidade específica. Grid: Gera pesos em pontos pré-definidos de uma grade regular.
@@ -511,11 +522,11 @@ print(opt_rebal)
 
 ```{r}
 
-extractObjectiveMeasures(opt_rebal)
+extractObjectiveMeasures(opt_rebal) |> head(1)
 
-extractWeights(opt_rebal)
+extractWeights(opt_rebal) |> head()
 
-chart.Weights(opt)
+chart.Weights(opt) 
 
 chart.Weights(opt_rebal)
 
